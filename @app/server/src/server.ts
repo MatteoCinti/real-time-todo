@@ -24,12 +24,11 @@ app.get('/', async (_req, res) => {
 app.get('/checkConnections', async (_req, res) => {
   try {
     const serverTime = await getDateTime();
-
     res.json({
       serverTime
     });
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching data' });
+    res.status(500).json({ message: 'Error fetching data', error });
   }
 });
 

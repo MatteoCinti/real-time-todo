@@ -7,7 +7,6 @@ WORKDIR $APP_WORKDIR
 
 COPY ./package.json ./pnpm-lock.yaml ./pnpm-workspace.yaml ./tsconfig.json ./.eslintrc.cjs ./
 COPY @app/client/package.json ./@app/client/package.json
-COPY packages/tailwind-config ./packages/tailwind-config
 
 RUN npm install -g pnpm
 RUN pnpm install --frozen-lockfile
