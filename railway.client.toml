@@ -5,4 +5,4 @@ dockerfilePath="@app/client/build/Dockerfile.client.prod"
 [deploy]
 healthcheckPath = "/ping"
 restartPolicyMaxRetries = 10
-restartPolicyType = "ON_FAILURE" 
+restartPolicyType = "ON_FAILURE"

@@ -4,8 +4,7 @@ import cors from 'cors';
 import express, { Express } from 'express';
 
 import handleError from './error-handler';
-import mongoDb from './providers/mongo';
-import mysql from './providers/mysql';
+import { getDateTime } from './providers/postgres';
 
 const app: Express = express();
 const port = Number(process.env.PORT ?? 4000);
@@ -24,11 +23,10 @@ app.get('/', async (_req, res) => {
 
 app.get('/checkConnections', async (_req, res) => {
   try {
-    const localTime = new Date().toLocaleString();
+    const serverTime = await getDateTime();
 
     res.json({
-      serverTime: localTime,
-      mongodbConnection: !!mongoDb.get()
+      serverTime
     });
   } catch (error) {
     res.status(500).json({ message: 'Error fetching data' });
@@ -40,8 +38,6 @@ app.use(handleError);
 
 async function init() {
   try {
-    await mysql.connect();
-    await mongoDb.connect();
     app.listen(port, () => {
       // eslint-disable-next-line no-console
       console.log(`Server is running on http://localhost:${port}`);
