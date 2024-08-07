@@ -6,8 +6,6 @@ WORKDIR $APP_WORKIR
 
 COPY ./package.json ./pnpm-lock.yaml ./pnpm-workspace.yaml ./tsconfig.json ./.eslintrc.cjs ./
 COPY @app/client ./@app/client
-COPY packages/tailwind-config ./packages/tailwind-config
-# COPY ./packages/ui-lib ./packages/ui-lib
 
 RUN npm install -g pnpm
 RUN --mount=type=cache,id=pnpm,target=$APP_WORKIR/pnpm/store pnpm install --frozen-lockfile
