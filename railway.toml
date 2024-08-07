@@ -1,0 +1,8 @@
+[build]
+builder = "DOCKERFILE"
+dockerfilePath="@app/server/build/Dockerfile.server.prod"
+
+[deploy]
+healthcheckPath = "/checkConnections"
+restartPolicyMaxRetries = 10
+restartPolicyType = "ON_FAILURE"
