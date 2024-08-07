@@ -13,5 +13,21 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module',
     tsconfigRootDir: __dirname
+  },
+  settings: {
+    'import/resolver': {
+      node: {
+        paths: ['src']
+      },
+      alias: {
+        map: [
+          ['@/typography', './src/components/typography'],
+          ['@/ui', './src/components/ui'],
+
+          ['@', './src']
+        ],
+        extensions: ['.ts', '.tsx', '.js']
+      }
+    }
   }
 };

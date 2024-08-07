@@ -28,15 +28,6 @@ module.exports = {
     'import/resolver': {
       node: {
         paths: ['src']
-      },
-      alias: {
-        map: [
-          ['@/typography', './src/components/typography'],
-          ['@/ui', './src/components/ui'],
-
-          ['@', './src']
-        ],
-        extensions: ['.ts', '.tsx', '.js']
       }
     }
   },

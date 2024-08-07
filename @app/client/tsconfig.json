@@ -5,7 +5,14 @@
     "lib": ["ESNext", "DOM"],
     "jsx": "react-jsx",
     "rootDir": "src",
-    "outDir": "dist"
+    "outDir": "dist",
+
+    "paths": {
+      "baseUrl": ["."],
+      "@/typography": ["./src/components/typography"],
+      "@/ui": ["./src/components/ui"],
+      "@/*": ["./src/*"]
+    }
   },
   "types": ["vite/client"],
   "references": [{ "path": "./tsconfig.node.json" }]
