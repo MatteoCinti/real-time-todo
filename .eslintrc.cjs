@@ -33,6 +33,7 @@ module.exports = {
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',
     'react/react-in-jsx-scope': 'off',
+    'import/prefer-default-export': 'off',
     'no-unused-vars': 'off',
     'check-file/filename-naming-convention': [
       'error',
