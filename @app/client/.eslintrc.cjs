@@ -4,6 +4,7 @@ module.exports = {
     'airbnb-typescript',
     'airbnb/hooks', // check
     '../../.eslintrc.cjs',
+    'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:jsx-a11y/recommended', // check,
     'plugin:react/recommended',
     'plugin:react/jsx-runtime'

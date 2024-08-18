@@ -24,16 +24,24 @@ module.exports = {
     sourceType: 'module',
     tsconfigRootDir: __dirname
   },
-  plugins: ['@typescript-eslint', 'simple-import-sort', 'import', 'check-file'],
+  plugins: ['@typescript-eslint', 'import', 'check-file'],
   rules: {
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
     'import/first': 'error',
     'import/named': 'off',
     'import/newline-after-import': 'error',
     'import/no-duplicates': 'error',
     'react/react-in-jsx-scope': 'off',
     'no-unused-vars': 'off',
+
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'variable',
+        format: ['camelCase', 'UPPER_CASE', 'PascalCase'],
+        leadingUnderscore: 'allow',
+        trailingUnderscore: 'allow'
+      }
+    ],
     'check-file/filename-naming-convention': [
       'error',
       {
@@ -58,6 +66,8 @@ module.exports = {
         caughtErrorsIgnorePattern: '^_'
       }
     ],
-    'import/prefer-default-export': 'off'
+    'import/prefer-default-export': 'off',
+    'no-shadow': 'off',
+    '@typescript-eslint/no-shadow': ['error', { builtinGlobals: false }]
   }
 };
