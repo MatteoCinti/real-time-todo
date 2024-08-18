@@ -1,12 +1,18 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["ESNext", "esnext.asynciterable"],
+    "outDir": "dist",
+    "lib": ["es2020"],
     "target": "es2020",
-    "baseUrl": ".",
-    "allowJs": true,
-    "rootDir": "./src",
-    "outDir": "./dist"
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["node"],
+    "paths": {
+      "baseUrl": ["."],
+      "~/*": ["./src/*"],
+      "~/graphql": ["./src/providers/graphql"]
+    }
   },
-  "include": ["src"]
+  "include": ["/**/*.ts"]
 }

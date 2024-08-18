@@ -68,6 +68,8 @@ module.exports = {
     ],
     'import/prefer-default-export': 'off',
     'no-shadow': 'off',
-    '@typescript-eslint/no-shadow': ['error', { builtinGlobals: false }]
+    '@typescript-eslint/no-shadow': ['error', { builtinGlobals: false }],
+    'arrow-body-style': 'off',
+    '@typescript-eslint/consistent-type-definitions': ['error', 'type']
   }
 };

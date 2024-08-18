@@ -1,54 +1,66 @@
-import './init-dotenv';
-
-import cors from 'cors';
+import 'dotenv/config';
 import express, { Express } from 'express';
+import { createServer } from 'http';
+import { readFileSync } from 'fs';
+import cors from 'cors';
 
-import handleError from './error-handler';
-import { getDateTime } from './providers/postgres';
+import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { expressMiddleware } from '@apollo/server/express4';
+import { WebSocketServer } from 'ws';
+import { useServer } from 'graphql-ws/lib/use/ws';
+import { ApolloServer } from '@apollo/server';
+
+import { resolvers } from './providers/graphql/resolvers';
+
+const typeDefs = readFileSync('./src/providers/graphql/schema.graphql', {
+  encoding: 'utf-8'
+});
 
 const app: Express = express();
-const port = Number(process.env.PORT ?? 4000);
+const httpServer = createServer(app);
 
-const corsOptions = {
-  origin: 'http://localhost:8080',
-  optionsSuccessStatus: 200
-};
+const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-app.use(cors(corsOptions));
-app.use(express.json());
-
-app.get('/', async (_req, res) => {
-  res.json({ message: 'Welcome' });
+const wsServer = new WebSocketServer({
+  // This is the `httpServer` we created in a previous step.
+  server: httpServer,
+  // Pass a different path here if app.use
+  // serves expressMiddleware at a different path
+  path: '/graphql'
 });
 
-app.get('/checkConnections', async (_req, res) => {
-  try {
-    const serverTime = await getDateTime();
-    res.json({
-      serverTime
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Error fetching data', error });
-  }
+const serverCleanup = useServer({ schema }, wsServer);
+
+const server = new ApolloServer({
+  schema,
+  plugins: [
+    // Proper shutdown for the HTTP server.
+    ApolloServerPluginDrainHttpServer({ httpServer }),
+
+    // Proper shutdown for the WebSocket server.
+    {
+      async serverWillStart() {
+        return {
+          async drainServer() {
+            await serverCleanup.dispose();
+          }
+        };
+      }
+    }
+  ]
 });
 
-// Error handler middleware
-app.use(handleError);
-
-async function init() {
-  try {
-    app.listen(port, () => {
-      // eslint-disable-next-line no-console
-      console.log(`Server is running on http://localhost:${port}`);
-    });
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(
-      "Error connecting to the database, can't initialise server",
-      error
-    );
-    process.exit(1);
-  }
+async function initServer() {
+  await server.start();
+  app.use('/graphql', cors(), express.json(), expressMiddleware(server));
+  await httpServer.listen({ port: 4000 });
+  // eslint-disable-next-line no-console
+  console.log(`🚀 Server ready at http://localhost:4000/graphql`);
 }
 
-init();
+initServer().catch((err) => {
+  // eslint-disable-next-line no-console
+  console.error(err);
+  process.exit(1);
+});

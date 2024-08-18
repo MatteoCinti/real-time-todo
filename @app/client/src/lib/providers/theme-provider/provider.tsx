@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { Theme, ThemeProviderContext } from './context';
 
-interface ThemeProviderProps {
+type ThemeProviderProps = {
   children: React.ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
-}
+};
 
 function ThemeProvider({
   children,

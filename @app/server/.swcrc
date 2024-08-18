@@ -12,7 +12,12 @@
     "baseUrl": ".",
     "loose": false,
     "externalHelpers": true,
-    "keepClassNames": false
+    "keepClassNames": false,
+    "paths": {
+      "baseUrl": ["."],
+      "~/*": ["./src/*"],
+      "~/graphql": ["./src/providers/graphql"]
+    }
   },
   "module": {
     "type": "commonjs"

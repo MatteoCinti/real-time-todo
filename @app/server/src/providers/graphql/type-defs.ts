@@ -1,0 +1,20 @@
+export const typeDefs = `#graphql
+  type Todo {
+    board: String!
+    title: String!
+    author: String
+    description: String!
+  }
+  
+  type Query {
+    todos: [Todo]
+  }
+
+  type Mutation {
+    createTodo(title: String!, author: String, description: String!, board: String!): Todo!
+  }
+  
+  type Subscription {
+    todoCreated(board: String): Todo!
+  }
+`;
