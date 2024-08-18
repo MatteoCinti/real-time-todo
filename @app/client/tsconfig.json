@@ -1,19 +1,24 @@
 {
   "extends": "../../tsconfig.json",
   "include": ["src"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["ESNext", "DOM"],
     "jsx": "react-jsx",
     "rootDir": "src",
     "outDir": "dist",
-
     "paths": {
       "baseUrl": ["."],
-      "@/typography": ["./src/components/typography"],
-      "@/ui": ["./src/components/ui"],
-      "@/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "~/ui": ["./src/components/ui"],
+      "~/typography": ["./src/components/typography"]
     }
   },
   "types": ["vite/client"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

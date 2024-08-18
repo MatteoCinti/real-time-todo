@@ -1,16 +1,10 @@
-import daisyui from 'daisyui';
 import animate from 'tailwindcss-animate';
-import daisyuiColorObj from 'daisyui/src/theming/index';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  plugins: [daisyui, animate],
-  daisyui: {
-    themes: ['aqua']
-  },
   darkMode: ['class'],
-  prefix: '',
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     container: {
       center: true,
@@ -21,53 +15,56 @@ export default {
     },
     extend: {
       colors: {
-        border: daisyuiColorObj['base-content'],
-        input: daisyuiColorObj['base-content'],
-        ring: daisyuiColorObj['base-content'],
-        background: daisyuiColorObj['base-100'],
-        foreground: daisyuiColorObj['base-content'],
+        border: 'hsl(var(--border))',
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
         primary: {
-          DEFAULT: daisyuiColorObj['primary'],
-          foreground: daisyuiColorObj['primary-content']
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))'
         },
         secondary: {
-          DEFAULT: daisyuiColorObj['secondary'],
-          foreground: daisyuiColorObj['secondary-content']
+          DEFAULT: 'hsl(var(--secondary))',
+          foreground: 'hsl(var(--secondary-foreground))'
         },
         destructive: {
-          DEFAULT: daisyuiColorObj['error'],
-          foreground: daisyuiColorObj['error-content']
+          DEFAULT: 'hsl(var(--destructive))',
+          foreground: 'hsl(var(--destructive-foreground))'
         },
         muted: {
-          DEFAULT: daisyuiColorObj['base-300'],
-          foreground: daisyuiColorObj['base-content']
+          DEFAULT: 'hsl(var(--muted))',
+          foreground: 'hsl(var(--muted-foreground))'
         },
         accent: {
-          DEFAULT: daisyuiColorObj['accent'],
-          foreground: daisyuiColorObj['accent-content']
+          DEFAULT: 'hsl(var(--accent))',
+          foreground: 'hsl(var(--accent-foreground))'
         },
         popover: {
-          DEFAULT: daisyuiColorObj['base-100'],
-          foreground: daisyuiColorObj['base-content']
+          DEFAULT: 'hsl(var(--popover))',
+          foreground: 'hsl(var(--popover-foreground))'
         },
         card: {
-          DEFAULT: daisyuiColorObj['base-100'],
-          foreground: daisyuiColorObj['base-content']
+          DEFAULT: 'hsl(var(--card))',
+          foreground: 'hsl(var(--card-foreground))'
         }
       },
       borderRadius: {
-        lg: 'var(--rounded-btn)',
-        md: 'calc(var(--rounded-btn) - 2px)',
-        sm: 'calc(var(--rounded-btn) - 4px)'
+        lg: `var(--radius)`,
+        md: `calc(var(--radius) - 2px)`,
+        sm: 'calc(var(--radius) - 4px)'
+      },
+      fontFamily: {
+        sans: ['var(--font-sans)', ...fontFamily.sans]
       },
       keyframes: {
         'accordion-down': {
-          from: { height: '0' },
+          from: { height: 0 },
           to: { height: 'var(--radix-accordion-content-height)' }
         },
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' }
+          to: { height: 0 }
         }
       },
       animation: {
@@ -75,5 +72,6 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out'
       }
     }
-  }
+  },
+  plugins: [animate]
 };

@@ -9,6 +9,7 @@ module.exports = {
     'airbnb/base',
     'airbnb-typescript/base',
     'plugin:@typescript-eslint/stylistic-type-checked',
+    'plugin:import/recommended',
     'prettier'
   ],
   parser: '@typescript-eslint/parser',
@@ -23,39 +24,16 @@ module.exports = {
     sourceType: 'module',
     tsconfigRootDir: __dirname
   },
-
-  settings: {
-    'import/resolver': {
-      node: {
-        paths: ['src']
-      }
-    }
-  },
-
-  plugins: ['react-refresh', 'check-file'],
+  plugins: ['@typescript-eslint', 'simple-import-sort', 'import', 'check-file'],
   rules: {
-    'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'simple-import-sort/imports': 'error',
+    'simple-import-sort/exports': 'error',
+    'import/first': 'error',
+    'import/named': 'off',
+    'import/newline-after-import': 'error',
+    'import/no-duplicates': 'error',
     'react/react-in-jsx-scope': 'off',
-    'import/prefer-default-export': 'off',
-    'react/jsx-props-no-spreading': 'off',
-    // this next line is a deprecated behaviour
-    'react/require-default-props': 'off',
-    'react-refresh/only-export-components': [
-      'warn',
-      { allowConstantExport: true }
-    ],
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      {
-        args: 'all',
-        argsIgnorePattern: '^_',
-        caughtErrors: 'all',
-        caughtErrorsIgnorePattern: '^_',
-        destructuredArrayIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        ignoreRestSiblings: true
-      }
-    ],
+    'no-unused-vars': 'off',
     'check-file/filename-naming-convention': [
       'error',
       {
@@ -65,6 +43,21 @@ module.exports = {
         // ignore the middle extensions of the filename to support filename like bable.config.js or smoke.spec.ts
         ignoreMiddleExtensions: true
       }
-    ]
+    ],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: true
+      }
+    ],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_'
+      }
+    ],
+    'import/prefer-default-export': 'off'
   }
 };

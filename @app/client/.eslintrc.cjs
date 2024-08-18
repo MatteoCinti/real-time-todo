@@ -14,20 +14,31 @@ module.exports = {
     sourceType: 'module',
     tsconfigRootDir: __dirname
   },
-  settings: {
-    'import/resolver': {
-      node: {
-        paths: ['src']
+  overrides: [
+    {
+      files: ['**/*.ts', '**/*.tsx'],
+      parser: '@typescript-eslint/parser',
+      settings: {
+        react: { version: 'detect' },
+        'import/resolver': {
+          typescript: {}
+        }
       },
-      alias: {
-        map: [
-          ['@/typography', './src/components/typography'],
-          ['@/ui', './src/components/ui'],
-
-          ['@', './src']
+      rules: {
+        '@typescript-eslint/no-shadow': [
+          'error',
+          {
+            builtinGlobals: true,
+            ignoreOnInitialization: true
+          }
         ],
-        extensions: ['.ts', '.tsx', '.js']
+        'import/no-extraneous-dependencies': [
+          'error',
+          { devDependencies: true }
+        ],
+        'react/require-default-props': 'off',
+        'react/prop-types': 'off'
       }
     }
-  }
+  ]
 };

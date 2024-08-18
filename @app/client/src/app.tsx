@@ -17,7 +17,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className="bg-background h-full w-full">
       <div>
         <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
@@ -43,13 +43,16 @@ function App() {
       </div>
 
       <div className="server-card">
-        <h1>Son las {backendTime} de la mañana en La Havana, Cuba</h1>
+        <h1>
+          Son las
+          {backendTime} de la mañana en La Havana, Cuba
+        </h1>
       </div>
 
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </>
+    </div>
   );
 }
 
