@@ -11,7 +11,7 @@ export const typeDefs = `#graphql
   }
 
   type Mutation {
-    createTodo(title: String!, author: String, description: String!, board: String!): Todo!
+    createTodo(title: String!, author: String!, description: String!, board: String!): Todo!
   }
   
   type Subscription {
