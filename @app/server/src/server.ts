@@ -51,12 +51,14 @@ const server = new ApolloServer({
   ]
 });
 
-app.use('/graphql', cors(), express.json(), expressMiddleware(server));
-app.use('/checkConnections', (_, res) => {
-  res.json({ serverTime: new Date().toISOString() });
-});
 async function initServer() {
   await server.start();
+
+  app.use('/graphql', cors(), express.json(), expressMiddleware(server));
+  app.use('/checkConnections', (_, res) => {
+    res.json({ serverTime: new Date().toISOString() });
+  });
+
   await httpServer.listen({ port: 4000 });
   // eslint-disable-next-line no-console
   console.log(`🚀 Server ready at http://localhost:4000/graphql`);
