@@ -4,7 +4,6 @@ services:
     init: true
     image: img_monorepo-web-app_dev
     container_name: ctr_web-app_dev
-    env_file: './.env'
     build:
       context: ./
       dockerfile: ./@app/client/build/Dockerfile.client.dev

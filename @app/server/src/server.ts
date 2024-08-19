@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import express, { Express } from 'express';
 import { createServer } from 'http';
-import { readFileSync } from 'fs';
 import cors from 'cors';
 
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
@@ -12,10 +11,7 @@ import { useServer } from 'graphql-ws/lib/use/ws';
 import { ApolloServer } from '@apollo/server';
 
 import { resolvers } from './providers/graphql/resolvers';
-
-const typeDefs = readFileSync('./src/providers/graphql/schema.graphql', {
-  encoding: 'utf-8'
-});
+import typeDefs from './providers/graphql/type-defs';
 
 const app: Express = express();
 const httpServer = createServer(app);
