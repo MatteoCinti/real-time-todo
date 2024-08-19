@@ -55,7 +55,7 @@ async function initServer() {
     res.json({ serverTime: new Date().toISOString() });
   });
 
-  await httpServer.listen({ port: 4000 });
+  await httpServer.listen({ port: process.env.PORT, host: '0.0.0.0' });
   // eslint-disable-next-line no-console
   console.log(`🚀 Server ready at http://localhost:4000/graphql`);
 }
