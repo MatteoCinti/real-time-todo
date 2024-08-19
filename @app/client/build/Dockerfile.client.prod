@@ -2,9 +2,7 @@ FROM node:20.14-bullseye-slim AS build
 
 ARG APP_WORKDIR=/var/www
 ENV HUSKY = 0
-ENV NPM_CONFIG_UPDATE_NOTIFIER=false
-ENV NPM_CONFIG_FUND=false
-ENV NODE_ENV=production
+
 
 WORKDIR $APP_WORKDIR
 
