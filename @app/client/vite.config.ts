@@ -1,8 +1,10 @@
 import react from '@vitejs/plugin-react-swc';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 // @ts-expect-error - eslintPlugin is not typed
 import eslintPlugin from 'vite-plugin-eslint';
 import tsconfigPaths from 'vite-tsconfig-paths';
+
+const { VITE_BACKEND_URL } = loadEnv('', process.cwd());
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -19,10 +21,7 @@ export default defineConfig({
     },
     proxy: {
       '/api': {
-        target:
-          process.env.NETWORK_ENV === 'docker-compose'
-            ? 'http://api:4000'
-            : 'http://localhost:4000',
+        target: VITE_BACKEND_URL,
         changeOrigin: true,
         rewrite: (path) => path.replace(/\/api/, ''),
         secure: false

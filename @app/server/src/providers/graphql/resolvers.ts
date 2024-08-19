@@ -20,7 +20,7 @@ const todos = [
 
 export const resolvers: Resolvers = {
   Query: {
-    todos: () => todos
+    getTodos: () => todos
   },
   Mutation: {
     createTodo: (_, { board, title, author, description }) => {

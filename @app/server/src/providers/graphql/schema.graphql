@@ -6,7 +6,7 @@ type Todo {
 }
 
 type Query {
-  todos: [Todo]
+  getTodos: [Todo]
 }
 
 type Mutation {
@@ -19,5 +19,5 @@ type Mutation {
 }
 
 type Subscription {
-  todoCreated(board: String): Todo!
+  todoCreated(boardId: String!): Todo!
 }

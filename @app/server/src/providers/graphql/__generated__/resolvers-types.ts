@@ -45,7 +45,7 @@ export type MutationCreateTodoArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  todos?: Maybe<Array<Maybe<Todo>>>;
+  getTodos?: Maybe<Array<Maybe<Todo>>>;
 };
 
 export type Subscription = {
@@ -54,7 +54,7 @@ export type Subscription = {
 };
 
 export type SubscriptionTodoCreatedArgs = {
-  board?: InputMaybe<Scalars['String']['input']>;
+  boardId: Scalars['String']['input'];
 };
 
 export type Todo = {
@@ -211,7 +211,7 @@ export type QueryResolvers<
   ParentType extends
     ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
-  todos?: Resolver<
+  getTodos?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Todo']>>>,
     ParentType,
     ContextType
@@ -228,7 +228,7 @@ export type SubscriptionResolvers<
     'todoCreated',
     ParentType,
     ContextType,
-    Partial<SubscriptionTodoCreatedArgs>
+    RequireFields<SubscriptionTodoCreatedArgs, 'boardId'>
   >;
 };
 
