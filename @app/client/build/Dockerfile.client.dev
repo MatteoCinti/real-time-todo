@@ -6,6 +6,7 @@ WORKDIR $APP_WORKIR
 
 COPY ./package.json ./pnpm-lock.yaml ./pnpm-workspace.yaml ./tsconfig.json ./.eslintrc.cjs ./
 COPY @app/client ./@app/client
+COPY @app/server/tsconfig.json ./@app/server/tsconfig.json
 
 RUN npm install -g pnpm
 RUN --mount=type=cache,id=pnpm,target=$APP_WORKIR/pnpm/store pnpm install --frozen-lockfile

@@ -1,3 +1,6 @@
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig, loadEnv } from 'vite';
 // @ts-expect-error - eslintPlugin is not typed
@@ -27,5 +30,9 @@ export default defineConfig({
         secure: false
       }
     }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom'
   }
 });

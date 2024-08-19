@@ -30,7 +30,8 @@ module.exports = {
           'error',
           {
             builtinGlobals: true,
-            ignoreOnInitialization: true
+            ignoreOnInitialization: true,
+            allow: ['screen']
           }
         ],
         'import/no-extraneous-dependencies': [

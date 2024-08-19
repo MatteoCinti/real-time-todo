@@ -3,5 +3,5 @@
   "start": "node dist/src/index.js",
   "watch": ["src"],
   "ext": "ts",
-  "exec": "eslint src --ext .ts && pnpm codegen && pnpm run build && pnpm start"
+  "exec": "pnpm lint && pnpm codegen && pnpm run build && pnpm start"
 }

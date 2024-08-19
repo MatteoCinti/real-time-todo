@@ -11,7 +11,8 @@
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx",
     "start": "vite preview",
-    "codegen": "graphql-codegen --config ./src/lib/graphql/codegen.ts"
+    "codegen": "graphql-codegen --config ./src/lib/graphql/codegen.ts",
+    "test": "vitest"
   },
   "dependencies": {
     "@apollo/client": "^3.11.4",

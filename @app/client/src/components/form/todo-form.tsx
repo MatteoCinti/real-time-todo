@@ -26,6 +26,7 @@ function TodoForm() {
             e.stopPropagation();
             form.handleSubmit();
           }}
+          data-testid="todo-form"
           className="space-y-8"
         >
           <div>
