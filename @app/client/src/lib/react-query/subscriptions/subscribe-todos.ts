@@ -1,4 +1,6 @@
-import { useEffect } from 'react';
+/* eslint-disable */
+
+import { useEffect, useMemo } from 'react';
 import { useSubscription } from '@apollo/client';
 import { useQueryClient } from '@tanstack/react-query';
 import { GetTodosDocument, apolloClient } from '~/lib/graphql';
@@ -8,11 +10,17 @@ import {
   ListenTodosDocument
 } from '~/lib/graphql/__generated__/graphql';
 
-function SubscribeToDos() {
-  const { data } = useSubscription(ListenTodosDocument, {
-    client: apolloClient
-  });
+type SubscriptionProps = {
+  boardId: string;
+};
+
+function SubscribeToDos({ boardId }: SubscriptionProps) {
   const queryClient = useQueryClient();
+
+  const { data } = useSubscription(ListenTodosDocument, {
+    client: apolloClient,
+    variables: { board: boardId }
+  });
 
   useEffect(() => {
     if (data?.todoCreated) {

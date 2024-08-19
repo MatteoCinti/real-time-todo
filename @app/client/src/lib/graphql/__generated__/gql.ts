@@ -15,7 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
   'query GetTodos {\n  getTodos {\n    author\n    description\n    title\n  }\n}':
     types.GetTodosDocument,
-  'subscription ListenTodos($boardId: String!) {\n  todoCreated(boardId: $boardId) {\n    author\n    description\n    title\n  }\n}':
+  'subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    author\n    description\n    title\n  }\n}':
     types.ListenTodosDocument
 };
 
@@ -43,8 +43,8 @@ export function gql(
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: 'subscription ListenTodos($boardId: String!) {\n  todoCreated(boardId: $boardId) {\n    author\n    description\n    title\n  }\n}'
-): (typeof documents)['subscription ListenTodos($boardId: String!) {\n  todoCreated(boardId: $boardId) {\n    author\n    description\n    title\n  }\n}'];
+  source: 'subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    author\n    description\n    title\n  }\n}'
+): (typeof documents)['subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    author\n    description\n    title\n  }\n}'];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

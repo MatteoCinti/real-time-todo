@@ -54,7 +54,7 @@ export type Subscription = {
 };
 
 export type SubscriptionTodoCreatedArgs = {
-  boardId: Scalars['String']['input'];
+  board?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Todo = {
@@ -228,7 +228,7 @@ export type SubscriptionResolvers<
     'todoCreated',
     ParentType,
     ContextType,
-    RequireFields<SubscriptionTodoCreatedArgs, 'boardId'>
+    Partial<SubscriptionTodoCreatedArgs>
   >;
 };
 

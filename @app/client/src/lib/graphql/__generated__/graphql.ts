@@ -52,7 +52,7 @@ export type Subscription = {
 };
 
 export type SubscriptionTodoCreatedArgs = {
-  boardId: Scalars['String']['input'];
+  board?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Todo = {
@@ -76,7 +76,7 @@ export type GetTodosQuery = {
 };
 
 export type ListenTodosSubscriptionVariables = Exact<{
-  boardId: Scalars['String']['input'];
+  board: Scalars['String']['input'];
 }>;
 
 export type ListenTodosSubscription = {
@@ -128,7 +128,7 @@ export const ListenTodosDocument = {
           kind: 'VariableDefinition',
           variable: {
             kind: 'Variable',
-            name: { kind: 'Name', value: 'boardId' }
+            name: { kind: 'Name', value: 'board' }
           },
           type: {
             kind: 'NonNullType',
@@ -145,10 +145,10 @@ export const ListenTodosDocument = {
             arguments: [
               {
                 kind: 'Argument',
-                name: { kind: 'Name', value: 'boardId' },
+                name: { kind: 'Name', value: 'board' },
                 value: {
                   kind: 'Variable',
-                  name: { kind: 'Name', value: 'boardId' }
+                  name: { kind: 'Name', value: 'board' }
                 }
               }
             ],

@@ -1,5 +1,5 @@
-subscription ListenTodos($boardId: String!) {
-  todoCreated(boardId: $boardId) {
+subscription ListenTodos($board: String!) {
+  todoCreated(board: $board) {
     author
     description
     title

@@ -35,16 +35,12 @@ export const resolvers: Resolvers = {
 
   Subscription: {
     todoCreated: {
-      subscribe: (_parent, _args, _context) => {
+      subscribe: (_parent, args, _context) => {
         return {
           [Symbol.asyncIterator]: withFilter(
             () => pubsub.asyncIterator('TODO_CREATED'),
-            (payload, variables, __) => {
-              // eslint-disable-next-line no-console
-              console.log('🚀 ~ variables:', variables);
-              // Only push an update if the comment is on
-              // the correct repository for this operation
-              return payload.todoCreated.board === '1';
+            (payload, _, __) => {
+              return payload.todoCreated.board === args.board;
             }
           )
         };

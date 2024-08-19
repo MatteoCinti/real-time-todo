@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useGqlQuery } from '~/lib/react-query';
 import { SubscribeToDos } from '~/lib/react-query/subscriptions';
 import { cn } from '~/lib/utils/ui';
@@ -13,7 +15,7 @@ function App() {
     queryKey: ['todos'],
     queryDocument: GetTodosDocument
   });
-  SubscribeToDos();
+  SubscribeToDos({ boardId: '1' });
 
   return (
     <div className={cn('h-full w-full', themeClassNames)}>
