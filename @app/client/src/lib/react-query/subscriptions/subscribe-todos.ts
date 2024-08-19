@@ -1,18 +1,34 @@
-/* eslint-disable */
-
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { useSubscription } from '@apollo/client';
-import { useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { GetTodosDocument, apolloClient } from '~/lib/graphql';
 
 import {
   GetTodosQuery,
-  ListenTodosDocument
+  ListenTodosDocument,
+  ListenTodosSubscription
 } from '~/lib/graphql/__generated__/graphql';
 
 type SubscriptionProps = {
   boardId: string;
 };
+
+function addTodoToCache(
+  queryClient: QueryClient,
+  data: ListenTodosSubscription
+) {
+  queryClient.setQueryData(
+    ['todos', GetTodosDocument],
+    (oldData: GetTodosQuery) => {
+      const createdTodo = data?.todoCreated ?? null;
+      if (!createdTodo) return undefined;
+
+      const oldTodos = oldData?.getTodos ?? [];
+      const returnData = [createdTodo, ...oldTodos];
+      return { getTodos: returnData };
+    }
+  );
+}
 
 function SubscribeToDos({ boardId }: SubscriptionProps) {
   const queryClient = useQueryClient();
@@ -24,17 +40,7 @@ function SubscribeToDos({ boardId }: SubscriptionProps) {
 
   useEffect(() => {
     if (data?.todoCreated) {
-      queryClient.setQueryData(
-        ['todos', GetTodosDocument],
-        (oldData: GetTodosQuery) => {
-          const createdTodo = data?.todoCreated ?? null;
-          if (!createdTodo) return undefined;
-
-          const oldTodos = oldData?.getTodos ?? [];
-          const returnData = [createdTodo, ...oldTodos];
-          return { getTodos: returnData };
-        }
-      );
+      addTodoToCache(queryClient, data);
     }
   }, [data, queryClient]);
 }

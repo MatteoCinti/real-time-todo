@@ -18,7 +18,8 @@ services:
         source: ./@app/client/vite.config.ts
         target: /var/www/@app/client/vite.config.ts
     environment:
-      - NETWORK_ENV=docker-compose
+      - VITE_BACKEND_URL=http://api:4000
+      - VITE_WS_URL=ws://api:4000
     depends_on:
       - api
     ports:

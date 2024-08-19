@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 import { useGqlQuery } from '~/lib/react-query';
 import { SubscribeToDos } from '~/lib/react-query/subscriptions';
 import { cn } from '~/lib/utils/ui';
