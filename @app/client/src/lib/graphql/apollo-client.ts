@@ -27,7 +27,7 @@ const splitLink = split(
   httpLink
 );
 
-export const gqlClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache()
 });
