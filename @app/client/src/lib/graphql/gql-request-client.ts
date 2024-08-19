@@ -3,6 +3,7 @@ import { GraphQLClient } from 'graphql-request';
 type AuthHeaderProps = {
   authorization?: string;
 };
+console.log('🚀 ~ VITE_BACKEND_URL:', import.meta.env.VITE_BACKEND_URL);
 
 const gqlRequestClient = new GraphQLClient(
   `${import.meta.env.VITE_BACKEND_URL}/graphql`,
