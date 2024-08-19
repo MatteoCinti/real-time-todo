@@ -4,7 +4,6 @@ import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 
 const { VITE_BACKEND_URL, VITE_WS_URL } = import.meta.env;
-console.log('🚀 ~ VITE_WS_URL:', VITE_WS_URL);
 
 const httpLink = new HttpLink({
   uri: `${VITE_BACKEND_URL}/graphql`
