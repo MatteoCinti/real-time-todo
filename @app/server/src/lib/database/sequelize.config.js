@@ -25,10 +25,10 @@ require('ts-node/register');
 // };
 
 module.exports = {
-  username: 'postgres',
-  password: 'HqAkXIAMACLTJivSTQFGfjdkixHezIjx',
+  username: process.env.POSTGRES_USER,
+  password: process.env.POSTGRES_PASSWORD,
   database: 'railway',
   port: 28824,
-  host: 'roundhouse.proxy.rlwy.net',
+  host: process.env.POSTGRES_HOST,
   dialect: 'postgres'
 };
