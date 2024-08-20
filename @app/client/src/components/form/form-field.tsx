@@ -29,9 +29,9 @@ function Field<T>({
         className={className}
       />
       {field.state.meta.errors.length ? (
-        <em className="text-destructive text-sm font-bold">
+        <span className="text-destructive text-sm font-bold">
           {field.state.meta.errors.join(',')}
-        </em>
+        </span>
       ) : null}
     </>
   );

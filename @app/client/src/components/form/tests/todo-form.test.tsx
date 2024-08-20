@@ -1,8 +1,11 @@
+/* eslint-disable */
+
 import { beforeEach, describe, it } from 'vitest';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import TodoForm from '../todo-form';
 import { todoFormFields } from '../config';
+import { errorMessages } from '../config/todo-form.config';
 
 // The two tests marked with concurrent will be started in parallel
 describe('todo-form', () => {
@@ -29,6 +32,25 @@ describe('todo-form', () => {
       fireEvent.change(input, { target: { value: 'typed text' } });
     });
     expect(input.value).toBe('typed text');
-    expect(input).toBeTruthy();
+  });
+  it('~ should display error when validation is not passed on formSubmit', async ({
+    expect
+  }) => {
+    const submit = screen.getByRole('button', { name: 'Create' });
+
+    await act(async () => {
+      await fireEvent(
+        submit,
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        })
+      );
+    });
+
+    const titleError = screen.getByText(errorMessages.title);
+    const descriptionError = screen.getByText(errorMessages.description);
+    expect(titleError).toBeTruthy();
+    expect(descriptionError).toBeTruthy();
   });
 });

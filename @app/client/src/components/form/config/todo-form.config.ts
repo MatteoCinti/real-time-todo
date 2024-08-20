@@ -7,6 +7,11 @@ const formSchema = z.object({
 
 type TodoFormFields = z.infer<typeof formSchema>;
 
+export const errorMessages = {
+  title: 'Title should be at least 3 characters long',
+  description: 'Description should be at least 5 characters long'
+};
+
 export const todoFormFields: FormField<TodoFormFields>[] = [
   {
     id: 'title',
@@ -14,7 +19,7 @@ export const todoFormFields: FormField<TodoFormFields>[] = [
     type: 'text',
     placeholder: 'Enter title',
     validators: {
-      onChange: z.string().min(3, 'Title should be at least 3 characters long')
+      onChange: z.string().min(3, errorMessages.title)
     }
   },
   {
@@ -23,9 +28,7 @@ export const todoFormFields: FormField<TodoFormFields>[] = [
     type: 'text',
     placeholder: 'Enter description',
     validators: {
-      onChange: z
-        .string()
-        .min(5, 'Description should be at least 5 characters long')
+      onChange: z.string().min(5, errorMessages.description)
     }
   }
 ];

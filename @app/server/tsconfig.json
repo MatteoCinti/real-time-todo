@@ -6,13 +6,8 @@
     "target": "es2020",
     "module": "esnext",
     "moduleResolution": "node",
-    "esModuleInterop": true,
-    "types": ["node"],
-    "paths": {
-      "baseUrl": ["."],
-      "~/*": ["./src/*"],
-      "~/graphql": ["./src/providers/graphql"]
-    }
+    "types": ["jest", "node", "@types/jest"]
   },
-  "include": ["/**/*.ts"]
+  "include": ["/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
 }

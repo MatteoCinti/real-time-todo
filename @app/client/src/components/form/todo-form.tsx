@@ -12,7 +12,7 @@ function TodoForm() {
     onSubmit: async ({ value }) => {
       // Do something with form data
       // eslint-disable-next-line no-console
-      console.log(value);
+      console.log('submitted: ', value);
     }
   });
 
