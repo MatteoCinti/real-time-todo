@@ -12,7 +12,9 @@
     "dev": "nodemon",
     "dev:windows": "nodemon --legacy-watch",
     "codegen": "graphql-codegen --config codegen.ts",
-    "test": "pnpm codegen && jest --watch"
+    "test": "pnpm codegen && jest --watch",
+    "db:create": "sequelize db:create",
+    "db:migrate": "sequelize db:migrate"
   },
   "dependencies": {
     "@apollo/server": "^4.11.0",
@@ -31,6 +33,7 @@
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
+    "sequelize-typescript": "^2.1.6",
     "ws": "^8.18.0"
   },
   "devDependencies": {

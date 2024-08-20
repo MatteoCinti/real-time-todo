@@ -242,6 +242,9 @@ importers:
       sequelize:
         specifier: ^6.37.3
         version: 6.37.3(mysql2@3.10.3)(pg-hstore@2.3.4)(pg@8.12.0)
+      sequelize-typescript:
+        specifier: ^2.1.6
+        version: 2.1.6(@types/node@18.19.38)(@types/validator@13.12.0)(reflect-metadata@0.2.2)(sequelize@6.37.3(mysql2@3.10.3)(pg-hstore@2.3.4)(pg@8.12.0))
       ws:
         specifier: ^8.18.0
         version: 8.18.0
@@ -5833,6 +5836,13 @@ packages:
     engines: { node: '>=16 || 14 >=14.18' }
     hasBin: true
 
+  glob@7.2.0:
+    resolution:
+      {
+        integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==
+      }
+    deprecated: Glob versions prior to v9 are no longer supported
+
   glob@7.2.3:
     resolution:
       {
@@ -8651,6 +8661,12 @@ packages:
       }
     engines: { node: '>= 0.8.0' }
 
+  reflect-metadata@0.2.2:
+    resolution:
+      {
+        integrity: sha512-urBwgfrvVP/eAyXx4hluJivBKzuEbSQs9rKWCrCkbSxNv8mxPcUZKeuoF3Uy4mJl3Lwprp6yy5/39VWigZ4K6Q==
+      }
+
   reflect.getprototypeof@1.0.6:
     resolution:
       {
@@ -9010,6 +9026,18 @@ packages:
         integrity: sha512-xY04c5ctp6lKE4ZoSVo7YJHN5FHVhoYMoH2Z8jWIJG26c9kJSkIjql5HgD9XG5cwJbYMF0Ko2Fhgws20HC90Ug==
       }
     engines: { node: '>= 10.0.0' }
+
+  sequelize-typescript@2.1.6:
+    resolution:
+      {
+        integrity: sha512-Vc2N++3en346RsbGjL3h7tgAl2Y7V+2liYTAOZ8XL0KTw3ahFHsyAUzOwct51n+g70I1TOUDgs06Oh6+XGcFkQ==
+      }
+    engines: { node: '>=10.0.0' }
+    peerDependencies:
+      '@types/node': '*'
+      '@types/validator': '*'
+      reflect-metadata: '*'
+      sequelize: '>=6.20.1'
 
   sequelize@6.37.3:
     resolution:
@@ -15041,6 +15069,15 @@ snapshots:
       minipass: 7.1.2
       path-scurry: 1.11.1
 
+  glob@7.2.0:
+    dependencies:
+      fs.realpath: 1.0.0
+      inflight: 1.0.6
+      inherits: 2.0.4
+      minimatch: 3.1.2
+      once: 1.4.0
+      path-is-absolute: 1.0.1
+
   glob@7.2.3:
     dependencies:
       fs.realpath: 1.0.0
@@ -16817,6 +16854,8 @@ snapshots:
 
   readline-sync@1.4.10: {}
 
+  reflect-metadata@0.2.2: {}
+
   reflect.getprototypeof@1.0.6:
     dependencies:
       call-bind: 1.0.7
@@ -17033,6 +17072,14 @@ snapshots:
   sequelize-pool@7.1.0: {}
 
   sequelize-pool@8.0.0: {}
+
+  sequelize-typescript@2.1.6(@types/node@18.19.38)(@types/validator@13.12.0)(reflect-metadata@0.2.2)(sequelize@6.37.3(mysql2@3.10.3)(pg-hstore@2.3.4)(pg@8.12.0)):
+    dependencies:
+      '@types/node': 18.19.38
+      '@types/validator': 13.12.0
+      glob: 7.2.0
+      reflect-metadata: 0.2.2
+      sequelize: 6.37.3(mysql2@3.10.3)(pg-hstore@2.3.4)(pg@8.12.0)
 
   sequelize@6.37.3(mysql2@3.10.3)(pg-hstore@2.3.4)(pg@8.12.0):
     dependencies:

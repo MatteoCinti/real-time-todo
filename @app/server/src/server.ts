@@ -10,8 +10,9 @@ import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { ApolloServer } from '@apollo/server';
 
-import { resolvers } from './providers/graphql/resolvers';
-import typeDefs from './providers/graphql/type-defs';
+import { resolvers } from './lib/graphql/resolvers';
+import typeDefs from './lib/graphql/type-defs';
+// import { db } from './providers/sequelize';
 
 const app: Express = express();
 const httpServer = createServer(app);
@@ -48,6 +49,7 @@ const server = new ApolloServer({
 
 async function initServer() {
   await server.start();
+  //   await db.authenticate();
 
   app.use('/graphql', cors(), express.json(), expressMiddleware(server));
   app.use('/checkConnections', (_, res) => {
