@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -28,21 +29,62 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export type Board = {
+  __typename?: 'Board';
+  id: Scalars['Int']['output'];
+  owner: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createBoard: Board;
   createTodo: Todo;
+  createUser: User;
+};
+
+export type MutationCreateBoardArgs = {
+  owner: Scalars['Int']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type MutationCreateTodoArgs = {
-  author: Scalars['String']['input'];
-  board: Scalars['String']['input'];
+  board: Scalars['Int']['input'];
   description: Scalars['String']['input'];
   title: Scalars['String']['input'];
 };
 
+export type MutationCreateUserArgs = {
+  firstName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
-  getTodos?: Maybe<Array<Maybe<Todo>>>;
+  getBoard: Board;
+  getTodosByBoard?: Maybe<Array<Maybe<Todo>>>;
+  getUser: User;
+  userLogin?: Maybe<User>;
+};
+
+export type QueryGetBoardArgs = {
+  id: Scalars['Int']['input'];
+  owner: Scalars['Int']['input'];
+};
+
+export type QueryGetTodosByBoardArgs = {
+  board: Scalars['Int']['input'];
+};
+
+export type QueryGetUserArgs = {
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
+export type QueryUserLoginArgs = {
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type Subscription = {
@@ -56,22 +98,19 @@ export type SubscriptionTodoCreatedArgs = {
 
 export type Todo = {
   __typename?: 'Todo';
-  author?: Maybe<Scalars['String']['output']>;
-  board: Scalars['String']['output'];
-  description: Scalars['String']['output'];
+  board: Scalars['Int']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  isDone: Scalars['Boolean']['output'];
   title: Scalars['String']['output'];
 };
 
-export type GetTodosQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetTodosQuery = {
-  __typename?: 'Query';
-  getTodos?: Array<{
-    __typename?: 'Todo';
-    author?: string | null;
-    description: string;
-    title: string;
-  } | null> | null;
+export type User = {
+  __typename?: 'User';
+  firstName: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  token?: Maybe<Scalars['String']['output']>;
+  username: Scalars['String']['output'];
 };
 
 export type ListenTodosSubscriptionVariables = Exact<{
@@ -82,39 +121,28 @@ export type ListenTodosSubscription = {
   __typename?: 'Subscription';
   todoCreated: {
     __typename?: 'Todo';
-    author?: string | null;
-    description: string;
     title: string;
+    description?: string | null;
+    board: number;
   };
 };
 
-export const GetTodosDocument = {
-  kind: 'Document',
-  definitions: [
-    {
-      kind: 'OperationDefinition',
-      operation: 'query',
-      name: { kind: 'Name', value: 'GetTodos' },
-      selectionSet: {
-        kind: 'SelectionSet',
-        selections: [
-          {
-            kind: 'Field',
-            name: { kind: 'Name', value: 'getTodos' },
-            selectionSet: {
-              kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'author' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown as DocumentNode<GetTodosQuery, GetTodosQueryVariables>;
+export type UserLoginQueryVariables = Exact<{
+  username: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+}>;
+
+export type UserLoginQuery = {
+  __typename?: 'Query';
+  userLogin?: {
+    __typename?: 'User';
+    id: number;
+    username: string;
+    firstName: string;
+    token?: string | null;
+  } | null;
+};
+
 export const ListenTodosDocument = {
   kind: 'Document',
   definitions: [
@@ -154,9 +182,9 @@ export const ListenTodosDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'author' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'description' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+                { kind: 'Field', name: { kind: 'Name', value: 'board' } }
               ]
             }
           }
@@ -168,3 +196,73 @@ export const ListenTodosDocument = {
   ListenTodosSubscription,
   ListenTodosSubscriptionVariables
 >;
+export const UserLoginDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'UserLogin' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'username' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+          }
+        },
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'password' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'userLogin' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'username' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'username' }
+                }
+              },
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'password' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'password' }
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'token' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<UserLoginQuery, UserLoginQueryVariables>;

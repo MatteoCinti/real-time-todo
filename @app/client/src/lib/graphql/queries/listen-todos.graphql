@@ -1,7 +1,7 @@
 subscription ListenTodos($board: String!) {
   todoCreated(board: $board) {
-    author
-    description
     title
+    description
+    board
   }
 }

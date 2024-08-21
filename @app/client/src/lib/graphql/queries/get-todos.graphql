@@ -1,7 +1,0 @@
-query GetTodos {
-  getTodos {
-    author
-    description
-    title
-  }
-}

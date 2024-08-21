@@ -8,6 +8,6 @@
     "moduleResolution": "node",
     "types": ["jest", "node", "@types/jest"]
   },
-  "include": ["/**/*.ts"],
+  "include": ["/**/*.ts", "../client/src/test/test-providers.tsx"],
   "exclude": ["node_modules", "dist"]
 }

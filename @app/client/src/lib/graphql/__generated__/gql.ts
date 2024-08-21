@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as types from './graphql';
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
@@ -12,10 +13,10 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-  'query GetTodos {\n  getTodos {\n    author\n    description\n    title\n  }\n}':
-    types.GetTodosDocument,
-  'subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    author\n    description\n    title\n  }\n}':
-    types.ListenTodosDocument
+  'subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}':
+    types.ListenTodosDocument,
+  'query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}':
+    types.UserLoginDocument
 };
 
 /**
@@ -36,14 +37,14 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: 'query GetTodos {\n  getTodos {\n    author\n    description\n    title\n  }\n}'
-): (typeof documents)['query GetTodos {\n  getTodos {\n    author\n    description\n    title\n  }\n}'];
+  source: 'subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}'
+): (typeof documents)['subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: 'subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    author\n    description\n    title\n  }\n}'
-): (typeof documents)['subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    author\n    description\n    title\n  }\n}'];
+  source: 'query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}'
+): (typeof documents)['query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}'];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

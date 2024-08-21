@@ -1,38 +1,38 @@
-/* eslint-disable */
-
-import { beforeEach, describe, it } from 'vitest';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { beforeEach, describe, it } from 'vitest';
 
-import TodoForm from '../todo-form';
-import { todoFormFields } from '../config';
-import { errorMessages } from '../config/todo-form.config';
 import { TestProviders } from '~/test';
+import LoginForm from '../login-form';
+import { errorMessages, loginFormFields } from '../config/login-form.config';
 
-// The two tests marked with concurrent will be started in parallel
 describe('todo-form', () => {
   beforeEach(() => {
     render(
       <TestProviders>
-        <TodoForm />
+        <LoginForm />
       </TestProviders>
     );
   });
   it('should render on the page', ({ expect }) => {
-    const form = screen.getByTestId('todo-form');
+    const form = screen.getByTestId('login-form');
     expect(form).toBeTruthy();
   });
+  it('should show Login / Register on the page', ({ expect }) => {
+    const pageTitle = screen.queryAllByText('Login / Register');
+    expect(pageTitle).toBeTruthy();
+  });
   it('should render a submit button', ({ expect }) => {
-    const submit = screen.getByRole('button', { name: 'Create' });
+    const submit = screen.getByRole('button', { name: 'Login' });
     expect(submit).toBeTruthy();
   });
   it('should render all sections in the config file', ({ expect }) => {
-    todoFormFields.forEach((field) => {
+    loginFormFields.forEach((field) => {
       const inputsByLabel = screen.getByLabelText(field.label);
       expect(inputsByLabel).toBeTruthy();
     });
   });
-  it('~ text area should accept a text input', ({ expect }) => {
-    const input = screen.getByLabelText('Title') as HTMLInputElement;
+  it('~ should display a text input for username', ({ expect }) => {
+    const input = screen.getByLabelText('Username') as HTMLInputElement;
     act(() => {
       fireEvent.change(input, { target: { value: 'typed text' } });
     });
@@ -41,7 +41,7 @@ describe('todo-form', () => {
   it('~ should display error when validation is not passed on formSubmit', async ({
     expect
   }) => {
-    const submit = screen.getByRole('button', { name: 'Create' });
+    const submit = screen.getByRole('button', { name: 'Login' });
 
     await act(async () => {
       await fireEvent(
@@ -53,8 +53,8 @@ describe('todo-form', () => {
       );
     });
 
-    const titleError = screen.getByText(errorMessages.title);
-    const descriptionError = screen.getByText(errorMessages.description);
+    const titleError = screen.getByText(errorMessages.username);
+    const descriptionError = screen.getByText(errorMessages.password);
     expect(titleError).toBeTruthy();
     expect(descriptionError).toBeTruthy();
   });
