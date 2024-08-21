@@ -2,11 +2,11 @@ import { gql } from 'apollo-server';
 
 export default gql`
   type Todo {
-    id: ID!
-    board: String!
+    id: Int!
+    board: Int!
     title: String!
-    author: String
-    description: String!
+    isDone: Boolean!
+    description: String
   }
 
   type Query {
@@ -14,12 +14,7 @@ export default gql`
   }
 
   type Mutation {
-    createTodo(
-      title: String!
-      author: String!
-      description: String!
-      board: String!
-    ): Todo!
+    createTodo(title: String!, description: String!, board: Int!): Todo!
   }
 
   type Subscription {

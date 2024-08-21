@@ -1,6 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
 import connection from '../connection';
-import User from './user';
 
 type BoardAttributes = {
   id?: number;
@@ -32,17 +31,10 @@ Board.init(
   },
   {
     sequelize: connection,
-    modelName: 'Board'
+    modelName: 'Board',
+    tableName: 'Board',
+    timestamps: false
   }
 );
-
-Board.belongsTo(User, {
-  as: 'owner',
-  foreignKey: {
-    name: 'id',
-    allowNull: false
-  },
-  foreignKeyConstraint: true
-});
 
 export default Board;

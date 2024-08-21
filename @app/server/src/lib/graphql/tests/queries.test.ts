@@ -7,16 +7,17 @@ describe('Apollo Server', () => {
   });
   it('getTodos should return a list of todos', async () => {
     const response = (await testServer.executeOperation({
-      query: 'query getTodos { getTodos { title author description id }}'
+      query: 'query getTodos { getTodos { title description id isDone board}}'
     })) as any;
 
     expect(response.body.kind).toBe('single');
     expect(response.body.singleResult.data.getTodos.length).toBeGreaterThan(1);
     expect(response.body.singleResult.data.getTodos[0]).toMatchObject({
-      author: mocks.String(),
-      description: mocks.String(),
+      id: mocks.Int(),
+      board: mocks.Int(),
       title: mocks.String(),
-      id: mocks.ID()
+      isDone: mocks.Boolean(),
+      description: mocks.String()
     });
   });
 });

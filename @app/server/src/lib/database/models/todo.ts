@@ -1,19 +1,20 @@
 import { DataTypes, Model } from 'sequelize';
 import connection from '../connection';
-import Board from './board';
 
 type TodoAttributes = {
   id?: number;
   title: string;
-  isDone: boolean;
-  board: string;
+  board: number;
+  description?: string;
+  isDone?: boolean;
 };
 
 class Todo extends Model<TodoAttributes> implements TodoAttributes {
   public id!: number;
   public title!: string;
-  public board!: string;
+  public board!: number;
   public isDone!: boolean;
+  public description!: string;
 }
 
 Todo.init(
@@ -22,15 +23,19 @@ Todo.init(
       allowNull: false,
       autoIncrement: true,
       primaryKey: true,
-      type: DataTypes.NUMBER
+      type: DataTypes.INTEGER
     },
     title: {
       allowNull: false,
       type: DataTypes.STRING
     },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     board: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     },
     isDone: {
       type: DataTypes.BOOLEAN,
@@ -40,17 +45,10 @@ Todo.init(
   },
   {
     sequelize: connection,
-    modelName: 'Todo'
+    modelName: 'Todo',
+    tableName: 'Todo',
+    timestamps: false
   }
 );
-
-Todo.belongsTo(Board, {
-  as: 'board',
-  foreignKey: {
-    name: 'id',
-    allowNull: false
-  },
-  foreignKeyConstraint: true
-});
 
 export default Todo;

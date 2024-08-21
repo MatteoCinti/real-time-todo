@@ -18,10 +18,15 @@ module.exports = {
         isDone: {
           type: Sequelize.BOOLEAN
         },
-
         board: {
           type: Sequelize.INTEGER,
-          allowNull: false
+          allowNull: false,
+          references: {
+            model: 'Board', // This references the Users table
+            key: 'id'
+          },
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         }
       })
       .then(() =>
@@ -33,8 +38,8 @@ module.exports = {
             table: 'Board',
             field: 'id'
           },
-          onDelete: 'cascade',
-          onUpdate: 'cascade'
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE'
         })
       );
   },

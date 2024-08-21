@@ -37,8 +37,7 @@ export type Mutation = {
 };
 
 export type MutationCreateTodoArgs = {
-  author: Scalars['String']['input'];
-  board: Scalars['String']['input'];
+  board: Scalars['Int']['input'];
   description: Scalars['String']['input'];
   title: Scalars['String']['input'];
 };
@@ -59,10 +58,10 @@ export type SubscriptionTodoCreatedArgs = {
 
 export type Todo = {
   __typename?: 'Todo';
-  author?: Maybe<Scalars['String']['output']>;
-  board: Scalars['String']['output'];
-  description: Scalars['String']['output'];
-  id: Scalars['ID']['output'];
+  board: Scalars['Int']['output'];
+  description?: Maybe<Scalars['String']['output']>;
+  id: Scalars['Int']['output'];
+  isDone: Scalars['Boolean']['output'];
   title: Scalars['String']['output'];
 };
 
@@ -174,7 +173,7 @@ export type DirectiveResolverFn<
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
-  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
@@ -185,7 +184,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
-  ID: Scalars['ID']['output'];
+  Int: Scalars['Int']['output'];
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
@@ -202,10 +201,7 @@ export type MutationResolvers<
     ResolversTypes['Todo'],
     ParentType,
     ContextType,
-    RequireFields<
-      MutationCreateTodoArgs,
-      'author' | 'board' | 'description' | 'title'
-    >
+    RequireFields<MutationCreateTodoArgs, 'board' | 'description' | 'title'>
   >;
 };
 
@@ -239,10 +235,14 @@ export type TodoResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']
 > = {
-  author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  board?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  board?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  description?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  isDone?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
