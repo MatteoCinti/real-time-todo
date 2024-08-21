@@ -46,12 +46,17 @@ export const resolvers: Resolvers = {
     createUser: async (_, args) => {
       const { username, password, firstName } = args;
       const hashedPassword = hashPassword(password);
+      // eslint-disable-next-line no-console
+      console.log('🚀 ~ createUser: ~ user:', hashedPassword);
 
       const user = await User.create({
         username,
         firstName,
         password: hashedPassword
       });
+
+      // eslint-disable-next-line no-console
+      console.log('🚀 ~ createUser: ~ user:', user);
       return user.dataValues as User;
     }
   },
