@@ -56,6 +56,14 @@ overrides: [
 ]
 ```
 
+In hte migration file you need to move the import of
+
+```javascript
+const { DataTypes, QueryInterface } = require('sequelize');
+```
+
+into the file that will be ran first
+
 **WINDOWS**: Use the command dev:windows in Dockerfile
 
 Note: _the project is currently setup to run linter in development watch mode to enforce best practices while coding you can remove that easily tweaking the dev commands_

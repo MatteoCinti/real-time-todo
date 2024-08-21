@@ -1,34 +1,43 @@
 import { PubSub, withFilter } from 'graphql-subscriptions';
+import jwt from 'jsonwebtoken';
 import { Resolvers } from './__generated__/resolvers-types';
-import { Todo, User } from '../database/models/associations';
+import { Board, Todo, User } from '../database/models/associations';
 import { hashPassword } from '../utils';
+import { checkPassword } from '../utils/password';
 
 const pubsub = new PubSub();
 
-const todos = [
-  {
-    id: 1,
-    board: 1,
-    title: 'The Awakening',
-    description: 'some description',
-    isDone: false
-  },
-  {
-    id: 2,
-    board: 1,
-    title: 'City of Glass',
-    description: 'some description',
-    isDone: true
-  }
-] as Todo[];
-
 export const resolvers: Resolvers = {
   Query: {
-    getTodos: () => todos,
     getUser: async (_, args) => {
       const { username, password } = args;
       const user = await User.findOne({ where: { username, password } });
-      return user?.dataValues as User;
+      return user!.toJSON() as User;
+    },
+    userLogin: async (_, args) => {
+      const { username, password } = args;
+      const user = await User.findOne({ where: { username } });
+      if (!user) throw new Error('User not found');
+      const userResponse = await user.toJSON();
+      const passwordValid = await checkPassword(
+        password,
+        userResponse.password
+      );
+      if (!passwordValid) throw new Error('Invalid password');
+      const token = jwt.sign(userResponse, process.env.JWT_SECRET!);
+      return { ...userResponse, id: userResponse.id!, token };
+    },
+    getBoard: async (_, args) => {
+      const { owner, id } = args;
+      const board = await Board.findOne({ where: { owner, id } });
+
+      return board!.toJSON() as Board;
+    },
+    getTodosByBoard: async (_, args) => {
+      const { board } = args;
+      const boardTodos = await Todo.findAll({ where: { board } });
+
+      return boardTodos.map((todo) => todo.toJSON()) as Todo[];
     }
   },
   Mutation: {
@@ -42,12 +51,9 @@ export const resolvers: Resolvers = {
 
       return todo.dataValues as Todo;
     },
-
     createUser: async (_, args) => {
       const { username, password, firstName } = args;
       const hashedPassword = hashPassword(password);
-      // eslint-disable-next-line no-console
-      console.log('🚀 ~ createUser: ~ user:', hashedPassword);
 
       const user = await User.create({
         username,
@@ -55,9 +61,13 @@ export const resolvers: Resolvers = {
         password: hashedPassword
       });
 
-      // eslint-disable-next-line no-console
-      console.log('🚀 ~ createUser: ~ user:', user);
       return user.dataValues as User;
+    },
+    createBoard: async (_, args) => {
+      const { owner, title } = args;
+      const board = await Board.create({ owner, title });
+
+      return board.dataValues as Board;
     }
   },
 

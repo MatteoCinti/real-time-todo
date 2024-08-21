@@ -9,9 +9,7 @@ type BoardAttributes = {
 
 class Board extends Model<BoardAttributes> implements BoardAttributes {
   public id!: number;
-
   public title!: string;
-
   public owner!: number;
 }
 

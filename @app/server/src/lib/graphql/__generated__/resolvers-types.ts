@@ -31,10 +31,23 @@ export type Scalars = {
   Float: { input: number; output: number };
 };
 
+export type Board = {
+  __typename?: 'Board';
+  id: Scalars['Int']['output'];
+  owner: Scalars['Int']['output'];
+  title: Scalars['String']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createBoard: Board;
   createTodo: Todo;
   createUser: User;
+};
+
+export type MutationCreateBoardArgs = {
+  owner: Scalars['Int']['input'];
+  title: Scalars['String']['input'];
 };
 
 export type MutationCreateTodoArgs = {
@@ -51,11 +64,27 @@ export type MutationCreateUserArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  getTodos?: Maybe<Array<Maybe<Todo>>>;
-  getUser?: Maybe<User>;
+  getBoard: Board;
+  getTodosByBoard?: Maybe<Array<Maybe<Todo>>>;
+  getUser: User;
+  userLogin?: Maybe<User>;
+};
+
+export type QueryGetBoardArgs = {
+  id: Scalars['Int']['input'];
+  owner: Scalars['Int']['input'];
+};
+
+export type QueryGetTodosByBoardArgs = {
+  board: Scalars['Int']['input'];
 };
 
 export type QueryGetUserArgs = {
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
+export type QueryUserLoginArgs = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
 };
@@ -82,6 +111,7 @@ export type User = {
   __typename?: 'User';
   firstName: Scalars['String']['output'];
   id: Scalars['Int']['output'];
+  token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
 };
 
@@ -192,6 +222,7 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
+  Board: ResolverTypeWrapper<Board>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -204,6 +235,7 @@ export type ResolversTypes = {
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
+  Board: Board;
   Boolean: Scalars['Boolean']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
@@ -214,11 +246,28 @@ export type ResolversParentTypes = {
   User: User;
 };
 
+export type BoardResolvers<
+  ContextType = any,
+  ParentType extends
+    ResolversParentTypes['Board'] = ResolversParentTypes['Board']
+> = {
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  owner?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<
   ContextType = any,
   ParentType extends
     ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = {
+  createBoard?: Resolver<
+    ResolversTypes['Board'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateBoardArgs, 'owner' | 'title'>
+  >;
   createTodo?: Resolver<
     ResolversTypes['Todo'],
     ParentType,
@@ -238,16 +287,29 @@ export type QueryResolvers<
   ParentType extends
     ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
-  getTodos?: Resolver<
+  getBoard?: Resolver<
+    ResolversTypes['Board'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetBoardArgs, 'id' | 'owner'>
+  >;
+  getTodosByBoard?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Todo']>>>,
     ParentType,
-    ContextType
+    ContextType,
+    RequireFields<QueryGetTodosByBoardArgs, 'board'>
   >;
   getUser?: Resolver<
-    Maybe<ResolversTypes['User']>,
+    ResolversTypes['User'],
     ParentType,
     ContextType,
     RequireFields<QueryGetUserArgs, 'password' | 'username'>
+  >;
+  userLogin?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryUserLoginArgs, 'password' | 'username'>
   >;
 };
 
@@ -287,11 +349,13 @@ export type UserResolvers<
 > = {
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
 export type Resolvers<ContextType = any> = {
+  Board?: BoardResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;

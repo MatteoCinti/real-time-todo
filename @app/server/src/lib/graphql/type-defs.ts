@@ -1,6 +1,19 @@
 import { gql } from 'apollo-server';
 
 export default gql`
+  type User {
+    id: Int!
+    username: String!
+    firstName: String!
+    token: String
+  }
+
+  type Board {
+    id: Int!
+    owner: Int!
+    title: String!
+  }
+
   type Todo {
     id: Int!
     board: Int!
@@ -9,20 +22,17 @@ export default gql`
     description: String
   }
 
-  type User {
-    id: Int!
-    username: String!
-    firstName: String!
-  }
-
   type Query {
-    getTodos: [Todo]
-    getUser(username: String!, password: String!): User
+    userLogin(username: String!, password: String!): User
+    getUser(username: String!, password: String!): User!
+    getBoard(owner: Int!, id: Int!): Board!
+    getTodosByBoard(board: Int!): [Todo]
   }
 
   type Mutation {
     createTodo(title: String!, description: String!, board: Int!): Todo!
     createUser(username: String!, firstName: String!, password: String!): User!
+    createBoard(owner: Int!, title: String!): Board!
   }
 
   type Subscription {
