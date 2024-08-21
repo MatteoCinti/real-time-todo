@@ -4,8 +4,8 @@ ARG APP_WORKDIR=/var/www
 
 WORKDIR $APP_WORKDIR
 
-COPY ./package.json ./pnpm-lock.yaml ./pnpm-workspace.yaml ./tsconfig.json ./.eslintrc.cjs ./
-COPY @app/server/package.json ./@app/server/package.json
+COPY --chown=node:node ./package.json ./pnpm-lock.yaml ./pnpm-workspace.yaml ./tsconfig.json ./.eslintrc.cjs ./
+COPY --chown=node:node @app/server/package.json ./@app/server/package.json
 
 RUN npm install -g pnpm
 RUN pnpm install --frozen-lockfile
