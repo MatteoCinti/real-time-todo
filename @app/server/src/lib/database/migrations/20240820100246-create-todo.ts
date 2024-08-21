@@ -22,7 +22,7 @@ module.exports = {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: 'Board', // This references the Users table
+            model: 'Board',
             key: 'id'
           },
           onUpdate: 'CASCADE',
@@ -31,7 +31,7 @@ module.exports = {
       })
       .then(() =>
         queryInterface.addConstraint('Todo', {
-          type: 'FOREIGN KEY',
+          type: 'foreign key',
           name: 'FK_board_todo',
           fields: ['board'],
           references: {

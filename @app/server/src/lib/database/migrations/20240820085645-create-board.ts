@@ -1,4 +1,3 @@
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: typeof QueryInterface, Sequelize: typeof DataTypes) {
     await queryInterface
@@ -25,7 +24,7 @@ module.exports = {
       })
       .then(() =>
         queryInterface.addConstraint('Board', {
-          type: 'FOREIGN KEY',
+          type: 'foreign key',
           name: 'FK_user_board',
           fields: ['owner'],
           references: {

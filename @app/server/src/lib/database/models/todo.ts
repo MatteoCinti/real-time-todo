@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import connection from '../connection';
 
-type TodoAttributes = {
+export type TodoAttributes = {
   id?: number;
   title: string;
   board: number;

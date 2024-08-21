@@ -8,5 +8,6 @@ module.exports = {
         useESM: true
       }
     ]
-  }
+  },
+  setupFiles: ['<rootDir>/.jest/setEnvVars.ts']
 };

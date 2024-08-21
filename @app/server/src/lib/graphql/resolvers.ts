@@ -1,6 +1,7 @@
 import { PubSub, withFilter } from 'graphql-subscriptions';
 import { Resolvers } from './__generated__/resolvers-types';
-import { Todo } from '../database/models/associations';
+import { Todo, User } from '../database/models/associations';
+import { hashPassword } from '../utils';
 
 const pubsub = new PubSub();
 
@@ -23,22 +24,35 @@ const todos = [
 
 export const resolvers: Resolvers = {
   Query: {
-    getTodos: () => todos
+    getTodos: () => todos,
+    getUser: async (_, args) => {
+      const { username, password } = args;
+      const user = await User.findOne({ where: { username, password } });
+      return user?.dataValues as User;
+    }
   },
   Mutation: {
     createTodo: async (_, args) => {
       const { board, title, description } = args;
-      console.log('🚀 ~ createTodo: ~ title:', title);
       const todo = await Todo.create({ board, title, description });
 
-      // eslint-disable-next-line no-console
-      console.log('🚀 ~ todo:', todo);
-
       pubsub.publish('TODO_CREATED', {
-        todoCreated: { board, title, description }
+        todoCreated: todo
       });
 
       return todo.dataValues as Todo;
+    },
+
+    createUser: async (_, args) => {
+      const { username, password, firstName } = args;
+      const hashedPassword = hashPassword(password);
+
+      const user = await User.create({
+        username,
+        firstName,
+        password: hashedPassword
+      });
+      return user.dataValues as User;
     }
   },
 

@@ -34,6 +34,7 @@ export type Scalars = {
 export type Mutation = {
   __typename?: 'Mutation';
   createTodo: Todo;
+  createUser: User;
 };
 
 export type MutationCreateTodoArgs = {
@@ -42,9 +43,21 @@ export type MutationCreateTodoArgs = {
   title: Scalars['String']['input'];
 };
 
+export type MutationCreateUserArgs = {
+  firstName: Scalars['String']['input'];
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getTodos?: Maybe<Array<Maybe<Todo>>>;
+  getUser?: Maybe<User>;
+};
+
+export type QueryGetUserArgs = {
+  password: Scalars['String']['input'];
+  username: Scalars['String']['input'];
 };
 
 export type Subscription = {
@@ -63,6 +76,13 @@ export type Todo = {
   id: Scalars['Int']['output'];
   isDone: Scalars['Boolean']['output'];
   title: Scalars['String']['output'];
+};
+
+export type User = {
+  __typename?: 'User';
+  firstName: Scalars['String']['output'];
+  id: Scalars['Int']['output'];
+  username: Scalars['String']['output'];
 };
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
@@ -179,6 +199,7 @@ export type ResolversTypes = {
   String: ResolverTypeWrapper<Scalars['String']['output']>;
   Subscription: ResolverTypeWrapper<{}>;
   Todo: ResolverTypeWrapper<Todo>;
+  User: ResolverTypeWrapper<User>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -190,6 +211,7 @@ export type ResolversParentTypes = {
   String: Scalars['String']['output'];
   Subscription: {};
   Todo: Todo;
+  User: User;
 };
 
 export type MutationResolvers<
@@ -203,6 +225,12 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationCreateTodoArgs, 'board' | 'description' | 'title'>
   >;
+  createUser?: Resolver<
+    ResolversTypes['User'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateUserArgs, 'firstName' | 'password' | 'username'>
+  >;
 };
 
 export type QueryResolvers<
@@ -214,6 +242,12 @@ export type QueryResolvers<
     Maybe<Array<Maybe<ResolversTypes['Todo']>>>,
     ParentType,
     ContextType
+  >;
+  getUser?: Resolver<
+    Maybe<ResolversTypes['User']>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetUserArgs, 'password' | 'username'>
   >;
 };
 
@@ -247,9 +281,20 @@ export type TodoResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type UserResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
+> = {
+  firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   Todo?: TodoResolvers<ContextType>;
+  User?: UserResolvers<ContextType>;
 };

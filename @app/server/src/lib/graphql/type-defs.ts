@@ -9,12 +9,20 @@ export default gql`
     description: String
   }
 
+  type User {
+    id: Int!
+    username: String!
+    firstName: String!
+  }
+
   type Query {
     getTodos: [Todo]
+    getUser(username: String!, password: String!): User
   }
 
   type Mutation {
     createTodo(title: String!, description: String!, board: Int!): Todo!
+    createUser(username: String!, firstName: String!, password: String!): User!
   }
 
   type Subscription {
