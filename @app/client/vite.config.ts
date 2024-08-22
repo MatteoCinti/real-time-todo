@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig, loadEnv } from 'vite';
 // @ts-expect-error - eslintPlugin is not typed
@@ -12,6 +13,7 @@ const { VITE_BACKEND_URL } = loadEnv('', process.cwd());
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    TanStackRouterVite(),
     react(),
     tsconfigPaths(),
     eslintPlugin({

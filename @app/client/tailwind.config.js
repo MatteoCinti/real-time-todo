@@ -1,6 +1,8 @@
 import animate from 'tailwindcss-animate';
 import { fontFamily } from 'tailwindcss/defaultTheme';
 
+const navHeight = '2.525rem';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: ['class'],
@@ -70,6 +72,19 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out'
+      },
+      height: {
+        nav: navHeight
+      },
+      margin: {
+        'optical-center': '4rem',
+        'top-menu': navHeight
+      },
+      top: {
+        menu: navHeight
+      },
+      right: {
+        menu: navHeight
       }
     }
   },

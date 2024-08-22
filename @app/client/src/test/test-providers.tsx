@@ -1,11 +1,21 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import {
+  RouterProvider,
+  createRootRoute,
+  createRouter
+} from '@tanstack/react-router';
+import { QueryProvider } from '~/lib/providers';
 
-const queryClient = new QueryClient();
+function TestProviders({ children }: { children: React.JSX.Element }) {
+  const routeTree = createRootRoute({
+    component: () => children
+  });
 
-function Wrapper({ children }: { children: React.ReactElement }) {
+  const router = createRouter({ routeTree });
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <QueryProvider>
+      <RouterProvider router={router} />
+    </QueryProvider>
   );
 }
 
-export default Wrapper;
+export default TestProviders;

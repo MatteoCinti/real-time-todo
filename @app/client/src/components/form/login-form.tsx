@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
 import { useForm } from '@tanstack/react-form';
+import { useNavigate } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
 import useLogin from '~/lib/react-query/mutations/user-login';
+import { cn } from '~/lib/utils/ui';
 import {
   Button,
   Card,
@@ -14,24 +15,25 @@ import {
 import { loginFormDefaultValues, loginFormFields } from './config';
 import Field from './form-field';
 
-function LoginForm() {
-  const { mutate, data, isPending } = useLogin();
+type Props = {
+  className?: string;
+};
+
+function LoginForm({ className }: Props) {
+  const { mutate, isPending } = useLogin();
+  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: loginFormDefaultValues,
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
       mutate(value);
+      navigate({ to: '/_auth/' });
     }
   });
 
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('🚀 ~ LoginForm ~ data:', data);
-  }, [data]);
-
   return (
-    <Card>
+    <Card className={cn('', className)}>
       <CardHeader>Login / Register</CardHeader>
       <CardContent>
         <form

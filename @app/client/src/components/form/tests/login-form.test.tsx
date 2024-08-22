@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, it } from 'vitest';
 
@@ -6,11 +7,13 @@ import LoginForm from '../login-form';
 import { errorMessages, loginFormFields } from '../config/login-form.config';
 
 describe('todo-form', () => {
-  beforeEach(() => {
-    render(
-      <TestProviders>
-        <LoginForm />
-      </TestProviders>
+  beforeEach(async () => {
+    await act(async () =>
+      render(
+        <TestProviders>
+          <LoginForm />
+        </TestProviders>
+      )
     );
   });
   it('should render on the page', ({ expect }) => {

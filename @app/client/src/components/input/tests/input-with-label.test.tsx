@@ -1,5 +1,5 @@
 import { beforeEach, describe, it } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import InputWithLabel from '../input-with-label';
 
 const id = 'title';
@@ -9,13 +9,15 @@ const placeholder = 'Enter title';
 
 describe('Input With Label', () => {
   beforeEach(() => {
-    render(
-      <InputWithLabel
-        name={id}
-        type={type}
-        title={label}
-        placeholder={placeholder}
-      />
+    act(() =>
+      render(
+        <InputWithLabel
+          name={id}
+          type={type}
+          title={label}
+          placeholder={placeholder}
+        />
+      )
     );
   });
   it('should render on the page', ({ expect }) => {

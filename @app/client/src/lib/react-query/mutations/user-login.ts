@@ -5,9 +5,10 @@ import {
   UserLoginDocument,
   UserLoginQueryVariables
 } from '~/lib/graphql/__generated__/graphql';
+import { AUTH_COOKIE } from '~/lib/constants';
 
 function useLogin() {
-  const [_, setCookie, __] = useCookies(['us3rl0gg31n']);
+  const [_, setCookie, __] = useCookies([AUTH_COOKIE]);
 
   return useMutation({
     mutationKey: ['user', UserLoginDocument],
@@ -15,7 +16,7 @@ function useLogin() {
       gqlRequestClient.request(UserLoginDocument, variables),
     onSuccess: (data) => {
       if (data.userLogin) {
-        setCookie('us3rl0gg31n', data.userLogin, {
+        setCookie(AUTH_COOKIE, data.userLogin, {
           maxAge: 60 * 60 * 24 * 7
         });
       }

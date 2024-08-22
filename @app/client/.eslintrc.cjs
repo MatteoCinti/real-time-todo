@@ -31,7 +31,7 @@ module.exports = {
           {
             builtinGlobals: true,
             ignoreOnInitialization: true,
-            allow: ['screen']
+            allow: ['screen', 'location']
           }
         ],
         'import/no-extraneous-dependencies': [
@@ -40,6 +40,16 @@ module.exports = {
         ],
         'react/require-default-props': 'off',
         'react/prop-types': 'off'
+      }
+    },
+    {
+      files: [
+        './src/routes/__root.tsx',
+        './src/routes/_auth.*.tsx',
+        './src/routes/_auth.tsx'
+      ],
+      rules: {
+        'check-file/filename-naming-convention': 'off'
       }
     }
   ]

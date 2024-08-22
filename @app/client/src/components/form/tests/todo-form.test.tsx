@@ -10,11 +10,13 @@ import { TestProviders } from '~/test';
 
 // The two tests marked with concurrent will be started in parallel
 describe('todo-form', () => {
-  beforeEach(() => {
-    render(
-      <TestProviders>
-        <TodoForm />
-      </TestProviders>
+  beforeEach(async () => {
+    await act(async () =>
+      render(
+        <TestProviders>
+          <TodoForm />
+        </TestProviders>
+      )
     );
   });
   it('should render on the page', ({ expect }) => {
