@@ -38,24 +38,23 @@ describe('Apollo Server', () => {
     it('should return a user', async () => {
       const response = (await testServer.executeOperation({
         query: `#graphql
-            query GetUser($username: String!, $password: String!) { 
-                getUser(username: $username, password: $password) { 
+            query GetUser($id: Int!) { 
+                getUser(id: $id) { 
                     username 
                     firstName
                     id 
                 }
             }`,
         variables: {
-          username: mocks.String(),
-          password: mocks.String()
+          id: mocks.Int()
         }
       })) as any;
 
       expect(response.body.singleResult.errors).not.toBeDefined();
       expect(response.body.kind).toBe('single');
       expect(response.body.singleResult.data.getUser).toMatchObject({
-        username: mocks.String(),
         id: mocks.Int(),
+        username: mocks.String(),
         firstName: mocks.String()
       });
     });
@@ -81,6 +80,31 @@ describe('Apollo Server', () => {
       expect(response.body.singleResult.errors).not.toBeDefined();
       expect(response.body.kind).toBe('single');
       expect(response.body.singleResult.data.getBoard).toMatchObject({
+        id: mocks.Int(),
+        owner: mocks.Int(),
+        title: mocks.String()
+      });
+    });
+  });
+  describe('getBoards', () => {
+    it('should return an array of boards', async () => {
+      const response = (await testServer.executeOperation({
+        query: `#graphql
+            query GetBoards($owner: Int!) { 
+                getBoards(owner: $owner, ) { 
+                    id
+                    owner
+                    title
+                }
+            }`,
+        variables: {
+          owner: mocks.Int()
+        }
+      })) as any;
+
+      expect(response.body.singleResult.errors).not.toBeDefined();
+      expect(response.body.kind).toBe('single');
+      expect(response.body.singleResult.data.getBoards[0]).toMatchObject({
         id: mocks.Int(),
         owner: mocks.Int(),
         title: mocks.String()

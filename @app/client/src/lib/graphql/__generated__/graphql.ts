@@ -63,6 +63,7 @@ export type MutationCreateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   getBoard: Board;
+  getBoards?: Maybe<Array<Maybe<Board>>>;
   getTodosByBoard?: Maybe<Array<Maybe<Todo>>>;
   getUser: User;
   userLogin?: Maybe<User>;
@@ -73,13 +74,16 @@ export type QueryGetBoardArgs = {
   owner: Scalars['Int']['input'];
 };
 
+export type QueryGetBoardsArgs = {
+  owner: Scalars['Int']['input'];
+};
+
 export type QueryGetTodosByBoardArgs = {
   board: Scalars['Int']['input'];
 };
 
 export type QueryGetUserArgs = {
-  password: Scalars['String']['input'];
-  username: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type QueryUserLoginArgs = {
@@ -113,6 +117,25 @@ export type User = {
   username: Scalars['String']['output'];
 };
 
+export type GetUserDataQueryVariables = Exact<{
+  id: Scalars['Int']['input'];
+}>;
+
+export type GetUserDataQuery = {
+  __typename?: 'Query';
+  getUser: {
+    __typename?: 'User';
+    id: number;
+    username: string;
+    firstName: string;
+  };
+  getBoards?: Array<{
+    __typename?: 'Board';
+    id: number;
+    title: string;
+  } | null> | null;
+};
+
 export type ListenTodosSubscriptionVariables = Exact<{
   board: Scalars['String']['input'];
 }>;
@@ -143,6 +166,68 @@ export type UserLoginQuery = {
   } | null;
 };
 
+export const GetUserDataDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'query',
+      name: { kind: 'Name', value: 'GetUserData' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getUser' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'id' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'username' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'firstName' } }
+              ]
+            }
+          },
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'getBoards' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'owner' },
+                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<GetUserDataQuery, GetUserDataQueryVariables>;
 export const ListenTodosDocument = {
   kind: 'Document',
   definitions: [

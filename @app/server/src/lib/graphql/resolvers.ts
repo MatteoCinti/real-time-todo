@@ -10,8 +10,8 @@ const pubsub = new PubSub();
 export const resolvers: Resolvers = {
   Query: {
     getUser: async (_, args) => {
-      const { username, password } = args;
-      const user = await User.findOne({ where: { username, password } });
+      const { id } = args;
+      const user = await User.findOne({ where: { id } });
       return user!.toJSON() as User;
     },
     userLogin: async (_, args) => {
@@ -26,6 +26,12 @@ export const resolvers: Resolvers = {
       if (!passwordValid) throw new Error('Invalid password');
       const token = jwt.sign(userResponse, process.env.JWT_SECRET!);
       return { ...userResponse, id: userResponse.id!, token };
+    },
+    getBoards: async (_, args) => {
+      const { owner } = args;
+      const boards = await Board.findAll({ where: { owner } });
+
+      return boards.map((board) => board.toJSON()) as Board[];
     },
     getBoard: async (_, args) => {
       const { owner, id } = args;

@@ -1,8 +1,7 @@
 import { useForm } from '@tanstack/react-form';
-// import { useNavigate } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
-import useLogin from '~/lib/react-query/mutations/user-login';
+import { useLogin } from '~/lib/react-query';
 import { cn } from '~/lib/utils/ui';
 import {
   Button,

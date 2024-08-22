@@ -1,16 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
-import { useCookies } from 'react-cookie';
-import { AUTH_COOKIE } from '~/lib/constants';
+import { gqlRequestClient } from '~/lib/graphql';
+import {
+  GetUserDataDocument,
+  GetUserDataQueryVariables
+} from '~/lib/graphql/__generated__/graphql';
 
-function useUser() {
-  const [cookies, _, __] = useCookies([AUTH_COOKIE]);
-
+function useUser(variables: GetUserDataQueryVariables) {
   return useQuery({
-    queryKey: ['user', cookies[AUTH_COOKIE]],
-    queryFn: async () =>
-      new Promise((resolve) => {
-        resolve({ user: cookies[AUTH_COOKIE] });
-      })
+    queryKey: ['user', GetUserDataDocument, variables],
+    queryFn: async () => {
+      const response = await gqlRequestClient.request(
+        GetUserDataDocument,
+        variables
+      );
+      return {
+        user: response.getUser,
+        boards: response.getBoards
+      };
+    }
   });
 }
 

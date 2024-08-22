@@ -1,0 +1,11 @@
+query GetUserData($id: Int!) {
+  getUser(id: $id) {
+    id
+    username
+    firstName
+  }
+  getBoards(owner: $id) {
+    id
+    title
+  }
+}

@@ -1,11 +1,15 @@
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
+import { useUser } from '~/lib/react-query';
 import { Button, Card, CardContent, CardHeader } from '~/components/ui';
 import Field from './form-field';
 import { todoFormDefaultValues, todoFormFields } from './config';
 
 function TodoForm() {
+  const { data } = useUser({ id: 1 });
+  console.log('🚀 ~ TodoForm ~ data:', data);
+
   const form = useForm({
     defaultValues: todoFormDefaultValues,
     validatorAdapter: zodValidator(),

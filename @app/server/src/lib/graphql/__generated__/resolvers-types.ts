@@ -65,6 +65,7 @@ export type MutationCreateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   getBoard: Board;
+  getBoards?: Maybe<Array<Maybe<Board>>>;
   getTodosByBoard?: Maybe<Array<Maybe<Todo>>>;
   getUser: User;
   userLogin?: Maybe<User>;
@@ -75,13 +76,16 @@ export type QueryGetBoardArgs = {
   owner: Scalars['Int']['input'];
 };
 
+export type QueryGetBoardsArgs = {
+  owner: Scalars['Int']['input'];
+};
+
 export type QueryGetTodosByBoardArgs = {
   board: Scalars['Int']['input'];
 };
 
 export type QueryGetUserArgs = {
-  password: Scalars['String']['input'];
-  username: Scalars['String']['input'];
+  id: Scalars['Int']['input'];
 };
 
 export type QueryUserLoginArgs = {
@@ -293,6 +297,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGetBoardArgs, 'id' | 'owner'>
   >;
+  getBoards?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Board']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetBoardsArgs, 'owner'>
+  >;
   getTodosByBoard?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Todo']>>>,
     ParentType,
@@ -303,7 +313,7 @@ export type QueryResolvers<
     ResolversTypes['User'],
     ParentType,
     ContextType,
-    RequireFields<QueryGetUserArgs, 'password' | 'username'>
+    RequireFields<QueryGetUserArgs, 'id'>
   >;
   userLogin?: Resolver<
     Maybe<ResolversTypes['User']>,
