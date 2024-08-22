@@ -1,14 +1,15 @@
 import { useMutation } from '@tanstack/react-query';
-import { useCookies } from 'react-cookie';
+import { useNavigate } from '@tanstack/react-router';
 import { gqlRequestClient } from '~/lib/graphql';
 import {
   UserLoginDocument,
   UserLoginQueryVariables
 } from '~/lib/graphql/__generated__/graphql';
-import { AUTH_COOKIE } from '~/lib/constants';
+import { useAuth } from '~/hooks';
 
 function useLogin() {
-  const [_, setCookie, __] = useCookies([AUTH_COOKIE]);
+  const { signIn } = useAuth();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationKey: ['user', UserLoginDocument],
@@ -16,9 +17,8 @@ function useLogin() {
       gqlRequestClient.request(UserLoginDocument, variables),
     onSuccess: (data) => {
       if (data.userLogin) {
-        setCookie(AUTH_COOKIE, data.userLogin, {
-          maxAge: 60 * 60 * 24 * 7
-        });
+        signIn(data);
+        navigate({ to: '/' });
       }
     }
   });

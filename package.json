@@ -18,7 +18,6 @@
     "dev": "pnpm --recursive --parallel dev",
     "build": "pnpm --recursive --parallel build",
     "lint": "pnpm --recursive --parallel lint",
-    "test": "pnpm --recursive --parallel test",
     "start": "pnpm --recursive --parallel start",
     "prettier": "pretty-quick --verbose --staged",
     "monorepo:init": "./monorepo-init.sh",

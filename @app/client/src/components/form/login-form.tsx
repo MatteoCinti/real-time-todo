@@ -1,5 +1,5 @@
 import { useForm } from '@tanstack/react-form';
-import { useNavigate } from '@tanstack/react-router';
+// import { useNavigate } from '@tanstack/react-router';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
 import useLogin from '~/lib/react-query/mutations/user-login';
@@ -21,15 +21,11 @@ type Props = {
 
 function LoginForm({ className }: Props) {
   const { mutate, isPending } = useLogin();
-  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: loginFormDefaultValues,
     validatorAdapter: zodValidator(),
-    onSubmit: async ({ value }) => {
-      mutate(value);
-      navigate({ to: '/_auth/' });
-    }
+    onSubmit: async ({ value }) => mutate(value)
   });
 
   return (

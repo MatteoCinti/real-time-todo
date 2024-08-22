@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Menu } from 'lucide-react';
+import { useNavigate } from '@tanstack/react-router';
 
 import { useAuth } from '~/hooks';
 import { NAV_ID } from '~/lib/constants';
@@ -20,6 +21,8 @@ import {
 function HamburgerNav({ logout }: { logout: () => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const closeMenu = () => setMenuOpen(false);
+  const navigate = useNavigate();
+
   return (
     <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
       <SheetTrigger className="ml-auto mr-0 lg:hidden">
@@ -41,10 +44,11 @@ function HamburgerNav({ logout }: { logout: () => void }) {
         <Separator className="bg-muted" />
         <SheetDescription className="bottom-0 mt-auto flex flex-col">
           <Button
-            variant="link"
+            variant="secondary"
             onClick={() => {
               logout();
               closeMenu();
+              navigate({ to: '/login' });
             }}
           >
             Logout
@@ -57,11 +61,19 @@ function HamburgerNav({ logout }: { logout: () => void }) {
 
 function Nav() {
   const { logout } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="h-nav flex w-full flex-row" data-testid={NAV_ID}>
       <HamburgerNav logout={logout} />
-      <Button className="hidden lg:inline-block" onClick={logout}>
+      <Button
+        className="hidden lg:inline-block"
+        variant="secondary"
+        onClick={() => {
+          logout();
+          navigate({ to: '/login' });
+        }}
+      >
         Logout
       </Button>
       <Separator className="hidden lg:inline-block" />

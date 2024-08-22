@@ -11,6 +11,10 @@ vi.mock('~/hooks', () => ({
   })
 }));
 
+vi.mock('@tanstack/react-router', () => ({
+  useNavigate: () => vi.fn()
+}));
+
 describe('The nav menu', () => {
   beforeEach(() => {
     render(<Nav />);

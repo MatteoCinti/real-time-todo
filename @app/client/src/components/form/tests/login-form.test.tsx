@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, it } from 'vitest';
+import { beforeEach, describe, it, vi } from 'vitest';
 
 import { TestProviders } from '~/test';
 import LoginForm from '../login-form';
@@ -37,10 +37,18 @@ describe('todo-form', () => {
   it('~ should display a text input for username', ({ expect }) => {
     const input = screen.getByLabelText('Username') as HTMLInputElement;
     act(() => {
-      fireEvent.change(input, { target: { value: 'typed text' } });
+      fireEvent.change(input, { target: { value: 'username' } });
     });
-    expect(input.value).toBe('typed text');
+    expect(input.value).toBe('username');
   });
+  it('~ should display a password input for password', ({ expect }) => {
+    const input = screen.getByLabelText('Password') as HTMLInputElement;
+    act(() => {
+      fireEvent.change(input, { target: { value: 'password' } });
+    });
+    expect(input.value).toBe('password');
+  });
+
   it('~ should display error when validation is not passed on formSubmit', async ({
     expect
   }) => {
@@ -57,8 +65,8 @@ describe('todo-form', () => {
     });
 
     const titleError = screen.getByText(errorMessages.username);
-    const descriptionError = screen.getByText(errorMessages.password);
+    const passwordError = screen.getByText(errorMessages.password);
     expect(titleError).toBeTruthy();
-    expect(descriptionError).toBeTruthy();
+    expect(passwordError).toBeTruthy();
   });
 });
