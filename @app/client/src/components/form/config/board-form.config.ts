@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const formSchema = z.object({
-  title: z.string()
+  title: z.string().min(1)
 });
 
 type BoardFormFields = z.infer<typeof formSchema>;

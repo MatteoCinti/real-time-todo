@@ -5,12 +5,14 @@ function Field<T>({
   input,
   form,
   className,
-  border = true
+  border = true,
+  displayError = true
 }: {
   input: FormField<T>;
   form: any;
   className?: string;
   border?: boolean;
+  displayError?: boolean;
 }) {
   const field = useField<T, FormField<T>['id']>({
     name: input.id,
@@ -31,7 +33,7 @@ function Field<T>({
         className={className}
         border={border}
       />
-      {field.state.meta.errors.length ? (
+      {field.state.meta.errors.length && displayError ? (
         <span className="text-destructive text-sm font-bold">
           {field.state.meta.errors.join(',')}
         </span>
