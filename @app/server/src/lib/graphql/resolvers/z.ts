@@ -6,7 +6,7 @@ import {
   getUserBoards,
   getBoard,
   getTodosByBoard
-} from './queries';
+} from './queries/q';
 import { createTodo, createUser, createBoard } from './mutations';
 import { todoCreated } from './subscriptions';
 

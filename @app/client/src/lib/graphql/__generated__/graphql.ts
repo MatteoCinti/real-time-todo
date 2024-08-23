@@ -63,9 +63,9 @@ export type MutationCreateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   getBoard: Board;
-  getBoards?: Maybe<Array<Maybe<Board>>>;
   getTodosByBoard?: Maybe<Array<Maybe<Todo>>>;
   getUser: User;
+  getUserBoards?: Maybe<Array<Maybe<Board>>>;
   userLogin?: Maybe<User>;
 };
 
@@ -74,16 +74,8 @@ export type QueryGetBoardArgs = {
   owner: Scalars['Int']['input'];
 };
 
-export type QueryGetBoardsArgs = {
-  owner: Scalars['Int']['input'];
-};
-
 export type QueryGetTodosByBoardArgs = {
   board: Scalars['Int']['input'];
-};
-
-export type QueryGetUserArgs = {
-  id: Scalars['Int']['input'];
 };
 
 export type QueryUserLoginArgs = {
@@ -113,13 +105,12 @@ export type User = {
   __typename?: 'User';
   firstName: Scalars['String']['output'];
   id: Scalars['Int']['output'];
+  password?: Maybe<Scalars['String']['output']>;
   token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
 };
 
-export type GetUserDataQueryVariables = Exact<{
-  id: Scalars['Int']['input'];
-}>;
+export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetUserDataQuery = {
   __typename?: 'Query';
@@ -129,7 +120,7 @@ export type GetUserDataQuery = {
     username: string;
     firstName: string;
   };
-  getBoards?: Array<{
+  getUserBoards?: Array<{
     __typename?: 'Board';
     id: number;
     title: string;
@@ -173,29 +164,12 @@ export const GetUserDataDocument = {
       kind: 'OperationDefinition',
       operation: 'query',
       name: { kind: 'Name', value: 'GetUserData' },
-      variableDefinitions: [
-        {
-          kind: 'VariableDefinition',
-          variable: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-          type: {
-            kind: 'NonNullType',
-            type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } }
-          }
-        }
-      ],
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
           {
             kind: 'Field',
             name: { kind: 'Name', value: 'getUser' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'id' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-              }
-            ],
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
@@ -207,14 +181,7 @@ export const GetUserDataDocument = {
           },
           {
             kind: 'Field',
-            name: { kind: 'Name', value: 'getBoards' },
-            arguments: [
-              {
-                kind: 'Argument',
-                name: { kind: 'Name', value: 'owner' },
-                value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } }
-              }
-            ],
+            name: { kind: 'Name', value: 'getUserBoards' },
             selectionSet: {
               kind: 'SelectionSet',
               selections: [

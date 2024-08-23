@@ -1,7 +1,7 @@
 import animate from 'tailwindcss-animate';
 import { fontFamily } from 'tailwindcss/defaultTheme';
 
-const navHeight = '2.525rem';
+const navHeight = '3.125rem';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -76,8 +76,11 @@ export default {
       height: {
         nav: navHeight
       },
-      margin: {
+      padding: {
         'optical-center': '4rem',
+        page: '1.5rem'
+      },
+      margin: {
         'top-menu': navHeight
       },
       top: {

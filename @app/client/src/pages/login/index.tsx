@@ -68,7 +68,9 @@ function Login() {
   }
 
   return (
-    <LoginForm className="mb-optical-center mx-auto h-min w-3/5 self-center" />
+    <div className="align-center mb-optical-center flex h-full w-full justify-center">
+      <LoginForm className="my-auto h-2/5 w-full lg:h-min lg:w-2/5 lg:max-w-lg" />
+    </div>
   );
 }
 

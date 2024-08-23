@@ -10,7 +10,7 @@ import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { ApolloServer } from '@apollo/server';
 
-import { resolvers } from './lib/graphql/resolvers';
+import { resolvers } from './lib/graphql/resolvers/z';
 import typeDefs from './lib/graphql/type-defs';
 
 const app: Express = express();
@@ -19,10 +19,7 @@ const httpServer = createServer(app);
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
 const wsServer = new WebSocketServer({
-  // This is the `httpServer` we created in a previous step.
   server: httpServer,
-  // Pass a different path here if app.use
-  // serves expressMiddleware at a different path
   path: '/graphql'
 });
 
@@ -31,9 +28,7 @@ const serverCleanup = useServer({ schema }, wsServer);
 const server = new ApolloServer<ApolloContext>({
   schema,
   plugins: [
-    // Proper shutdown for the HTTP server.
     ApolloServerPluginDrainHttpServer({ httpServer }),
-
     {
       async serverWillStart() {
         return {

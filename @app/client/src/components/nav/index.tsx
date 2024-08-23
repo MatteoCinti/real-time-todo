@@ -1,8 +1,6 @@
-/* eslint-disable */
-
 import { useState } from 'react';
-import { Menu } from 'lucide-react';
 import { useNavigate } from '@tanstack/react-router';
+import { Menu } from 'lucide-react';
 
 import { useAuth } from '~/hooks';
 import { NAV_ID } from '~/lib/constants';
@@ -17,6 +15,8 @@ import {
   SheetTrigger,
   SheetDescription
 } from '../ui';
+
+import NameTag from './components/name-tag';
 
 function HamburgerNav({ logout }: { logout: () => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -64,20 +64,25 @@ function Nav() {
   const navigate = useNavigate();
 
   return (
-    <div className="h-nav flex w-full flex-row" data-testid={NAV_ID}>
-      <HamburgerNav logout={logout} />
-      <Button
-        className="hidden lg:inline-block"
-        variant="secondary"
-        onClick={() => {
-          logout();
-          navigate({ to: '/login' });
-        }}
-      >
-        Logout
-      </Button>
-      <Separator className="hidden lg:inline-block" />
-    </div>
+    <nav
+      className="h-nav lg:border-muted mb-[-1px] rounded-t-lg pl-2 text-sm lg:border"
+      data-testid={NAV_ID}
+    >
+      <div className="flex h-full items-center justify-between">
+        <NameTag />
+        <HamburgerNav logout={logout} />
+        <Button
+          className="ml-auto mr-0 hidden w-min lg:inline-block"
+          variant="link"
+          onClick={() => {
+            logout();
+            navigate({ to: '/login' });
+          }}
+        >
+          Logout
+        </Button>
+      </div>
+    </nav>
   );
 }
 

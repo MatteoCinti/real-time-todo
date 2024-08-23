@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`auth verifyUser should throw an error if no token is provided 1`] = `"No authentication was sent with the request"`;
+
+exports[`auth verifyUser should throw an error if the token is invalid 1`] = `"jwt malformed"`;

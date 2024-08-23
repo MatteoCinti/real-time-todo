@@ -1,5 +1,5 @@
 import mocks from '../../../../../config/test/mocks';
-import testServer from '../../../../../config/test/apollo-test-server';
+import { testServer } from '../../../../../config/test';
 
 describe('getTodosByBoard', () => {
   it('should return a board', async () => {

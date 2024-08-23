@@ -38,7 +38,7 @@ function LoginForm({ className }: Props) {
             form.handleSubmit();
           }}
           data-testid="login-form"
-          className="space-y-8"
+          className="flex flex-col space-y-8"
         >
           <div>
             {loginFormFields.map((field) => (
@@ -52,6 +52,7 @@ function LoginForm({ className }: Props) {
             {([canSubmit, isSubmitting]) => (
               <Button
                 type="submit"
+                className="mx-auto"
                 disabled={!canSubmit || isSubmitting || isPending}
               >
                 {isSubmitting || isPending ? <LoadingSpinner /> : 'Login'}

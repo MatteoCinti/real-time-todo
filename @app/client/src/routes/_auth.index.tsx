@@ -1,10 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { TodoForm } from '~/components';
+import { HomePage } from '~/pages/home';
 
 export const Route = createFileRoute('/_auth/')({
-  component: () => (
-    <div>
-      <TodoForm />
-    </div>
-  )
+  component: () => <HomePage />
 });

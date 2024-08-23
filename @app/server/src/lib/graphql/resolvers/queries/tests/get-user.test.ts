@@ -1,21 +1,21 @@
 import mocks from '../../../../../config/test/mocks';
-import testServer from '../../../../../config/test/apollo-test-server';
+import { testServer, userToken } from '../../../../../config/test';
 
 describe('getUser', () => {
   it('should return a user', async () => {
-    const response = (await testServer.executeOperation({
-      query: `#graphql
-            query GetUser($id: Int!) { 
-                getUser(id: $id) { 
+    const response = (await testServer.executeOperation(
+      {
+        query: `#graphql
+            query GetUser { 
+                getUser { 
                     username 
                     firstName
                     id 
                 }
-            }`,
-      variables: {
-        id: mocks.Int()
-      }
-    })) as any;
+            }`
+      },
+      { contextValue: { token: `Bearer ${userToken}` } }
+    )) as any;
 
     expect(response.body.singleResult.errors).not.toBeDefined();
     expect(response.body.kind).toBe('single');
@@ -24,5 +24,19 @@ describe('getUser', () => {
       username: mocks.String(),
       firstName: mocks.String()
     });
+  });
+  it('should return an error if no token is provided', async () => {
+    const response = (await testServer.executeOperation({
+      query: `#graphql
+            query GetUser { 
+                getUser { 
+                    username 
+                    firstName
+                    id 
+                }
+            }`
+    })) as any;
+
+    expect(response.body.singleResult.errors).toBeDefined();
   });
 });

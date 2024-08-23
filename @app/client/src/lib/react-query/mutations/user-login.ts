@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
+
 import { gqlRequestClient } from '~/lib/graphql';
 import {
   UserLoginDocument,
@@ -14,12 +15,10 @@ function useLogin() {
   return useMutation({
     mutationKey: ['user', UserLoginDocument],
     mutationFn: async (variables: UserLoginQueryVariables) =>
-      gqlRequestClient.request(UserLoginDocument, variables),
-    onSuccess: (data) => {
-      // eslint-disable-next-line no-console
-      console.log('🚀 ~ useLogin ~ data:', data);
+      gqlRequestClient().request(UserLoginDocument, variables),
+    onSuccess: async (data) => {
       if (data.userLogin) {
-        signIn(data);
+        await signIn(data);
         navigate({ to: '/' });
       }
     }

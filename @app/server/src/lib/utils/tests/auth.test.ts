@@ -1,19 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { user, JWT_SECRET } from '../../../config/test';
-import { generateToken } from '../auth';
+import { user } from '../../../config/test';
+import { generateToken, verifyUser } from '../auth';
 
 describe('auth', () => {
-  const ORIG_ENV = process.env;
-
-  beforeEach(() => {
-    jest.resetModules();
-    process.env = { ...ORIG_ENV, JWT_SECRET };
-  });
-
-  afterEach(() => {
-    process.env = ORIG_ENV;
-  });
-
   describe('generateToken', () => {
     it('should generate a token', () => {
       const token = generateToken(user);
@@ -42,6 +31,28 @@ describe('auth', () => {
       expect(verified).toBeTruthy();
       expect((verified as jwt.JwtPayload).username).toBe(user.username);
       expect((verified as jwt.JwtPayload).id).toBe(user.id);
+    });
+  });
+
+  describe('verifyUser', () => {
+    it('should throw an error if no token is provided', () => {
+      const context = { token: undefined };
+      expect(() => verifyUser(context)).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should throw an error if the token is invalid', () => {
+      const context = { token: 'invalid' };
+      expect(() => verifyUser(context)).toThrowErrorMatchingSnapshot();
+    });
+
+    it('should return the user if the token is valid', () => {
+      const token = generateToken(user);
+      const context = { token };
+      const result = verifyUser(context);
+
+      expect(result.firstName).toEqual(user.firstName);
+      expect(result.username).toEqual(user.username);
+      expect(result.id).toEqual(user.id);
     });
   });
 });

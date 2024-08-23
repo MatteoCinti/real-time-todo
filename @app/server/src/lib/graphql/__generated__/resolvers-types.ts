@@ -80,10 +80,6 @@ export type QueryGetTodosByBoardArgs = {
   board: Scalars['Int']['input'];
 };
 
-export type QueryGetUserBoardsArgs = {
-  owner: Scalars['Int']['input'];
-};
-
 export type QueryUserLoginArgs = {
   password: Scalars['String']['input'];
   username: Scalars['String']['input'];
@@ -304,8 +300,7 @@ export type QueryResolvers<
   getUserBoards?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Board']>>>,
     ParentType,
-    ContextType,
-    RequireFields<QueryGetUserBoardsArgs, 'owner'>
+    ContextType
   >;
   userLogin?: Resolver<
     Maybe<ResolversTypes['User']>,

@@ -9,7 +9,7 @@ import { typeDefs, resolvers, mocks } from '../../lib/graphql';
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const testServer = new ApolloServer({
+const testServer = new ApolloServer<ApolloContext>({
   schema: addMocksToSchema({ schema, mocks })
 });
 

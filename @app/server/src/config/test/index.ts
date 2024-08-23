@@ -1,2 +1,2 @@
-export { JWT_SECRET } from './envs';
-export { user } from './user.mock';
+export { user, userToken } from './user.mock';
+export { default as testServer } from './apollo-test-server';

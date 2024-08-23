@@ -1,4 +1,4 @@
-import testServer from '../../../../../config/test/apollo-test-server';
+import { testServer } from '../../../../../config/test';
 import mocks from '../../../../../config/test/mocks';
 
 describe('createTodo', () => {

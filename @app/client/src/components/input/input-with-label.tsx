@@ -13,8 +13,13 @@ function InputWithLabel({
   onBlur
 }: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
-    <div className={cn('form-control w-full place-items-stretch', className)}>
-      <Label className="text-md" htmlFor={name}>
+    <div
+      className={cn(
+        'form-control mb-2 flex h-auto w-full flex-col place-items-stretch',
+        className
+      )}
+    >
+      <Label className="text-md mb-2" htmlFor={name}>
         {title}
       </Label>
       <Input

@@ -1,2 +1,2 @@
-export { generateToken, decodeToken } from './auth';
+export { generateToken, decodeToken, verifyUser } from './auth';
 export { hashPassword, checkPassword } from './password';
