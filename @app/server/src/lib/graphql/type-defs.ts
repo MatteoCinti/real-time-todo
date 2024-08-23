@@ -5,6 +5,7 @@ export default gql`
     id: Int!
     username: String!
     firstName: String!
+    password: String
     token: String
   }
 
@@ -25,7 +26,7 @@ export default gql`
   type Query {
     userLogin(username: String!, password: String!): User
     getUser(id: Int!): User!
-    getBoards(owner: Int!): [Board]
+    getUserBoards(owner: Int!): [Board]
     getBoard(owner: Int!, id: Int!): Board!
     getTodosByBoard(board: Int!): [Todo]
   }

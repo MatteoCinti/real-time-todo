@@ -1,4 +1,5 @@
 import { GraphQLResolveInfo } from 'graphql';
+import { ApolloContext } from '../../../types';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -65,18 +66,14 @@ export type MutationCreateUserArgs = {
 export type Query = {
   __typename?: 'Query';
   getBoard: Board;
-  getBoards?: Maybe<Array<Maybe<Board>>>;
   getTodosByBoard?: Maybe<Array<Maybe<Todo>>>;
   getUser: User;
+  getUserBoards?: Maybe<Array<Maybe<Board>>>;
   userLogin?: Maybe<User>;
 };
 
 export type QueryGetBoardArgs = {
   id: Scalars['Int']['input'];
-  owner: Scalars['Int']['input'];
-};
-
-export type QueryGetBoardsArgs = {
   owner: Scalars['Int']['input'];
 };
 
@@ -86,6 +83,10 @@ export type QueryGetTodosByBoardArgs = {
 
 export type QueryGetUserArgs = {
   id: Scalars['Int']['input'];
+};
+
+export type QueryGetUserBoardsArgs = {
+  owner: Scalars['Int']['input'];
 };
 
 export type QueryUserLoginArgs = {
@@ -115,6 +116,7 @@ export type User = {
   __typename?: 'User';
   firstName: Scalars['String']['output'];
   id: Scalars['Int']['output'];
+  password?: Maybe<Scalars['String']['output']>;
   token?: Maybe<Scalars['String']['output']>;
   username: Scalars['String']['output'];
 };
@@ -251,7 +253,7 @@ export type ResolversParentTypes = {
 };
 
 export type BoardResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends
     ResolversParentTypes['Board'] = ResolversParentTypes['Board']
 > = {
@@ -262,7 +264,7 @@ export type BoardResolvers<
 };
 
 export type MutationResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends
     ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = {
@@ -287,7 +289,7 @@ export type MutationResolvers<
 };
 
 export type QueryResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends
     ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = {
@@ -296,12 +298,6 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryGetBoardArgs, 'id' | 'owner'>
-  >;
-  getBoards?: Resolver<
-    Maybe<Array<Maybe<ResolversTypes['Board']>>>,
-    ParentType,
-    ContextType,
-    RequireFields<QueryGetBoardsArgs, 'owner'>
   >;
   getTodosByBoard?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Todo']>>>,
@@ -315,6 +311,12 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGetUserArgs, 'id'>
   >;
+  getUserBoards?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['Board']>>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetUserBoardsArgs, 'owner'>
+  >;
   userLogin?: Resolver<
     Maybe<ResolversTypes['User']>,
     ParentType,
@@ -324,7 +326,7 @@ export type QueryResolvers<
 };
 
 export type SubscriptionResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends
     ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
 > = {
@@ -338,7 +340,7 @@ export type SubscriptionResolvers<
 };
 
 export type TodoResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']
 > = {
   board?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
@@ -354,17 +356,18 @@ export type TodoResolvers<
 };
 
 export type UserResolvers<
-  ContextType = any,
+  ContextType = ApolloContext,
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
 > = {
   firstName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  password?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   username?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
-export type Resolvers<ContextType = any> = {
+export type Resolvers<ContextType = ApolloContext> = {
   Board?: BoardResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

@@ -28,7 +28,7 @@ const wsServer = new WebSocketServer({
 
 const serverCleanup = useServer({ schema }, wsServer);
 
-const server = new ApolloServer({
+const server = new ApolloServer<ApolloContext>({
   schema,
   plugins: [
     // Proper shutdown for the HTTP server.
@@ -49,7 +49,16 @@ const server = new ApolloServer({
 async function initServer() {
   await server.start();
 
-  app.use('/graphql', cors(), express.json(), expressMiddleware(server));
+  app.use(
+    '/graphql',
+    cors(),
+    express.json(),
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        return { token: req.headers.authorization };
+      }
+    })
+  );
   app.use('/checkConnections', (_, res) => {
     res.json({ serverTime: new Date().toISOString() });
   });

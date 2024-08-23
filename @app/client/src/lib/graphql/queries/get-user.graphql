@@ -4,7 +4,7 @@ query GetUserData($id: Int!) {
     username
     firstName
   }
-  getBoards(owner: $id) {
+  getUserBoards(owner: $id) {
     id
     title
   }

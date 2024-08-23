@@ -1,0 +1,3 @@
+type ApolloContext = {
+  token?: string;
+};
