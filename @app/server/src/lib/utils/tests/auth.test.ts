@@ -30,7 +30,16 @@ describe('auth', () => {
       const verified = jwt.verify(token, process.env.JWT_SECRET!);
       expect(verified).toBeTruthy(); // Ensure the token is valid
 
-      // Optionally, you can check specific claims in the payload
+      expect((verified as jwt.JwtPayload).username).toBe(user.username);
+      expect((verified as jwt.JwtPayload).id).toBe(user.id);
+    });
+  });
+
+  describe('decodeToken', () => {
+    it('should verify a token', () => {
+      const token = generateToken(user);
+      const verified = jwt.verify(token, process.env.JWT_SECRET!);
+      expect(verified).toBeTruthy();
       expect((verified as jwt.JwtPayload).username).toBe(user.username);
       expect((verified as jwt.JwtPayload).id).toBe(user.id);
     });

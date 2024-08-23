@@ -80,10 +80,6 @@ export type QueryGetTodosByBoardArgs = {
   board: Scalars['Int']['input'];
 };
 
-export type QueryGetUserArgs = {
-  id: Scalars['Int']['input'];
-};
-
 export type QueryGetUserBoardsArgs = {
   owner: Scalars['Int']['input'];
 };
@@ -304,12 +300,7 @@ export type QueryResolvers<
     ContextType,
     RequireFields<QueryGetTodosByBoardArgs, 'board'>
   >;
-  getUser?: Resolver<
-    ResolversTypes['User'],
-    ParentType,
-    ContextType,
-    RequireFields<QueryGetUserArgs, 'id'>
-  >;
+  getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getUserBoards?: Resolver<
     Maybe<Array<Maybe<ResolversTypes['Board']>>>,
     ParentType,

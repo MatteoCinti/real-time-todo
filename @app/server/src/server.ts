@@ -43,7 +43,8 @@ const server = new ApolloServer<ApolloContext>({
         };
       }
     }
-  ]
+  ],
+  cache: undefined
 });
 
 async function initServer() {

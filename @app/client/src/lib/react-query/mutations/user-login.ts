@@ -16,6 +16,8 @@ function useLogin() {
     mutationFn: async (variables: UserLoginQueryVariables) =>
       gqlRequestClient.request(UserLoginDocument, variables),
     onSuccess: (data) => {
+      // eslint-disable-next-line no-console
+      console.log('🚀 ~ useLogin ~ data:', data);
       if (data.userLogin) {
         signIn(data);
         navigate({ to: '/' });

@@ -18,8 +18,11 @@ async function userLogin(
 
   if (!passwordValid) throw new Error('Invalid password');
 
-  const token = generateToken(parsedUser);
-  return { ...parsedUser, token };
+  // eslint-disable-next-line no-useless-computed-key
+  const { ['password']: __, ...returnUser } = parsedUser;
+
+  const token = generateToken(returnUser);
+  return { ...returnUser, token };
 }
 
 export default userLogin;
