@@ -15,19 +15,22 @@ import {
 import { boardFormDefaultValues, boardFormFields } from './config';
 import Field from './form-field';
 import { CirclePlus, MessageSquareDiff } from 'lucide-react';
+import { useCreateBoard } from '~/lib/react-query/mutations';
 
 type Props = {
   className?: string;
 };
 
 function BoardForm({ className }: Props) {
+  const { mutate } = useCreateBoard();
   //   const { mutate, isPending } = useLogin();
 
   const form = useForm({
     defaultValues: boardFormDefaultValues,
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
-      console.log(value);
+      console.log('🚀 ~ onSubmit: ~ value:', value);
+      mutate(value);
     }
   });
 

@@ -1,0 +1,5 @@
+mutation CreateBoard($title: String!) {
+  createBoard(title: $title) {
+    title
+  }
+}

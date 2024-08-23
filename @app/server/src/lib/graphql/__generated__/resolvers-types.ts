@@ -46,7 +46,6 @@ export type Mutation = {
 };
 
 export type MutationCreateBoardArgs = {
-  owner: Scalars['Int']['input'];
   title: Scalars['String']['input'];
 };
 
@@ -263,7 +262,7 @@ export type MutationResolvers<
     ResolversTypes['Board'],
     ParentType,
     ContextType,
-    RequireFields<MutationCreateBoardArgs, 'owner' | 'title'>
+    RequireFields<MutationCreateBoardArgs, 'title'>
   >;
   createTodo?: Resolver<
     ResolversTypes['Todo'],

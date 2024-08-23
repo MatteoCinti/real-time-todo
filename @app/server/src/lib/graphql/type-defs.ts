@@ -34,7 +34,7 @@ export default gql`
   type Mutation {
     createTodo(title: String!, description: String!, board: Int!): Todo!
     createUser(username: String!, firstName: String!, password: String!): User!
-    createBoard(owner: Int!, title: String!): Board!
+    createBoard(title: String!): Board!
   }
 
   type Subscription {

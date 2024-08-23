@@ -44,7 +44,6 @@ export type Mutation = {
 };
 
 export type MutationCreateBoardArgs = {
-  owner: Scalars['Int']['input'];
   title: Scalars['String']['input'];
 };
 
@@ -110,6 +109,15 @@ export type User = {
   username: Scalars['String']['output'];
 };
 
+export type CreateBoardMutationVariables = Exact<{
+  title: Scalars['String']['input'];
+}>;
+
+export type CreateBoardMutation = {
+  __typename?: 'Mutation';
+  createBoard: { __typename?: 'Board'; title: string };
+};
+
 export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetUserDataQuery = {
@@ -157,6 +165,54 @@ export type UserLoginQuery = {
   } | null;
 };
 
+export const CreateBoardDocument = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'OperationDefinition',
+      operation: 'mutation',
+      name: { kind: 'Name', value: 'CreateBoard' },
+      variableDefinitions: [
+        {
+          kind: 'VariableDefinition',
+          variable: {
+            kind: 'Variable',
+            name: { kind: 'Name', value: 'title' }
+          },
+          type: {
+            kind: 'NonNullType',
+            type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          {
+            kind: 'Field',
+            name: { kind: 'Name', value: 'createBoard' },
+            arguments: [
+              {
+                kind: 'Argument',
+                name: { kind: 'Name', value: 'title' },
+                value: {
+                  kind: 'Variable',
+                  name: { kind: 'Name', value: 'title' }
+                }
+              }
+            ],
+            selectionSet: {
+              kind: 'SelectionSet',
+              selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'title' } }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown as DocumentNode<CreateBoardMutation, CreateBoardMutationVariables>;
 export const GetUserDataDocument = {
   kind: 'Document',
   definitions: [
