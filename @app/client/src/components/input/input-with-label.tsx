@@ -1,6 +1,10 @@
 import { cn } from '~/lib/utils/ui';
 import { Input, Label } from '~/components/ui';
 
+type Props = React.InputHTMLAttributes<HTMLInputElement> & {
+  border?: boolean;
+};
+
 function InputWithLabel({
   // eslint-disable-next-line @typescript-eslint/no-shadow
   name,
@@ -10,8 +14,13 @@ function InputWithLabel({
   value,
   placeholder,
   onChange,
-  onBlur
-}: React.InputHTMLAttributes<HTMLInputElement>) {
+  onBlur,
+  border = true
+}: Props) {
+  const borderCn = border
+    ? 'border border-muted'
+    : 'border-0 focus-visible:ring-0 rounded-none pl-0';
+
   return (
     <div
       className={cn(
@@ -23,6 +32,10 @@ function InputWithLabel({
         {title}
       </Label>
       <Input
+        className={cn(
+          'text-primary border placeholder:text-slate-700 focus-within:placeholder:text-slate-500',
+          borderCn
+        )}
         id={name}
         name={name}
         type={type}
