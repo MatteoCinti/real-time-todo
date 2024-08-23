@@ -115,7 +115,7 @@ export type CreateBoardMutationVariables = Exact<{
 
 export type CreateBoardMutation = {
   __typename?: 'Mutation';
-  createBoard: { __typename?: 'Board'; title: string };
+  createBoard: { __typename?: 'Board'; id: number; title: string };
 };
 
 export type GetUserDataQueryVariables = Exact<{ [key: string]: never }>;
@@ -204,6 +204,7 @@ export const CreateBoardDocument = {
             selectionSet: {
               kind: 'SelectionSet',
               selections: [
+                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                 { kind: 'Field', name: { kind: 'Name', value: 'title' } }
               ]
             }

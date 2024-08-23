@@ -1,38 +1,31 @@
-/* eslint-disable */
+import { useEffect } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
+import { CirclePlus } from 'lucide-react';
 
-import { useLogin } from '~/lib/react-query';
+import { useCreateBoard } from '~/lib/react-query/mutations';
+import { Button, LoadingSpinner } from '~/components/ui';
 import { cn } from '~/lib/utils/ui';
-import {
-  Button,
-  Card,
-  CardContent,
-  CardHeader,
-  LoadingSpinner
-} from '~/components/ui';
 
 import { boardFormDefaultValues, boardFormFields } from './config';
 import Field from './form-field';
-import { CirclePlus, MessageSquareDiff } from 'lucide-react';
-import { useCreateBoard } from '~/lib/react-query/mutations';
 
-type Props = {
-  className?: string;
-};
-
-function BoardForm({ className }: Props) {
-  const { mutate } = useCreateBoard();
-  //   const { mutate, isPending } = useLogin();
+function BoardForm() {
+  const { mutate, isPending, isSuccess } = useCreateBoard();
 
   const form = useForm({
     defaultValues: boardFormDefaultValues,
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
-      console.log('🚀 ~ onSubmit: ~ value:', value);
       mutate(value);
     }
   });
+
+  useEffect(() => {
+    if (isSuccess) {
+      form.reset();
+    }
+  }, [isSuccess, form]);
 
   return (
     <form
@@ -68,7 +61,11 @@ function BoardForm({ className }: Props) {
               )}
               disabled={!canSubmit || isSubmitting}
             >
-              <CirclePlus size="18" />
+              {isSubmitting || isPending ? (
+                <LoadingSpinner className="bg-none" />
+              ) : (
+                <CirclePlus size="18" />
+              )}
             </Button>
           )}
         </form.Subscribe>

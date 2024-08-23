@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useCookies } from 'react-cookie';
 
 import { gqlRequestClient } from '~/lib/graphql';
@@ -8,10 +8,12 @@ import {
   CreateBoardDocument,
   CreateBoardMutationVariables
 } from '~/lib/graphql/__generated__/graphql';
+import { userQueryKeys } from '../queries';
 
 function useCreateBoard() {
   const [cookies] = useCookies([AUTH_COOKIE]);
   const { token } = cookies[AUTH_COOKIE] ?? '';
+  const queryClient = useQueryClient();
 
   return useMutation({
     mutationKey: ['create-board', CreateBoardDocument],
@@ -20,7 +22,10 @@ function useCreateBoard() {
         Authorization: `Bearer ${token}`
       }).request(CreateBoardDocument, variables),
     onSuccess: async (data) => {
-      console.log('Board created', data);
+      await queryClient.setQueryData(userQueryKeys(token), (oldData: any) => ({
+        user: oldData.user,
+        boards: [...oldData.boards, { ...data.createBoard }]
+      }));
     }
   });
 }

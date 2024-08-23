@@ -13,7 +13,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-  'mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    title\n  }\n}':
+  'mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}':
     types.CreateBoardDocument,
   'query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}':
     types.GetUserDataDocument,
@@ -41,8 +41,8 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(
-  source: 'mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    title\n  }\n}'
-): (typeof documents)['mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    title\n  }\n}'];
+  source: 'mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}'
+): (typeof documents)['mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}'];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

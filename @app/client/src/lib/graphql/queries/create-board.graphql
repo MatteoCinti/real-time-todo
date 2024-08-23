@@ -1,5 +1,6 @@
 mutation CreateBoard($title: String!) {
   createBoard(title: $title) {
+    id
     title
   }
 }
