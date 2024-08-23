@@ -8,6 +8,7 @@ import { todoFormDefaultValues, todoFormFields } from './config';
 
 function TodoForm() {
   const { data } = useUser({ id: 1 });
+  // eslint-disable-next-line no-console
   console.log('🚀 ~ TodoForm ~ data:', data);
 
   const form = useForm({

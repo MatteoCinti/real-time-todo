@@ -52,10 +52,10 @@ function AlreadyLoggedInPage({
 
 function Login() {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
+  const { auth, logout } = useAuth();
 
-  if (isAuthenticated) {
-    const { firstName } = isAuthenticated;
+  if (auth) {
+    const { firstName } = auth;
     return (
       <Wrapper>
         <AlreadyLoggedInPage

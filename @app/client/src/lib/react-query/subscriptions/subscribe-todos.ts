@@ -15,8 +15,8 @@ type SubscriptionProps = {
 };
 
 function addTodoToCache(
-  queryClient: QueryClient,
-  data: ListenTodosSubscription
+  _queryClient: QueryClient,
+  _data: ListenTodosSubscription
 ) {
   //   queryClient.setQueryData(['todos', GetTodosDocument], (oldData: any) => {
   //     const createdTodo = data?.todoCreated ?? null;

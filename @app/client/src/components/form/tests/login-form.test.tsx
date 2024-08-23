@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, it, vi } from 'vitest';
+import { beforeEach, describe, it } from 'vitest';
 
 import { TestProviders } from '~/test';
 import LoginForm from '../login-form';
