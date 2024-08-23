@@ -4,7 +4,7 @@ dotenv.config();
 import { ApolloServer } from '@apollo/server';
 import { addMocksToSchema } from '@graphql-tools/mock';
 import { makeExecutableSchema } from '@graphql-tools/schema';
-import { typeDefs, resolvers, mocks } from '..';
+import { typeDefs, resolvers, mocks } from '../../lib/graphql';
 /* eslint-enable */
 
 const schema = makeExecutableSchema({ typeDefs, resolvers });

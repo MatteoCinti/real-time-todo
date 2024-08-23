@@ -1,5 +1,5 @@
-import mocks from '../../../../utils/mocks';
-import testServer from '../../../tests/apollo-test-server';
+import mocks from '../../../../../config/test/mocks';
+import testServer from '../../../../../config/test/apollo-test-server';
 
 describe('getBoard', () => {
   it('should return a board', async () => {

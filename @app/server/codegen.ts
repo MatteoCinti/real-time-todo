@@ -7,7 +7,7 @@ const config: CodegenConfig = {
     'src/lib/graphql/__generated__/resolvers-types.ts': {
       plugins: ['typescript', 'typescript-resolvers'],
       config: {
-        contextType: '../../../types#ApolloContext'
+        contextType: 'ApolloContext'
       }
     },
     'src/lib/graphql/__generated__/graphql.schema.json': {
