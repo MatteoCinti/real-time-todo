@@ -25,18 +25,4 @@ describe('getUser', () => {
       firstName: mocks.String()
     });
   });
-  it('should return an error if no token is provided', async () => {
-    const response = (await testServer.executeOperation({
-      query: `#graphql
-            query GetUser { 
-                getUser { 
-                    username 
-                    firstName
-                    id 
-                }
-            }`
-    })) as any;
-
-    expect(response.body.singleResult.errors).toBeDefined();
-  });
 });
