@@ -1,12 +1,14 @@
 import { useParams } from '@tanstack/react-router';
 import { useBoardData } from '~/lib/react-query';
+import { useSubscribeToDos } from '~/lib/react-query/subscriptions';
 import { CardHeader, CardTitle } from '../ui';
 
 function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const {
     data: { board, todos }
-  } = useBoardData({ boardId: Number(boardId) });
+  } = useBoardData({ board: Number(boardId) });
+  useSubscribeToDos({ board: Number(boardId) });
 
   return (
     <>

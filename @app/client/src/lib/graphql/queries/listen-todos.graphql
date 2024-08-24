@@ -1,7 +1,8 @@
-subscription ListenTodos($board: String!) {
+subscription ListenTodos($board: Int!) {
   todoCreated(board: $board) {
+    id
     title
     description
-    board
+    isDone
   }
 }

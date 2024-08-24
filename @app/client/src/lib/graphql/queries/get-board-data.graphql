@@ -1,9 +1,9 @@
-query GetBoardData($boardId: Int!) {
-  getBoard(id: $boardId) {
+query GetBoardData($board: Int!) {
+  getBoard(id: $board) {
     id
     title
   }
-  getTodosByBoard(board: $boardId) {
+  getTodosByBoard(board: $board) {
     id
     title
     description

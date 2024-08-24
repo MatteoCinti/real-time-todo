@@ -1,5 +1,16 @@
-import { GetUserDataDocument } from '~/lib/graphql/__generated__/graphql';
+import {
+  GetBoardDataDocument,
+  GetBoardDataQueryVariables,
+  GetUserDataDocument
+} from '~/lib/graphql/__generated__/graphql';
 
 export const userQueryKeys = (token: string) => {
   return ['user', GetUserDataDocument, token];
+};
+
+export const boardDataQueryKeys = (
+  token: string,
+  variables: GetBoardDataQueryVariables
+) => {
+  return ['board-data', GetBoardDataDocument, token, variables];
 };

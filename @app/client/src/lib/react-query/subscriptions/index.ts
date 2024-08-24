@@ -1,1 +1,1 @@
-export { default as SubscribeToDos } from './subscribe-todos';
+export { default as useSubscribeToDos } from './subscribe-todos';

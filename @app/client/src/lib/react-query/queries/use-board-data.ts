@@ -8,12 +8,13 @@ import {
 } from '~/lib/graphql/__generated__/graphql';
 
 import { UseBoardData } from '../types';
+import { boardDataQueryKeys } from './query-keys';
 
 function useBoardData(variables: GetBoardDataQueryVariables) {
   const token = useGetUserToken();
 
   return useSuspenseQuery({
-    queryKey: ['board-data', token, variables],
+    queryKey: boardDataQueryKeys(token, variables),
     queryFn: async () => {
       const response = await gqlRequestClient({
         Authorization: `Bearer ${token}`

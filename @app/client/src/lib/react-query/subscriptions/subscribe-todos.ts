@@ -1,45 +1,51 @@
-/* eslint-disable */
 import { useEffect } from 'react';
 import { useSubscription } from '@apollo/client';
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { apolloClient } from '~/lib/graphql';
 
 import {
-  //   GetTodosQuery,
   ListenTodosDocument,
-  ListenTodosSubscription
+  ListenTodosSubscription,
+  ListenTodosSubscriptionVariables
 } from '~/lib/graphql/__generated__/graphql';
-
-type SubscriptionProps = {
-  boardId: string;
-};
+import { useGetUserToken } from '~/hooks';
+import { boardDataQueryKeys } from '../queries/query-keys';
 
 function addTodoToCache(
-  _queryClient: QueryClient,
-  _data: ListenTodosSubscription
+  queryClient: QueryClient,
+  data: ListenTodosSubscription,
+  token: string,
+  variables: ListenTodosSubscriptionVariables
 ) {
-  //   queryClient.setQueryData(['todos', GetTodosDocument], (oldData: any) => {
-  //     const createdTodo = data?.todoCreated ?? null;
-  //     if (!createdTodo) return undefined;
-  //     const oldTodos = oldData?.getTodos ?? [];
-  //     const returnData = [createdTodo, ...oldTodos];
-  //     return { getTodos: returnData };
-  //   });
+  queryClient.setQueryData(
+    boardDataQueryKeys(token, variables),
+    (oldData: any) => {
+      const createdTodo = data?.todoCreated ?? null;
+      if (!createdTodo) return undefined;
+
+      const { board } = oldData;
+      const oldTodos = oldData.todos ?? [];
+      return { board, todos: [...oldTodos, createdTodo] };
+    }
+  );
 }
 
-function SubscribeToDos({ boardId }: SubscriptionProps) {
+function useSubscribeToDos(variables: ListenTodosSubscriptionVariables) {
   const queryClient = useQueryClient();
+  const token = useGetUserToken();
 
   const { data } = useSubscription(ListenTodosDocument, {
     client: apolloClient,
-    variables: { board: boardId }
+    variables
   });
 
   useEffect(() => {
     if (data?.todoCreated) {
-      addTodoToCache(queryClient, data);
+      addTodoToCache(queryClient, data, token, variables);
     }
-  }, [data, queryClient]);
+  }, [data, queryClient, token, variables]);
+
+  return data;
 }
 
-export default SubscribeToDos;
+export default useSubscribeToDos;
