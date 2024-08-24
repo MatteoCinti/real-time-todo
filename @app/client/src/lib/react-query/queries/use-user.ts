@@ -1,13 +1,14 @@
 import { useQuery } from '@tanstack/react-query';
-import { useCookies } from 'react-cookie';
-import { AUTH_COOKIE } from '~/lib/constants';
+
+import { useGetUserToken } from '~/hooks';
 import { gqlRequestClient } from '~/lib/graphql';
 import { GetUserDataDocument } from '~/lib/graphql/__generated__/graphql';
+
 import { userQueryKeys } from './query-keys';
+import { UseUserData } from '../types';
 
 function useUser() {
-  const [cookies] = useCookies([AUTH_COOKIE]);
-  const { token } = cookies[AUTH_COOKIE] ?? '';
+  const token = useGetUserToken();
 
   return useQuery({
     queryKey: userQueryKeys(token),
@@ -18,7 +19,7 @@ function useUser() {
       return {
         user: response.getUser,
         boards: response.getUserBoards
-      };
+      } as UseUserData;
     },
     enabled: !!token,
     refetchOnWindowFocus: false,

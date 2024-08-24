@@ -1,3 +1,3 @@
 export { SubscribeToDos } from './subscriptions';
-export { useUser } from './queries';
-export { useLogin } from './mutations';
+export { useUser, userQueryKeys } from './queries';
+export { useLogin, useDeleteBoard, useCreateBoard } from './mutations';

@@ -1,11 +1,12 @@
+import { X } from 'lucide-react';
 import { ErrorComponent } from '~/components';
 import { BoardForm } from '~/components/form';
 import { Card, CardContent, CardHeader } from '~/components/ui';
-import { useUser } from '~/lib/react-query';
+import { useUser, useDeleteBoard } from '~/lib/react-query';
 
 function Home() {
   const { data, isError: userFetchError } = useUser();
-
+  const { mutate } = useDeleteBoard();
   if (userFetchError) {
     return <ErrorComponent />;
   }
@@ -19,7 +20,16 @@ function Home() {
         <CardContent>
           <ul>
             {data?.boards?.map((list) => {
-              return <li key={list!.id}>{list!.title}</li>;
+              return (
+                <li key={list!.id}>
+                  {list!.title}{' '}
+                  <X
+                    onClick={async () => {
+                      mutate({ id: list!.id });
+                    }}
+                  />
+                </li>
+              );
             })}
             <BoardForm />
           </ul>

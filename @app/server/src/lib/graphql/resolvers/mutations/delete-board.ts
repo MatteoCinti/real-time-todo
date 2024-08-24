@@ -15,7 +15,7 @@ async function deleteBoard(
   if (!board) {
     throw new Error('Board not found');
   }
-  return true;
+  return { id, deleted: true };
 }
 
 export default deleteBoard;

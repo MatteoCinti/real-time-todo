@@ -15,6 +15,11 @@ export default gql`
     title: String!
   }
 
+  type BoardDeleted {
+    id: Int!
+    deleted: Boolean!
+  }
+
   type Todo {
     id: Int!
     board: Int!
@@ -35,7 +40,7 @@ export default gql`
     createTodo(title: String!, description: String!, board: Int!): Todo!
     createUser(username: String!, firstName: String!, password: String!): User!
     createBoard(title: String!): Board!
-    deleteBoard(id: Int!): Boolean!
+    deleteBoard(id: Int!): BoardDeleted!
   }
 
   type Subscription {

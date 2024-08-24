@@ -1,3 +1,6 @@
 mutation DeleteBoard($id: Int!) {
-  deleteBoard(id: $id)
+  deleteBoard(id: $id) {
+    id
+    deleted
+  }
 }

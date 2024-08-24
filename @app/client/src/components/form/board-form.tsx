@@ -3,8 +3,8 @@ import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { CirclePlus } from 'lucide-react';
 
-import { useCreateBoard } from '~/lib/react-query/mutations';
-import { Button, LoadingSpinner } from '~/components/ui';
+import { useCreateBoard } from '~/lib/react-query';
+import { Button, LoadingSpinner } from '~/ui';
 import { cn } from '~/lib/utils/ui';
 
 import { boardFormDefaultValues, boardFormFields } from './config';

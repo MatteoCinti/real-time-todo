@@ -23,12 +23,18 @@ export type Board = {
   title: Scalars['String']['output'];
 };
 
+export type BoardDeleted = {
+  __typename?: 'BoardDeleted';
+  deleted: Scalars['Boolean']['output'];
+  id: Scalars['Int']['output'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createBoard: Board;
   createTodo: Todo;
   createUser: User;
-  deleteBoard: Scalars['Boolean']['output'];
+  deleteBoard: BoardDeleted;
 };
 
 
@@ -181,6 +187,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Board: ResolverTypeWrapper<Board>;
+  BoardDeleted: ResolverTypeWrapper<BoardDeleted>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Mutation: ResolverTypeWrapper<{}>;
@@ -194,6 +201,7 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Board: Board;
+  BoardDeleted: BoardDeleted;
   Boolean: Scalars['Boolean']['output'];
   Int: Scalars['Int']['output'];
   Mutation: {};
@@ -211,11 +219,17 @@ export type BoardResolvers<ContextType = ApolloContext, ParentType extends Resol
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type BoardDeletedResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['BoardDeleted'] = ResolversParentTypes['BoardDeleted']> = {
+  deleted?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createBoard?: Resolver<ResolversTypes['Board'], ParentType, ContextType, RequireFields<MutationCreateBoardArgs, 'title'>>;
   createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'board' | 'description' | 'title'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'firstName' | 'password' | 'username'>>;
-  deleteBoard?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteBoardArgs, 'id'>>;
+  deleteBoard?: Resolver<ResolversTypes['BoardDeleted'], ParentType, ContextType, RequireFields<MutationDeleteBoardArgs, 'id'>>;
 };
 
 export type QueryResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -250,6 +264,7 @@ export type UserResolvers<ContextType = ApolloContext, ParentType extends Resolv
 
 export type Resolvers<ContextType = ApolloContext> = {
   Board?: BoardResolvers<ContextType>;
+  BoardDeleted?: BoardDeletedResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;

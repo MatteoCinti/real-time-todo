@@ -1,9 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useCookies } from 'react-cookie';
 
+import { useGetUserToken } from '~/hooks';
 import { gqlRequestClient } from '~/lib/graphql';
-import { AUTH_COOKIE } from '~/lib/constants';
-
 import {
   CreateBoardDocument,
   CreateBoardMutationVariables
@@ -11,8 +9,7 @@ import {
 import { userQueryKeys } from '../queries';
 
 function useCreateBoard() {
-  const [cookies] = useCookies([AUTH_COOKIE]);
-  const { token } = cookies[AUTH_COOKIE] ?? '';
+  const token = useGetUserToken();
   const queryClient = useQueryClient();
 
   return useMutation({
