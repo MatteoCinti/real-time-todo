@@ -37,7 +37,7 @@ function BoardForm() {
       data-testid="login-form"
       className="flex flex-col space-y-8"
     >
-      <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 border-b p-0">
+      <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 ml-3 border-b p-0">
         {boardFormFields.map((field) => (
           <Field
             className="m-0"
@@ -56,13 +56,13 @@ function BoardForm() {
               variant="ghost"
               type="submit"
               className={cn(
-                'hover:text-accent-foreground absolute right-0 top-5 h-min w-min cursor-pointer p-0 text-slate-600',
+                'hover:text-primary bg-primary-foreground absolute right-0 top-5 h-min w-min cursor-pointer p-0 text-slate-600',
                 canSubmit && 'text-primary'
               )}
               disabled={!canSubmit || isSubmitting}
             >
               {isSubmitting || isPending ? (
-                <LoadingSpinner className="bg-none" />
+                <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
               ) : (
                 <CirclePlus size="18" />
               )}

@@ -1,4 +1,6 @@
+export { default as BoardListItem } from './board-list-item';
 export { default as PageContainer } from './page-container';
-export { LoginForm, TodoForm } from './form';
 export { default as ErrorComponent } from './error';
+export { default as BoardList } from './board-list';
+export { LoginForm, TodoForm } from './form';
 export { default as Nav } from './nav';
