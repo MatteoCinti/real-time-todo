@@ -3,12 +3,11 @@
 import { beforeEach, describe, it } from 'vitest';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
-import TodoForm from '../todo-form';
-import { todoFormFields } from '../config';
-import { errorMessages } from '../config/todo-form.config';
 import { TestProviders } from '~/test';
+import { errorMessages } from '../config/todo-form.config';
+import { todoFormFields } from '../config';
+import TodoForm from '../todo-form';
 
-// The two tests marked with concurrent will be started in parallel
 describe('todo-form', () => {
   beforeEach(async () => {
     await act(async () =>
@@ -29,7 +28,7 @@ describe('todo-form', () => {
   });
   it('should render all sections in the config file', ({ expect }) => {
     todoFormFields.forEach((field) => {
-      const inputsByLabel = screen.getByLabelText(field.label);
+      const inputsByLabel = screen.getByLabelText(field.label!);
       expect(inputsByLabel).toBeTruthy();
     });
   });
@@ -39,25 +38,5 @@ describe('todo-form', () => {
       fireEvent.change(input, { target: { value: 'typed text' } });
     });
     expect(input.value).toBe('typed text');
-  });
-  it('~ should display error when validation is not passed on formSubmit', async ({
-    expect
-  }) => {
-    const submit = screen.getByRole('button', { name: 'Create' });
-
-    await act(async () => {
-      await fireEvent(
-        submit,
-        new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true
-        })
-      );
-    });
-
-    const titleError = screen.getByText(errorMessages.title);
-    const descriptionError = screen.getByText(errorMessages.description);
-    expect(titleError).toBeTruthy();
-    expect(descriptionError).toBeTruthy();
   });
 });

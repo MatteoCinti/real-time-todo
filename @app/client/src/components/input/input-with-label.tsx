@@ -24,13 +24,15 @@ function InputWithLabel({
   return (
     <div
       className={cn(
-        'form-control mb-2 flex h-auto w-full flex-col place-items-stretch',
+        'form-control flex h-auto w-full flex-col place-items-stretch',
         className
       )}
     >
-      <Label className="text-md mb-2" htmlFor={name}>
-        {title}
-      </Label>
+      {title && (
+        <Label className="text-md mb-2" htmlFor={name}>
+          {title}
+        </Label>
+      )}
       <Input
         className={cn(
           'text-primary border placeholder:text-slate-700 focus-within:placeholder:text-slate-500',

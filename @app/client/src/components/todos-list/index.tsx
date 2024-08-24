@@ -1,12 +1,13 @@
 import { useParams } from '@tanstack/react-router';
 import { useBoardData } from '~/lib/react-query';
-// import { useSubscribeToDos } from '~/lib/react-query/subscriptions';
-import { CardHeader, CardTitle } from '../ui';
+import { useSubscribeToDos } from '~/lib/react-query/subscriptions';
+import { CardContent, CardHeader, CardTitle } from '../ui';
+import { TodoForm } from '../form';
 
 function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const { data } = useBoardData({ board: Number(boardId) });
-  //   useSubscribeToDos({ board: Number(boardId) });
+  useSubscribeToDos({ board: Number(boardId) });
 
   return (
     <>
@@ -18,10 +19,23 @@ function TodosList() {
         </CardTitle>
       </CardHeader>
 
-      {data?.todos?.map((todo) => {
-        if (!todo) return null;
-        return <div key={todo.id}>{todo.title}</div>;
-      })}
+      <ul>
+        {data?.todos?.map((todo) => {
+          if (!todo) return null;
+          return (
+            <li key={todo.id}>
+              <CardContent>
+                <div>{todo.title}</div>
+              </CardContent>
+            </li>
+          );
+        })}
+        <li className="relative m-0 mx-3 list-none p-0">
+          <CardContent>
+            <TodoForm />
+          </CardContent>
+        </li>
+      </ul>
     </>
   );
 }

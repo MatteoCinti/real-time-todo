@@ -9,7 +9,7 @@ function Home() {
       <Card className="border-muted col-span-2 my-4 ml-4">
         <BoardList />
       </Card>
-      <Card className="border-muted col-span-6 my-4 mr-4">
+      <Card className="border-muted col-span-6 my-4 mr-4 flex flex-col">
         <Outlet />
       </Card>
     </Card>

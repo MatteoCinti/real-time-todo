@@ -15,9 +15,8 @@ type TodoFormFields = z.infer<typeof formSchema>;
 export const todoFormFields: FormField<TodoFormFields>[] = [
   {
     id: 'title',
-    label: 'Title',
     type: 'text',
-    placeholder: 'Enter title',
+    placeholder: '+ Add task',
     validators: {
       onChange: formSchema.shape.title
     }

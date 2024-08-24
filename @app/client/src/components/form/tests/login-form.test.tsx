@@ -30,7 +30,7 @@ describe('todo-form', () => {
   });
   it('should render all sections in the config file', ({ expect }) => {
     loginFormFields.forEach((field) => {
-      const inputsByLabel = screen.getByLabelText(field.label);
+      const inputsByLabel = screen.getByLabelText(field.label!);
       expect(inputsByLabel).toBeTruthy();
     });
   });
