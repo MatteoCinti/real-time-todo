@@ -1,6 +1,7 @@
+/* eslint-disable */
 import { createFileRoute } from '@tanstack/react-router';
 import { HomePage } from '~/pages/home';
 
-export const Route = createFileRoute('/_auth/')({
+export const Route = createFileRoute('/_auth/board')({
   component: () => <HomePage />
 });

@@ -13,7 +13,8 @@
 import { Route as rootRoute } from './routes/__root';
 import { Route as LoginImport } from './routes/login';
 import { Route as AuthImport } from './routes/_auth';
-import { Route as AuthIndexImport } from './routes/_auth.index';
+import { Route as AuthBoardImport } from './routes/_auth.board';
+import { Route as AuthBoardBoardImport } from './routes/_auth.board.$board';
 
 // Create/Update Routes
 
@@ -27,9 +28,14 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute
 } as any);
 
-const AuthIndexRoute = AuthIndexImport.update({
-  path: '/',
+const AuthBoardRoute = AuthBoardImport.update({
+  path: '/board',
   getParentRoute: () => AuthRoute
+} as any);
+
+const AuthBoardBoardRoute = AuthBoardBoardImport.update({
+  path: '/$board',
+  getParentRoute: () => AuthBoardRoute
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -50,12 +56,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport;
       parentRoute: typeof rootRoute;
     };
-    '/_auth/': {
-      id: '/_auth/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof AuthIndexImport;
+    '/_auth/board': {
+      id: '/_auth/board';
+      path: '/board';
+      fullPath: '/board';
+      preLoaderRoute: typeof AuthBoardImport;
       parentRoute: typeof AuthImport;
+    };
+    '/_auth/board/$board': {
+      id: '/_auth/board/$board';
+      path: '/$board';
+      fullPath: '/board/$board';
+      preLoaderRoute: typeof AuthBoardBoardImport;
+      parentRoute: typeof AuthBoardImport;
     };
   }
 }
@@ -63,7 +76,9 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  AuthRoute: AuthRoute.addChildren({ AuthIndexRoute }),
+  AuthRoute: AuthRoute.addChildren({
+    AuthBoardRoute: AuthBoardRoute.addChildren({ AuthBoardBoardRoute })
+  }),
   LoginRoute
 });
 
@@ -82,15 +97,22 @@ export const routeTree = rootRoute.addChildren({
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/"
+        "/_auth/board"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
-    "/_auth/": {
-      "filePath": "_auth.index.tsx",
-      "parent": "/_auth"
+    "/_auth/board": {
+      "filePath": "_auth.board.tsx",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/board/$board"
+      ]
+    },
+    "/_auth/board/$board": {
+      "filePath": "_auth.board.$board.tsx",
+      "parent": "/_auth/board"
     }
   }
 }

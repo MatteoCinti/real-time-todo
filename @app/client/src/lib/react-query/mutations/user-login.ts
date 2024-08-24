@@ -19,7 +19,7 @@ function useLogin() {
     onSuccess: async (data) => {
       if (data.userLogin) {
         await signIn(data);
-        navigate({ to: '/' });
+        navigate({ to: '/board' });
       }
     }
   });

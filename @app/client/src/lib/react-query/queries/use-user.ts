@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 import { useGetUserToken } from '~/hooks';
 import { gqlRequestClient } from '~/lib/graphql';
@@ -10,7 +10,7 @@ import { UseUserData } from '../types';
 function useUser() {
   const token = useGetUserToken();
 
-  return useQuery({
+  return useSuspenseQuery({
     queryKey: userQueryKeys(token),
     queryFn: async () => {
       const response = await gqlRequestClient({
@@ -21,7 +21,6 @@ function useUser() {
         boards: response.getUserBoards
       } as UseUserData;
     },
-    enabled: !!token,
     refetchOnWindowFocus: false,
     staleTime: Infinity
   });

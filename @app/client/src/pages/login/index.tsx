@@ -35,7 +35,7 @@ function AlreadyLoggedInPage({
         in
       </div>
       <div className="mx-auto mt-4 flex w-min gap-3">
-        <Button size="icon" onClick={() => navigate({ to: '/' })}>
+        <Button size="icon" onClick={() => navigate({ to: '/board' })}>
           <ChevronLeftIcon />
         </Button>
         <Button

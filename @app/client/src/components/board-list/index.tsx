@@ -2,12 +2,12 @@ import { useUser } from '~/lib/react-query';
 import BoardListItem from '../board-list-item';
 import ErrorComponent from '../error';
 import { BoardForm } from '../form';
-import { Card, CardContent, CardHeader, Skeleton } from '../ui';
+import { CardContent, CardHeader, Skeleton } from '../ui';
 
 function LoadingSkeleton() {
   return (
     <div className="flex flex-col space-y-3">
-      {[...Array(8)].map((_, i) => (
+      {[...Array(16)].map((_, i) => (
         <Skeleton
           // eslint-disable-next-line react/no-array-index-key
           key={`skel-${i}`}
@@ -20,23 +20,24 @@ function LoadingSkeleton() {
 }
 
 function BoardList() {
-  const { data, isError: userFetchError, isLoading: boardsLoading } = useUser();
+  const {
+    data,
+    isError: userFetchError,
+    isLoading: boardsLoading,
+    isFetching: boardsFetching
+  } = useUser();
 
   if (userFetchError) {
-    return (
-      <Card className="border-muted m-4 h-full w-1/3">
-        <ErrorComponent />
-      </Card>
-    );
+    return <ErrorComponent />;
   }
 
   return (
-    <Card className="border-muted m-4 h-full w-1/3">
+    <>
       <CardHeader className="border-muted mb-4 border-b py-3 pl-5">
         So many lists todos ...
       </CardHeader>
       <CardContent className="pl-2">
-        {boardsLoading ? (
+        {boardsLoading || boardsFetching ? (
           <LoadingSkeleton />
         ) : (
           <ul>
@@ -48,7 +49,7 @@ function BoardList() {
           </ul>
         )}
       </CardContent>
-    </Card>
+    </>
   );
 }
 
