@@ -15,6 +15,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
 const documents = {
     "mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}": types.CreateBoardDocument,
     "mutation DeleteBoard($id: Int!) {\n  deleteBoard(id: $id) {\n    id\n    deleted\n  }\n}": types.DeleteBoardDocument,
+    "query GetBoardData($boardId: Int!) {\n  getBoard(id: $boardId) {\n    id\n    title\n  }\n  getTodosByBoard(board: $boardId) {\n    id\n    title\n    description\n    isDone\n    board\n  }\n}": types.GetBoardDataDocument,
     "query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}": types.GetUserDataDocument,
     "subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}": types.ListenTodosDocument,
     "query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}": types.UserLoginDocument,
@@ -42,6 +43,10 @@ export function gql(source: "mutation CreateBoard($title: String!) {\n  createBo
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "mutation DeleteBoard($id: Int!) {\n  deleteBoard(id: $id) {\n    id\n    deleted\n  }\n}"): (typeof documents)["mutation DeleteBoard($id: Int!) {\n  deleteBoard(id: $id) {\n    id\n    deleted\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "query GetBoardData($boardId: Int!) {\n  getBoard(id: $boardId) {\n    id\n    title\n  }\n  getTodosByBoard(board: $boardId) {\n    id\n    title\n    description\n    isDone\n    board\n  }\n}"): (typeof documents)["query GetBoardData($boardId: Int!) {\n  getBoard(id: $boardId) {\n    id\n    title\n  }\n  getTodosByBoard(board: $boardId) {\n    id\n    title\n    description\n    isDone\n    board\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

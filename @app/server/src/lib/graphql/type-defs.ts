@@ -29,9 +29,9 @@ export default gql`
   }
 
   type Query {
-    userLogin(username: String!, password: String!): User
     getUser: User!
-    getBoard(owner: Int!, id: Int!): Board!
+    getBoard(id: Int!): Board!
+    userLogin(username: String!, password: String!): User
     getUserBoards: [Board]
     getTodosByBoard(board: Int!): [Todo]
   }

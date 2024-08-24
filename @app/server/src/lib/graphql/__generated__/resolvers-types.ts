@@ -73,7 +73,6 @@ export type Query = {
 
 export type QueryGetBoardArgs = {
   id: Scalars['Int']['input'];
-  owner: Scalars['Int']['input'];
 };
 
 
@@ -233,7 +232,7 @@ export type MutationResolvers<ContextType = ApolloContext, ParentType extends Re
 };
 
 export type QueryResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getBoard?: Resolver<ResolversTypes['Board'], ParentType, ContextType, RequireFields<QueryGetBoardArgs, 'id' | 'owner'>>;
+  getBoard?: Resolver<ResolversTypes['Board'], ParentType, ContextType, RequireFields<QueryGetBoardArgs, 'id'>>;
   getTodosByBoard?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType, RequireFields<QueryGetTodosByBoardArgs, 'board'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getUserBoards?: Resolver<Maybe<Array<Maybe<ResolversTypes['Board']>>>, ParentType, ContextType>;

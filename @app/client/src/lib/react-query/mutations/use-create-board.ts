@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 
 import { useGetUserToken } from '~/hooks';
 import { gqlRequestClient } from '~/lib/graphql';
@@ -11,6 +12,7 @@ import { userQueryKeys } from '../queries';
 function useCreateBoard() {
   const token = useGetUserToken();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationKey: ['create-board', CreateBoardDocument],
@@ -23,6 +25,7 @@ function useCreateBoard() {
         user: oldData.user,
         boards: [...oldData.boards, { ...data.createBoard }]
       }));
+      navigate({ to: `/board/${data.createBoard.id}` });
     }
   });
 }

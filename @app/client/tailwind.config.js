@@ -39,7 +39,7 @@ export default {
           foreground: 'hsl(var(--muted-foreground))'
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
+          DEFAULT: 'hsl(var(--chart-5))',
           foreground: 'hsl(var(--accent-foreground))'
         },
         popover: {

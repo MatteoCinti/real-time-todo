@@ -1,4 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 import { useGetUserToken } from '~/hooks';
 import { gqlRequestClient } from '~/lib/graphql';
 
@@ -12,6 +13,7 @@ import { UseUserData } from '../types';
 function useDeleteBoard() {
   const token = useGetUserToken();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   return useMutation({
     mutationKey: ['board-delete', DeleteBoardDocument],
@@ -21,19 +23,23 @@ function useDeleteBoard() {
       }).request(DeleteBoardDocument, variables),
 
     onSuccess: async (data) => {
-      queryClient.setQueryData(userQueryKeys(token), (oldData: UseUserData) => {
-        const { boards, user } = oldData;
-        if (!boards || !user) return oldData;
+      await queryClient.setQueryData(
+        userQueryKeys(token),
+        (oldData: UseUserData) => {
+          const { boards, user } = oldData;
+          if (!boards || !user) return oldData;
 
-        const updatedBoards = boards.filter(
-          (board: any) => board.id !== data.deleteBoard.id
-        );
+          const updatedBoards = boards.filter(
+            (board: any) => board.id !== data.deleteBoard.id
+          );
 
-        return {
-          user,
-          boards: [...updatedBoards]
-        };
-      });
+          return {
+            user,
+            boards: [...updatedBoards]
+          };
+        }
+      );
+      navigate({ to: '/board' });
     }
   });
 }

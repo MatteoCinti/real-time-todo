@@ -2,7 +2,7 @@ import { useUser } from '~/lib/react-query';
 import BoardListItem from '../board-list-item';
 import ErrorComponent from '../error';
 import { BoardForm } from '../form';
-import { CardContent, CardHeader, Skeleton } from '../ui';
+import { CardContent, CardHeader, CardTitle, Skeleton } from '../ui';
 
 function LoadingSkeleton() {
   return (
@@ -34,7 +34,7 @@ function BoardList() {
   return (
     <>
       <CardHeader className="border-muted mb-4 border-b py-3 pl-5">
-        So many lists todos ...
+        <CardTitle> Yet more things to do?</CardTitle>
       </CardHeader>
       <CardContent className="pl-2">
         {boardsLoading || boardsFetching ? (

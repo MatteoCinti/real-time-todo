@@ -1,0 +1,13 @@
+query GetBoardData($boardId: Int!) {
+  getBoard(id: $boardId) {
+    id
+    title
+  }
+  getTodosByBoard(board: $boardId) {
+    id
+    title
+    description
+    isDone
+    board
+  }
+}
