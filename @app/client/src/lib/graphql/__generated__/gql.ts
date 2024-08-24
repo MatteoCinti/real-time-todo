@@ -13,14 +13,11 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-  'mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}':
-    types.CreateBoardDocument,
-  'query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}':
-    types.GetUserDataDocument,
-  'subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}':
-    types.ListenTodosDocument,
-  'query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}':
-    types.UserLoginDocument
+    "mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}": types.CreateBoardDocument,
+    "mutation DeleteBoard($id: Int!) {\n  deleteBoard(id: $id)\n}": types.DeleteBoardDocument,
+    "query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}": types.GetUserDataDocument,
+    "subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}": types.ListenTodosDocument,
+    "query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}": types.UserLoginDocument,
 };
 
 /**
@@ -40,31 +37,26 @@ export function gql(source: string): unknown;
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: 'mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}'
-): (typeof documents)['mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}'];
+export function gql(source: "mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}"): (typeof documents)["mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: 'query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}'
-): (typeof documents)['query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}'];
+export function gql(source: "mutation DeleteBoard($id: Int!) {\n  deleteBoard(id: $id)\n}"): (typeof documents)["mutation DeleteBoard($id: Int!) {\n  deleteBoard(id: $id)\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: 'subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}'
-): (typeof documents)['subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}'];
+export function gql(source: "query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}"): (typeof documents)["query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(
-  source: 'query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}'
-): (typeof documents)['query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}'];
+export function gql(source: "subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}"): (typeof documents)["subscription ListenTodos($board: String!) {\n  todoCreated(board: $board) {\n    title\n    description\n    board\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}"): (typeof documents)["query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
-  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;
