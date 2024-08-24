@@ -7,9 +7,7 @@ async function todoCreated(_: unknown, args: SubscriptionTodoCreatedArgs) {
   return {
     [Symbol.asyncIterator]: withFilter(
       () => pubsub.asyncIterator('TODO_CREATED'),
-      (payload, __, ___) => {
-        return payload.todoCreated.board === args.board;
-      }
+      (payload, __, ___) => payload.todoCreated.board === args.board
     )
   };
 }

@@ -10,7 +10,7 @@ export default gql`
   }
 
   type Board {
-    id: Int!
+    id: Int
     owner: Int!
     title: String!
   }
@@ -37,13 +37,13 @@ export default gql`
   }
 
   type Mutation {
-    createTodo(title: String!, description: String!, board: Int!): Todo!
     createUser(username: String!, firstName: String!, password: String!): User!
-    createBoard(title: String!): Board!
+    createTodo(title: String!, description: String!, board: Int!): Todo!
     deleteBoard(id: Int!): BoardDeleted!
+    createBoard(title: String!): Board!
   }
 
   type Subscription {
-    todoCreated(board: String): Todo!
+    todoCreated(board: Int): Todo!
   }
 `;

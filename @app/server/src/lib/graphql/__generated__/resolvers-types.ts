@@ -18,7 +18,7 @@ export type Scalars = {
 
 export type Board = {
   __typename?: 'Board';
-  id: Scalars['Int']['output'];
+  id?: Maybe<Scalars['Int']['output']>;
   owner: Scalars['Int']['output'];
   title: Scalars['String']['output'];
 };
@@ -93,7 +93,7 @@ export type Subscription = {
 
 
 export type SubscriptionTodoCreatedArgs = {
-  board?: InputMaybe<Scalars['String']['input']>;
+  board?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type Todo = {
@@ -212,7 +212,7 @@ export type ResolversParentTypes = {
 };
 
 export type BoardResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Board'] = ResolversParentTypes['Board']> = {
-  id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   owner?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

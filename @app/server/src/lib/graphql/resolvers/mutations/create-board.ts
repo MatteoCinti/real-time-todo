@@ -8,10 +8,10 @@ async function createBoard(
   context: ApolloContext
 ) {
   const { title } = args;
-  const { id } = verifyUser(context);
+  const { id: owner } = verifyUser(context);
 
-  const board = await Board.create({ owner: id, title });
-  return board.dataValues as Board;
+  const board = await Board.create({ owner, title });
+  return board.toJSON();
 }
 
 export default createBoard;

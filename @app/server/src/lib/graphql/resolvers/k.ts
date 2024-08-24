@@ -6,9 +6,14 @@ import {
   getUserBoards,
   getBoard,
   getTodosByBoard
-} from './queries/q';
-import { createTodo, createUser, createBoard, deleteBoard } from './mutations';
-import { todoCreated } from './subscriptions';
+} from './queries/z';
+import {
+  createTodo,
+  createUser,
+  createBoard,
+  deleteBoard
+} from './mutations/p';
+import { todoCreated } from './subscriptions/j';
 
 export const resolvers: Resolvers = {
   Query: {

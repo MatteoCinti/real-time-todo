@@ -12,7 +12,7 @@ async function createUser(_: unknown, args: MutationCreateUserArgs) {
     password: hashedPassword
   });
 
-  return user.dataValues as User;
+  return user.toJSON() as User;
 }
 
 export default createUser;

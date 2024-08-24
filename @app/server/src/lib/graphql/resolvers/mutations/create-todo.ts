@@ -4,13 +4,14 @@ import { pubsub } from '../../../pubsub';
 
 async function createTodo(_: unknown, args: MutationCreateTodoArgs) {
   const { board, title, description } = args;
-  const todo = await Todo.create({ board, title, description });
+  let todo = await Todo.create({ board, title, description });
+  todo = todo.toJSON();
 
   pubsub.publish('TODO_CREATED', {
     todoCreated: todo
   });
 
-  return todo.dataValues as Todo;
+  return todo;
 }
 
 export default createTodo;
