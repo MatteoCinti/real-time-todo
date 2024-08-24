@@ -34,7 +34,6 @@ function useSubscribeToDos(variables: ListenTodosSubscriptionVariables) {
 
   useEffect(() => {
     if (data?.todoCreated) {
-      console.log('🚀 ~ useEffect ~ data:', data);
       addTodoToCache(queryClient, data, variables);
     }
   }, [data, queryClient, variables]);
