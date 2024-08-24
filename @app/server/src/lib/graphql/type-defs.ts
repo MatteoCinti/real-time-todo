@@ -35,6 +35,7 @@ export default gql`
     createTodo(title: String!, description: String!, board: Int!): Todo!
     createUser(username: String!, firstName: String!, password: String!): User!
     createBoard(title: String!): Board!
+    deleteBoard(id: Int!): Boolean!
   }
 
   type Subscription {

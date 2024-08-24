@@ -7,7 +7,7 @@ import {
   getBoard,
   getTodosByBoard
 } from './queries/q';
-import { createTodo, createUser, createBoard } from './mutations';
+import { createTodo, createUser, createBoard, deleteBoard } from './mutations';
 import { todoCreated } from './subscriptions';
 
 export const resolvers: Resolvers = {
@@ -21,7 +21,8 @@ export const resolvers: Resolvers = {
   Mutation: {
     createTodo,
     createUser,
-    createBoard
+    createBoard,
+    deleteBoard
   },
   Subscription: {
     todoCreated: {
