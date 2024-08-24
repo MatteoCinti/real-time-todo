@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { useGetUserToken } from '~/hooks';
 import { gqlRequestClient } from '~/lib/graphql';
@@ -10,7 +10,7 @@ import { UseUserData } from '../types';
 function useUser() {
   const token = useGetUserToken();
 
-  return useSuspenseQuery({
+  return useQuery({
     queryKey: userQueryKeys(token),
     queryFn: async () => {
       const response = await gqlRequestClient({
