@@ -2,7 +2,7 @@ import { Board } from '../../../database/models';
 import { verifyUser } from '../../../utils';
 import { MutationDeleteBoardArgs } from '../../__generated__/resolvers-types';
 
-async function createBoard(
+async function deleteBoard(
   _: unknown,
   args: MutationDeleteBoardArgs,
   context: ApolloContext
@@ -12,10 +12,10 @@ async function createBoard(
 
   const board = await Board.destroy({ where: { id, owner } });
 
-  if (board) {
-    return { deleted: true, id };
+  if (!board) {
+    throw new Error('Board not found');
   }
-  throw new Error('Board not found');
+  return true;
 }
 
-export default createBoard;
+export default deleteBoard;
