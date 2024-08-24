@@ -3,11 +3,4 @@ query GetBoardData($board: Int!) {
     id
     title
   }
-  getTodosByBoard(board: $board) {
-    id
-    title
-    description
-    isDone
-    board
-  }
 }

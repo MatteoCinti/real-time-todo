@@ -1,0 +1,9 @@
+query GetTodos($board: Int!) {
+  getTodosByBoard(board: $board) {
+    id
+    title
+    description
+    isDone
+    board
+  }
+}

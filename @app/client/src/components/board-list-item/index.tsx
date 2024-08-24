@@ -40,7 +40,7 @@ function BoardListItem({ board, className }: Props) {
               )}
               size={14}
               onClick={async () => {
-                mutate({ id: board!.id });
+                mutate({ id: board!.id! });
               }}
             />
           )}

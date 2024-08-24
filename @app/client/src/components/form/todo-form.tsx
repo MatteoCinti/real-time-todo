@@ -2,20 +2,27 @@
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
-import { Button, Card, LoadingSpinner } from '~/components/ui';
+import { Button, LoadingSpinner } from '~/components/ui';
 import Field from './form-field';
 import { todoFormDefaultValues, todoFormFields } from './config';
 import { Plus } from 'lucide-react';
 import { cn } from '~/lib/utils/ui';
+import { useCreateTodo } from '~/lib/react-query';
+import { useParams } from '@tanstack/react-router';
 
 function TodoForm() {
+  const { board: boardId } = useParams({ from: '/_auth/board/$board' });
+  const { mutate, isPending } = useCreateTodo(boardId);
+
   const form = useForm({
     defaultValues: todoFormDefaultValues,
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
-      // Do something with form data
-      // eslint-disable-next-line no-console
-      console.log('submitted: ', value);
+      mutate({
+        title: value.title,
+        board: Number(boardId),
+        description: value.description
+      });
     }
   });
 
@@ -49,9 +56,9 @@ function TodoForm() {
               'hover:text-primary bg-primary-foreground z-10 h-min w-min cursor-pointer p-0 text-slate-600',
               canSubmit && 'text-primary'
             )}
-            disabled={!canSubmit || isSubmitting}
+            disabled={!canSubmit || isSubmitting || isPending}
           >
-            {isSubmitting ? (
+            {isSubmitting || isPending ? (
               <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
             ) : (
               <Plus size="18" />

@@ -6,6 +6,7 @@ async function createTodo(_: unknown, args: MutationCreateTodoArgs) {
   const { board, title, description } = args;
   let todo = await Todo.create({ board, title, description });
   todo = todo.toJSON();
+  console.log('🚀 ~ todo:', todo);
 
   pubsub.publish('TODO_CREATED', {
     todoCreated: todo

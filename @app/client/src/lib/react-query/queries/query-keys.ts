@@ -1,6 +1,8 @@
 import {
   GetBoardDataDocument,
   GetBoardDataQueryVariables,
+  GetTodosDocument,
+  GetTodosQueryVariables,
   GetUserDataDocument
 } from '~/lib/graphql/__generated__/graphql';
 
@@ -13,4 +15,8 @@ export const boardDataQueryKeys = (
   variables: GetBoardDataQueryVariables
 ) => {
   return ['board-data', GetBoardDataDocument, token, variables];
+};
+
+export const todosQueryKeys = (variables: GetTodosQueryVariables) => {
+  return ['get-todos', GetTodosDocument, variables];
 };

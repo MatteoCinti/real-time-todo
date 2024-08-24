@@ -1,5 +1,6 @@
 import {
   GetBoardDataQuery,
+  GetTodosQuery,
   GetUserDataQuery
 } from '../graphql/__generated__/graphql';
 
@@ -10,5 +11,8 @@ export type UseUserData = {
 
 export type UseBoardData = {
   board: GetBoardDataQuery['getBoard'];
-  todos: GetBoardDataQuery['getTodosByBoard'];
+};
+
+export type useTodosData = {
+  todos: GetTodosQuery['getTodosByBoard'];
 };

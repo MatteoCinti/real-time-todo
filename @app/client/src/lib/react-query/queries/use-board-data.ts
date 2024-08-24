@@ -20,8 +20,7 @@ function useBoardData(variables: GetBoardDataQueryVariables) {
         Authorization: `Bearer ${token}`
       }).request(GetBoardDataDocument, variables);
       return {
-        board: response.getBoard,
-        todos: response.getTodosByBoard
+        board: response.getBoard
       } as UseBoardData;
     },
     refetchOnWindowFocus: false,

@@ -1,0 +1,8 @@
+mutation CreateTodo($title: String!, $board: Int!, $description: String!) {
+  createTodo(title: $title, board: $board, description: $description) {
+    id
+    title
+    description
+    isDone
+  }
+}

@@ -8,31 +8,24 @@ import {
   ListenTodosSubscription,
   ListenTodosSubscriptionVariables
 } from '~/lib/graphql/__generated__/graphql';
-import { useGetUserToken } from '~/hooks';
-import { boardDataQueryKeys } from '../queries/query-keys';
+import { todosQueryKeys } from '../queries';
 
 function addTodoToCache(
   queryClient: QueryClient,
   data: ListenTodosSubscription,
-  token: string,
   variables: ListenTodosSubscriptionVariables
 ) {
-  queryClient.setQueryData(
-    boardDataQueryKeys(token, variables),
-    (oldData: any) => {
-      const createdTodo = data?.todoCreated ?? null;
-      if (!createdTodo) return undefined;
+  queryClient.setQueryData(todosQueryKeys(variables), (oldData: any) => {
+    const createdTodo = data?.todoCreated ?? null;
+    if (!createdTodo) return undefined;
 
-      const { board } = oldData;
-      const oldTodos = oldData.todos ?? [];
-      return { board, todos: [...oldTodos, createdTodo] };
-    }
-  );
+    const oldTodos = oldData.todos ?? [];
+    return { todos: [...oldTodos, createdTodo] };
+  });
 }
 
 function useSubscribeToDos(variables: ListenTodosSubscriptionVariables) {
   const queryClient = useQueryClient();
-  const token = useGetUserToken();
 
   const { data } = useSubscription(ListenTodosDocument, {
     client: apolloClient,
@@ -41,9 +34,10 @@ function useSubscribeToDos(variables: ListenTodosSubscriptionVariables) {
 
   useEffect(() => {
     if (data?.todoCreated) {
-      addTodoToCache(queryClient, data, token, variables);
+      console.log('🚀 ~ useEffect ~ data:', data);
+      addTodoToCache(queryClient, data, variables);
     }
-  }, [data, queryClient, token, variables]);
+  }, [data, queryClient, variables]);
 
   return data;
 }

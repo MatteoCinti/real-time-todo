@@ -1,37 +1,38 @@
 import { useParams } from '@tanstack/react-router';
-import { useBoardData } from '~/lib/react-query';
-import { useSubscribeToDos } from '~/lib/react-query/subscriptions';
+import { useBoardData, useGetTodos } from '~/lib/react-query';
 import { CardContent, CardHeader, CardTitle } from '../ui';
 import { TodoForm } from '../form';
 
 function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
-  const { data } = useBoardData({ board: Number(boardId) });
-  useSubscribeToDos({ board: Number(boardId) });
+  const { data: boardData } = useBoardData({ board: Number(boardId) });
+  const { data: todosData } = useGetTodos({ board: Number(boardId) });
 
   return (
     <>
       <CardHeader className="border-muted mb-4 w-full whitespace-nowrap border-b py-3 pl-5">
         <CardTitle>
           Start by completing the{' '}
-          <span className="text-accent font-black">{data?.board.title}</span>{' '}
+          <span className="text-accent font-black">
+            {boardData?.board.title}
+          </span>{' '}
           you have left!
         </CardTitle>
       </CardHeader>
 
       <ul>
-        {data?.todos?.map((todo) => {
+        {todosData?.todos?.map((todo) => {
           if (!todo) return null;
           return (
-            <li key={todo.id}>
-              <CardContent>
-                <div>{todo.title}</div>
+            <li className="mx-3" key={todo.id}>
+              <CardContent className="border-muted flex content-center border px-4 py-2">
+                {todo.title}
               </CardContent>
             </li>
           );
         })}
         <li className="relative m-0 mx-3 list-none p-0">
-          <CardContent>
+          <CardContent className="border-muted flex content-center border px-4 py-2">
             <TodoForm />
           </CardContent>
         </li>

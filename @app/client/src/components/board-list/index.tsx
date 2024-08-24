@@ -43,7 +43,7 @@ function BoardList() {
           <ul>
             {data?.boards?.map((board) => {
               if (!board) return null;
-              return <BoardListItem key={board.id} board={board} />;
+              return <BoardListItem key={board.id!} board={board} />;
             })}
             <BoardForm />
           </ul>
