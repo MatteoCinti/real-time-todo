@@ -1,4 +1,10 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor
+} from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TestProviders } from '~/test';
@@ -30,11 +36,13 @@ vi.mock('@tanstack/react-router', async (importOriginal) => {
 });
 
 describe('The nav menu', () => {
-  beforeEach(() => {
-    render(
-      <TestProviders>
-        <Nav />
-      </TestProviders>
+  beforeEach(async () => {
+    await waitFor(() =>
+      render(
+        <TestProviders>
+          <Nav />
+        </TestProviders>
+      )
     );
   });
   it('should render', () => {
