@@ -24,15 +24,15 @@ function TodosList() {
         {todosData?.todos?.map((todo) => {
           if (!todo) return null;
           return (
-            <li className="mx-3" key={todo.id}>
+            <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
               <CardContent className="border-muted flex content-center border px-4 py-2">
                 {todo.title}
               </CardContent>
             </li>
           );
         })}
-        <li className="relative m-0 mx-3 list-none p-0">
-          <CardContent className="border-muted flex content-center border px-4 py-2">
+        <li className="relative m-0 mx-3 mt-[-1px] list-none p-0">
+          <CardContent className="border-muted flex content-center rounded-b-lg border px-4 py-1">
             <TodoForm />
           </CardContent>
         </li>

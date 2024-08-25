@@ -10,10 +10,11 @@ import { cn } from '~/lib/utils/ui';
 import { useCreateTodo } from '~/lib/react-query';
 import { useParams } from '@tanstack/react-router';
 import { CREATE_TODO_FORM } from '~/lib/constants';
+import { useEffect } from 'react';
 
 function CreateTodo() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
-  const { mutate, isPending } = useCreateTodo(boardId);
+  const { mutate, isPending, isSuccess } = useCreateTodo(boardId);
 
   const form = useForm({
     defaultValues: todoFormDefaultValues,
@@ -27,6 +28,12 @@ function CreateTodo() {
     }
   });
 
+  useEffect(() => {
+    if (isSuccess) {
+      form.reset();
+    }
+  }, [isSuccess, form]);
+
   return (
     <form
       onSubmit={(e) => {
@@ -35,13 +42,14 @@ function CreateTodo() {
         form.handleSubmit();
       }}
       data-testid={CREATE_TODO_FORM}
-      className="m-0 flex w-full flex-row content-center p-0"
+      className="m-0 flex w-full flex-row p-0"
     >
       <Field
         className="flex-1 p-0 pr-3"
         key={todoFormFields[0].id}
         input={todoFormFields[0]}
         form={form}
+        label={false}
         border={false}
         displayError={false}
       />
@@ -54,7 +62,7 @@ function CreateTodo() {
             variant="ghost"
             type="submit"
             className={cn(
-              'hover:text-primary bg-primary-foreground z-10 h-min w-min cursor-pointer p-0 text-slate-600',
+              'hover:text-primary focus-visible:bg-muted z-10 my-auto h-min w-min cursor-pointer items-center p-0 text-slate-600 hover:bg-transparent',
               canSubmit && 'text-primary'
             )}
             disabled={!canSubmit || isSubmitting || isPending}

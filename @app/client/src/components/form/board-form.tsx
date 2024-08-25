@@ -36,41 +36,40 @@ function BoardForm() {
         form.handleSubmit();
       }}
       data-testid={CREATE_BOARD_FORM}
-      className="flex flex-col space-y-8"
+      className="m-0 flex w-full flex-row p-0"
     >
-      <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 ml-3 border-b p-0">
-        {boardFormFields.map((field) => (
-          <Field
-            className="m-0"
-            key={field.id}
-            input={field}
-            form={form}
-            border={false}
-            displayError={false}
-          />
-        ))}
-        <form.Subscribe
-          selector={(state) => [state.canSubmit, state.isSubmitting]}
-        >
-          {([canSubmit, isSubmitting]) => (
-            <Button
-              variant="ghost"
-              type="submit"
-              className={cn(
-                'hover:text-primary bg-primary-foreground absolute right-0 top-5 h-min w-min cursor-pointer p-0 text-slate-600',
-                canSubmit && 'text-primary'
-              )}
-              disabled={!canSubmit || isSubmitting}
-            >
-              {isSubmitting || isPending ? (
-                <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
-              ) : (
-                <CirclePlus size="18" />
-              )}
-            </Button>
-          )}
-        </form.Subscribe>
-      </li>
+      {boardFormFields.map((field) => (
+        <Field
+          className="m-0"
+          key={field.id}
+          input={field}
+          form={form}
+          border={false}
+          displayError={false}
+          label={false}
+        />
+      ))}
+      <form.Subscribe
+        selector={(state) => [state.canSubmit, state.isSubmitting]}
+      >
+        {([canSubmit, isSubmitting]) => (
+          <Button
+            variant="ghost"
+            type="submit"
+            className={cn(
+              'hover:text-primary bg-primary-foreground focus-visible:bg-muted z-10 my-auto h-min w-min cursor-pointer items-center p-0 text-slate-600 hover:bg-transparent',
+              canSubmit && 'text-primary'
+            )}
+            disabled={!canSubmit || isSubmitting}
+          >
+            {isSubmitting || isPending ? (
+              <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
+            ) : (
+              <CirclePlus size="18" />
+            )}
+          </Button>
+        )}
+      </form.Subscribe>
     </form>
   );
 }

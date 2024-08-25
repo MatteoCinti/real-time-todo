@@ -3,6 +3,7 @@ import { Input, Label } from '~/components/ui';
 
 type Props = React.InputHTMLAttributes<HTMLInputElement> & {
   border?: boolean;
+  label?: boolean;
 };
 
 function InputWithLabel({
@@ -15,6 +16,7 @@ function InputWithLabel({
   placeholder,
   onChange,
   onBlur,
+  label = true,
   border = true
 }: Props) {
   const borderCn = border
@@ -29,13 +31,16 @@ function InputWithLabel({
       )}
     >
       {title && (
-        <Label className="text-md mb-2" htmlFor={name}>
+        <Label
+          className={cn('text-md mb-2', !label && 'hidden')}
+          htmlFor={name}
+        >
           {title}
         </Label>
       )}
       <Input
         className={cn(
-          'text-primary border placeholder:text-slate-700 focus-within:placeholder:text-slate-500',
+          'text-primary border placeholder:text-gray-700 focus-within:placeholder:text-stone-500',
           borderCn
         )}
         id={name}

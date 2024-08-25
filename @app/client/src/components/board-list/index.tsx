@@ -47,7 +47,9 @@ function BoardList() {
               if (!board) return null;
               return <BoardListItem key={board.id!} board={board} />;
             })}
-            <BoardForm />
+            <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 ml-3 border-b p-0">
+              <BoardForm />
+            </li>
           </ul>
         )}
       </CardContent>
