@@ -1,10 +1,23 @@
 /* eslint-disable */
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { beforeEach, describe, it } from 'vitest';
+import { beforeEach, describe, it, vi } from 'vitest';
 
 import { TestProviders } from '~/test';
 import LoginForm from '../login-form';
 import { errorMessages, loginFormFields } from '../config/login-form.config';
+
+const mutate = vi.fn();
+vi.mock('~/lib/react-query', async (importOriginal) => {
+  const actual = await importOriginal();
+
+  return {
+    // @ts-ignore
+    ...actual,
+    useLogin: () => ({
+      mutate
+    })
+  };
+});
 
 describe('todo-form', () => {
   beforeEach(async () => {
@@ -41,10 +54,10 @@ describe('todo-form', () => {
     });
     expect(input.value).toBe('username');
   });
-  it('~ should display a password input for password', ({ expect }) => {
+  it('~ should display a password input for password', async ({ expect }) => {
     const input = screen.getByLabelText('Password') as HTMLInputElement;
-    act(() => {
-      fireEvent.change(input, { target: { value: 'password' } });
+    await act(async () => {
+      await fireEvent.change(input, { target: { value: 'password' } });
     });
     expect(input.value).toBe('password');
   });
@@ -68,5 +81,43 @@ describe('todo-form', () => {
     const passwordError = screen.getByText(errorMessages.password);
     expect(titleError).toBeTruthy();
     expect(passwordError).toBeTruthy();
+  });
+  it('~ should not submit if empty inputs', async ({ expect }) => {
+    const submit = screen.getByRole('button', { name: 'Login' });
+
+    await act(async () => {
+      await fireEvent(
+        submit,
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        })
+      );
+    });
+
+    expect(mutate).not.toBeCalled();
+  });
+  it('~ should submit if valid inputs', async ({ expect }) => {
+    const submit = screen.getByRole('button', { name: 'Login' });
+    const password = screen.getByLabelText('Password') as HTMLInputElement;
+    const username = screen.getByLabelText('Username') as HTMLInputElement;
+
+    await act(async () => {
+      await fireEvent.change(password, { target: { value: 'password' } });
+      await fireEvent.change(username, { target: { value: 'username' } });
+
+      await fireEvent(
+        submit,
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true
+        })
+      );
+    });
+
+    expect(mutate).toBeCalledWith({
+      username: 'username',
+      password: 'password'
+    });
   });
 });

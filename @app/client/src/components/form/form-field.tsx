@@ -47,7 +47,7 @@ function Field<T>({
             'text-primary border placeholder:text-slate-700 focus-within:placeholder:text-slate-500',
             borderCn
           )}
-          id={input.type}
+          id={field.name.toString()}
           name={field.name.toString()}
           type={input.type}
           value={field.state.value as string | number | string[] | undefined}

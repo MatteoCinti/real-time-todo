@@ -6,9 +6,11 @@ import {
 import { QueryProvider } from '~/lib/providers';
 
 function TestProviders({ children }: { children: React.JSX.Element }) {
-  const routeTree = createRootRoute({
+  const rootRouter = createRootRoute({
     component: () => children
   });
+
+  const routeTree: any = rootRouter;
 
   const router = createRouter({ routeTree });
   return (

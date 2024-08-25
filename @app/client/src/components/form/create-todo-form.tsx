@@ -10,7 +10,7 @@ import { cn } from '~/lib/utils/ui';
 import { useCreateTodo } from '~/lib/react-query';
 import { useParams } from '@tanstack/react-router';
 
-function TodoForm() {
+function CreateTodo() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const { mutate, isPending } = useCreateTodo(boardId);
 
@@ -33,7 +33,7 @@ function TodoForm() {
         e.stopPropagation();
         form.handleSubmit();
       }}
-      data-testid="todo-form"
+      data-testid="create-todo-form"
       className="m-0 flex w-full flex-row content-center p-0"
     >
       <Field
@@ -70,4 +70,4 @@ function TodoForm() {
   );
 }
 
-export default TodoForm;
+export default CreateTodo;
