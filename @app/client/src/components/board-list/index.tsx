@@ -19,6 +19,8 @@ function LoadingSkeleton() {
   );
 }
 
+export const componentTitle = 'Yet more things to do?';
+
 function BoardList() {
   const {
     data,
@@ -34,7 +36,7 @@ function BoardList() {
   return (
     <>
       <CardHeader className="border-muted mb-4 border-b py-3 pl-5">
-        <CardTitle> Yet more things to do?</CardTitle>
+        <CardTitle>{componentTitle}</CardTitle>
       </CardHeader>
       <CardContent className="pl-2">
         {boardsLoading || boardsFetching ? (

@@ -2,14 +2,25 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, it, vi } from 'vitest';
 
 import { LOGIN_FORM } from '~/lib/constants';
+import { fillLoginForm } from '~/test/utils';
 import { TestProviders } from '~/test';
 import LoginForm from '../login-form';
 import { errorMessages, loginFormFields } from '../config/login-form.config';
 
 const mutate = vi.fn();
-vi.mock('~/lib/react-query', async (importOriginal) => {
+
+vi.mock('@tanstack/react-router', async (importOriginal) => {
   const actual = await importOriginal();
 
+  return {
+    // @ts-ignore
+    ...actual,
+    useNavigate: () => vi.fn()
+  };
+});
+
+vi.mock('~/lib/react-query', async (importOriginal) => {
+  const actual = await importOriginal();
   return {
     // @ts-ignore
     ...actual,
@@ -98,22 +109,7 @@ describe('todo-form', () => {
     expect(mutate).not.toBeCalled();
   });
   it('~ should submit if valid inputs', async ({ expect }) => {
-    const submit = screen.getByRole('button', { name: 'Login' });
-    const password = screen.getByLabelText('Password') as HTMLInputElement;
-    const username = screen.getByLabelText('Username') as HTMLInputElement;
-
-    await act(async () => {
-      await fireEvent.change(password, { target: { value: 'password' } });
-      await fireEvent.change(username, { target: { value: 'username' } });
-
-      await fireEvent(
-        submit,
-        new MouseEvent('click', {
-          bubbles: true,
-          cancelable: true
-        })
-      );
-    });
+    await fillLoginForm();
 
     expect(mutate).toBeCalledWith({
       username: 'username',
