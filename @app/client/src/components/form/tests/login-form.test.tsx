@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, it, vi } from 'vitest';
 

@@ -6,16 +6,17 @@ const formSchema = z.object({
 
 type BoardFormFields = z.infer<typeof formSchema>;
 
-export const boardFormFields: FormField<BoardFormFields>[] = [
-  {
-    id: 'title',
-    type: 'text',
-    placeholder: 'board name',
-    validators: {
-      onChange: formSchema.shape.title
-    }
+export const boardTitleField = {
+  id: 'title',
+  type: 'text',
+  placeholder: 'board name',
+  label: 'Board Name',
+  validators: {
+    onChange: formSchema.shape.title
   }
-];
+};
+
+export const boardFormFields: FormField<BoardFormFields>[] = [boardTitleField];
 
 export const boardFormDefaultValues: BoardFormFields = {
   title: ''

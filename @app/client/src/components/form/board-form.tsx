@@ -34,7 +34,7 @@ function BoardForm() {
         e.stopPropagation();
         form.handleSubmit();
       }}
-      data-testid="login-form"
+      data-testid="board-form"
       className="flex flex-col space-y-8"
     >
       <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 ml-3 border-b p-0">
