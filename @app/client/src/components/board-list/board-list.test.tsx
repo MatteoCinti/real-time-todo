@@ -32,9 +32,6 @@ describe('Index Component', () => {
       );
     });
   });
-  it('renders without crashing', () => {
-    screen.debug();
-  });
   it('should render a title', async ({ expect }) => {
     const title = screen.getByText(componentTitle);
     expect(title).toBeTruthy();
