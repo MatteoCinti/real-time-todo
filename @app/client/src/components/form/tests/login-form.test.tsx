@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, it, vi } from 'vitest';
 
+import { LOGIN_FORM } from '~/lib/constants';
 import { TestProviders } from '~/test';
 import LoginForm from '../login-form';
 import { errorMessages, loginFormFields } from '../config/login-form.config';
@@ -29,7 +30,7 @@ describe('todo-form', () => {
     );
   });
   it('should render on the page', ({ expect }) => {
-    const form = screen.getByTestId('login-form');
+    const form = screen.getByTestId(LOGIN_FORM);
     expect(form).toBeTruthy();
   });
   it('should show Login / Register on the page', ({ expect }) => {

@@ -9,6 +9,7 @@ import { Plus } from 'lucide-react';
 import { cn } from '~/lib/utils/ui';
 import { useCreateTodo } from '~/lib/react-query';
 import { useParams } from '@tanstack/react-router';
+import { CREATE_TODO_FORM } from '~/lib/constants';
 
 function CreateTodo() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
@@ -33,7 +34,7 @@ function CreateTodo() {
         e.stopPropagation();
         form.handleSubmit();
       }}
-      data-testid="create-todo-form"
+      data-testid={CREATE_TODO_FORM}
       className="m-0 flex w-full flex-row content-center p-0"
     >
       <Field

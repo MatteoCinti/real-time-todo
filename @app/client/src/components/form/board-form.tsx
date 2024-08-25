@@ -3,6 +3,7 @@ import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { CirclePlus } from 'lucide-react';
 
+import { CREATE_BOARD_FORM } from '~/lib/constants';
 import { useCreateBoard } from '~/lib/react-query';
 import { Button, LoadingSpinner } from '~/ui';
 import { cn } from '~/lib/utils/ui';
@@ -34,7 +35,7 @@ function BoardForm() {
         e.stopPropagation();
         form.handleSubmit();
       }}
-      data-testid="board-form"
+      data-testid={CREATE_BOARD_FORM}
       className="flex flex-col space-y-8"
     >
       <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 ml-3 border-b p-0">

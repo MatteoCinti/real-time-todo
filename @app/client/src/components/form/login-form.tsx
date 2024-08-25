@@ -1,6 +1,7 @@
 import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
+import { LOGIN_FORM } from '~/lib/constants';
 import { useLogin } from '~/lib/react-query';
 import { cn } from '~/lib/utils/ui';
 import {
@@ -37,7 +38,7 @@ function LoginForm({ className }: Props) {
             e.stopPropagation();
             form.handleSubmit();
           }}
-          data-testid="login-form"
+          data-testid={LOGIN_FORM}
           className="flex flex-col space-y-8"
         >
           <div>

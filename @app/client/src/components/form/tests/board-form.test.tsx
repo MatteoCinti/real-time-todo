@@ -1,10 +1,11 @@
-/* eslint-disable */
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, it, vi } from 'vitest';
 
+import { CREATE_BOARD_FORM } from '~/lib/constants';
 import { TestProviders } from '~/test';
-import BoardForm from '../board-form';
+
 import { boardFormFields, boardTitleField } from '../config';
+import BoardForm from '../board-form';
 
 const mutate = vi.fn();
 vi.mock('~/lib/react-query', async (importOriginal) => {
@@ -30,7 +31,7 @@ describe('board-form', () => {
     );
   });
   it('should render on the page', ({ expect }) => {
-    const form = screen.getByTestId('board-form');
+    const form = screen.getByTestId(CREATE_BOARD_FORM);
     expect(form).toBeTruthy();
   });
   it('should render a submit button', ({ expect }) => {

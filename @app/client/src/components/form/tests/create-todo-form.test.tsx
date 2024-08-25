@@ -1,6 +1,7 @@
 import { beforeEach, describe, it, vi } from 'vitest';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 
+import { CREATE_TODO_FORM } from '~/lib/constants';
 import { TestProviders } from '~/test';
 import { titleField } from '../config';
 import TodoForm from '../create-todo-form';
@@ -41,7 +42,7 @@ describe('todo-form', () => {
     );
   });
   it('should render on the page', ({ expect }) => {
-    const form = screen.getByTestId('create-todo-form');
+    const form = screen.getByTestId(CREATE_TODO_FORM);
     expect(form).toBeTruthy();
   });
   it('should render a submit button', ({ expect }) => {
