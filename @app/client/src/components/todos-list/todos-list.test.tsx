@@ -1,7 +1,8 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { it, vi } from 'vitest';
 
-import { TestProviders, todos } from '~/test';
+import { TestProviders, todos, useGetTodos, useBoardData } from '~/test';
+
 import TodosList from '.';
 
 vi.mock('@tanstack/react-router', async (importOriginal) => {
@@ -22,14 +23,8 @@ vi.mock('~/lib/react-query', async (importOriginal) => {
   return {
     // @ts-ignore
     ...actual,
-    useGetTodos: () => ({
-      data: {
-        todos
-      },
-      isLoading: false,
-      isError: false,
-      isFetching: false
-    })
+    useBoardData: () => useBoardData(),
+    useGetTodos: () => useGetTodos()
   };
 });
 

@@ -1,2 +1,2 @@
-export { todos } from './todos-data';
-export { boards } from './boards-data';
+export { todos, useGetTodos } from './todos-data';
+export { boards, useBoardData } from './boards-data';
