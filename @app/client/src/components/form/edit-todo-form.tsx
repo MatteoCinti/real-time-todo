@@ -1,18 +1,16 @@
-/* eslint-disable */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { useParams } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
-import { Plus } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 
 import { cn } from '~/lib/utils/ui';
-import { useCreateTodo, useGetTodos } from '~/lib/react-query';
+import { useGetTodos, useUpdateTodo } from '~/lib/react-query';
 import { CREATE_TODO_FORM } from '~/lib/constants';
 import { Button, LoadingSpinner } from '~/components/ui';
 
 import { todoIsDoneField, todoTitleField } from './config';
 import Field from './components/form-field';
-import { set } from 'zod';
 
 type Props = {
   todoId: number;
@@ -20,12 +18,11 @@ type Props = {
 
 function EditTodo({ todoId }: Props) {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
-  const { mutate, isPending, isSuccess } = useCreateTodo(boardId);
   const { data } = useGetTodos({ board: Number(boardId) });
-
-  const [isDisabled, setIsDisabled] = useState(true);
-
   const todo = data!.todos!.find((t) => t!.id === todoId);
+
+  const { mutate } = useUpdateTodo(todo!.id);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const form = useForm({
     defaultValues: todo,
@@ -36,13 +33,17 @@ function EditTodo({ todoId }: Props) {
     }
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      form.reset();
-    }
-  }, [isSuccess, form]);
+  //   useEffect(() => {
+  //     if (isSuccess) {
+  //       form.reset();
+  //     }
+  //   }, [isSuccess, form]);
 
-  function handleClick(e: React.MouseEvent<HTMLInputElement>) {
+  if (!todo) return null;
+
+  function handleTextAreaClick(
+    e: React.MouseEvent<HTMLInputElement, MouseEvent>
+  ) {
     if (e.detail === 2) {
       setIsDisabled(false);
     }
@@ -50,6 +51,13 @@ function EditTodo({ todoId }: Props) {
 
   function handleBlur() {
     setIsDisabled(true);
+  }
+
+  function handleCheckboxClick() {
+    mutate({
+      id: todo!.id,
+      isDone: !todo?.isDone
+    });
   }
 
   return (
@@ -63,7 +71,8 @@ function EditTodo({ todoId }: Props) {
       className="m-0 flex w-full flex-row p-0"
     >
       <Field
-        className="mr-2 p-0"
+        className="my-auto mr-2 p-0"
+        onCheckboxClick={() => handleCheckboxClick()}
         key={todoIsDoneField.id}
         input={todoIsDoneField}
         form={form}
@@ -72,13 +81,14 @@ function EditTodo({ todoId }: Props) {
         displayError={false}
       />
       <Field
-        onClick={handleClick}
+        onTextAreaClick={(e) => handleTextAreaClick(e)}
         className={cn(
           'flex-1 rounded-lg border border-transparent px-2 py-1.5',
           isDisabled && 'border-transparent',
-          !isDisabled && 'focus-visible:border-muted'
+          !isDisabled && 'focus-visible:border-muted',
+          todo?.isDone && 'border-accent text-slate-400 line-through'
         )}
-        onBlur={handleBlur}
+        onBlur={() => handleBlur}
         key={todoTitleField.id}
         input={todoTitleField}
         placeholder="Edit todo"
@@ -92,23 +102,25 @@ function EditTodo({ todoId }: Props) {
       <form.Subscribe
         selector={(state) => [state.canSubmit, state.isSubmitting]}
       >
-        {([canSubmit, isSubmitting]) => (
-          <Button
-            variant="ghost"
-            type="submit"
-            className={cn(
-              'hover:text-primary focus-visible:bg-muted z-10 my-auto h-min w-min cursor-pointer items-center p-0 text-slate-600 hover:bg-transparent',
-              canSubmit && 'text-primary'
-            )}
-            disabled={!canSubmit || isSubmitting || isPending}
-          >
-            {isSubmitting || isPending ? (
-              <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
-            ) : (
-              <Plus size="18" />
-            )}
-          </Button>
-        )}
+        {([canSubmit, isSubmitting]) =>
+          !isDisabled && (
+            <Button
+              variant="ghost"
+              type="submit"
+              className={cn(
+                'hover:text-primary focus-visible:bg-muted z-10 my-auto ml-3 h-min w-min cursor-pointer items-center p-0 text-slate-600 hover:bg-transparent',
+                canSubmit && 'text-primary'
+              )}
+              disabled={!canSubmit || isSubmitting}
+            >
+              {isSubmitting ? (
+                <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
+              ) : (
+                <Pencil size="14" />
+              )}
+            </Button>
+          )
+        }
       </form.Subscribe>
     </form>
   );

@@ -7,7 +7,8 @@ function Field<T>({
   input,
   form,
   onBlur,
-  onClick,
+  onTextAreaClick,
+  onCheckboxClick,
   className,
   placeholder,
   label = true,
@@ -20,7 +21,8 @@ function Field<T>({
   label?: boolean;
   border?: boolean;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  onClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
+  onCheckboxClick?: () => void;
+  onTextAreaClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   readOnly?: boolean;
   className?: string;
   placeholder?: string;
@@ -34,7 +36,14 @@ function Field<T>({
 
   function renderInput() {
     if (input.type === 'checkbox') {
-      return <Checkbox className={cn(className)} />;
+      return (
+        <Checkbox
+          checked={field.state.value as boolean}
+          value={field.state.value as string | number | string[] | undefined}
+          onClick={onCheckboxClick}
+          className={cn(className)}
+        />
+      );
     }
     return (
       <InputWithLabel
@@ -48,7 +57,7 @@ function Field<T>({
         className={className}
         border={border}
         onBlur={onBlur}
-        onClick={onClick}
+        onClick={onTextAreaClick}
         onChange={(e) => field.handleChange(e.target.value as any)}
       />
     );

@@ -4,5 +4,6 @@ export {
   useLogin,
   useDeleteBoard,
   useCreateBoard,
-  useCreateTodo
+  useCreateTodo,
+  useUpdateTodo
 } from './mutations';

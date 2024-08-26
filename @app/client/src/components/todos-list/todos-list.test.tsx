@@ -10,6 +10,7 @@ import {
 } from '~/test';
 
 import TodosList from '.';
+import { todoTitleField } from '../form/config';
 
 describe('TodosList', () => {
   beforeAll(() => {
@@ -52,10 +53,10 @@ describe('TodosList', () => {
     expect(todosList).toHaveLength(todos.length + 1);
   });
   it('todo list item should be disabled at render', ({ expect }) => {
-    const todosList = screen.getAllByRole('textbox') as HTMLInputElement[];
-    todosList.forEach((todo) => {
-      // when disabled attribute = false
-      expect(todo.getAttribute('disabled')).toBeFalsy();
-    });
+    const titleField = screen.getByLabelText(
+      todoTitleField.label!
+    ) as HTMLInputElement;
+    // when disabled attribute = false
+    expect(titleField.readOnly).toBe(true);
   });
 });

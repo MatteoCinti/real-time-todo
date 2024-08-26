@@ -42,6 +42,12 @@ export default gql`
     createTodo(title: String!, description: String!, board: Int!): Todo!
     deleteBoard(id: Int!): BoardDeleted!
     createBoard(title: String!): Board!
+    updateTodo(
+      id: Int!
+      title: String
+      description: String
+      isDone: Boolean
+    ): Todo!
   }
 
   type Subscription {

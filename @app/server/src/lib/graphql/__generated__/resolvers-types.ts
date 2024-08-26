@@ -35,6 +35,7 @@ export type Mutation = {
   createTodo: Todo;
   createUser: User;
   deleteBoard: BoardDeleted;
+  updateTodo: Todo;
 };
 
 
@@ -59,6 +60,14 @@ export type MutationCreateUserArgs = {
 
 export type MutationDeleteBoardArgs = {
   id: Scalars['Int']['input'];
+};
+
+
+export type MutationUpdateTodoArgs = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  id: Scalars['Int']['input'];
+  isDone?: InputMaybe<Scalars['Boolean']['input']>;
+  title?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Query = {
@@ -235,6 +244,7 @@ export type MutationResolvers<ContextType = ApolloContext, ParentType extends Re
   createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'board' | 'description' | 'title'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'firstName' | 'password' | 'username'>>;
   deleteBoard?: Resolver<ResolversTypes['BoardDeleted'], ParentType, ContextType, RequireFields<MutationDeleteBoardArgs, 'id'>>;
+  updateTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationUpdateTodoArgs, 'id'>>;
 };
 
 export type QueryResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root';
 import { Route as LoginImport } from './routes/login';
 import { Route as AuthImport } from './routes/_auth';
+import { Route as AuthIndexImport } from './routes/_auth.index';
 import { Route as AuthBoardImport } from './routes/_auth.board';
 import { Route as AuthBoardBoardImport } from './routes/_auth.board.$board';
 
@@ -26,6 +27,11 @@ const LoginRoute = LoginImport.update({
 const AuthRoute = AuthImport.update({
   id: '/_auth',
   getParentRoute: () => rootRoute
+} as any);
+
+const AuthIndexRoute = AuthIndexImport.update({
+  path: '/',
+  getParentRoute: () => AuthRoute
 } as any);
 
 const AuthBoardRoute = AuthBoardImport.update({
@@ -63,6 +69,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthBoardImport;
       parentRoute: typeof AuthImport;
     };
+    '/_auth/': {
+      id: '/_auth/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof AuthIndexImport;
+      parentRoute: typeof AuthImport;
+    };
     '/_auth/board/$board': {
       id: '/_auth/board/$board';
       path: '/$board';
@@ -77,7 +90,8 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   AuthRoute: AuthRoute.addChildren({
-    AuthBoardRoute: AuthBoardRoute.addChildren({ AuthBoardBoardRoute })
+    AuthBoardRoute: AuthBoardRoute.addChildren({ AuthBoardBoardRoute }),
+    AuthIndexRoute
   }),
   LoginRoute
 });
@@ -97,7 +111,8 @@ export const routeTree = rootRoute.addChildren({
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/board"
+        "/_auth/board",
+        "/_auth/"
       ]
     },
     "/login": {
@@ -109,6 +124,10 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_auth/board/$board"
       ]
+    },
+    "/_auth/": {
+      "filePath": "_auth.index.tsx",
+      "parent": "/_auth"
     },
     "/_auth/board/$board": {
       "filePath": "_auth.board.$board.tsx",
