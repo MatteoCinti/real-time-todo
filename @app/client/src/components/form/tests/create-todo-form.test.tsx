@@ -3,7 +3,7 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 
 import { CREATE_TODO_FORM } from '~/lib/constants';
 import { TestProviders } from '~/test';
-import { titleField } from '../config';
+import { todoTitleField } from '../config';
 import TodoForm from '../create-todo-form';
 
 vi.mock('@tanstack/react-router', async (importOriginal) => {
@@ -50,12 +50,12 @@ describe('todo-form', () => {
     expect(submit).toBeTruthy();
   });
   it('should display add a todo field', ({ expect }) => {
-    const titleInput = screen.getByLabelText(titleField.label!);
+    const titleInput = screen.getByLabelText(todoTitleField.label!);
     expect(titleInput).toBeTruthy();
   });
   it('~ text area should accept a text input', ({ expect }) => {
     const titleInput = screen.getByLabelText(
-      titleField.label!
+      todoTitleField.label!
     ) as HTMLInputElement;
 
     act(() => {
@@ -75,7 +75,7 @@ describe('todo-form', () => {
   it('~ should submit if input is valid', async ({ expect }) => {
     const submit = screen.getByRole('button');
     const titleInput = screen.getByLabelText(
-      titleField.label!
+      todoTitleField.label!
     ) as HTMLInputElement;
 
     await act(async () => {

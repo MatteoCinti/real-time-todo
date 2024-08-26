@@ -64,6 +64,7 @@ export type MutationDeleteBoardArgs = {
 export type Query = {
   __typename?: 'Query';
   getBoard: Board;
+  getTodo?: Maybe<Todo>;
   getTodosByBoard?: Maybe<Array<Maybe<Todo>>>;
   getUser: User;
   getUserBoards?: Maybe<Array<Maybe<Board>>>;
@@ -72,6 +73,11 @@ export type Query = {
 
 
 export type QueryGetBoardArgs = {
+  id: Scalars['Int']['input'];
+};
+
+
+export type QueryGetTodoArgs = {
   id: Scalars['Int']['input'];
 };
 
@@ -233,6 +239,7 @@ export type MutationResolvers<ContextType = ApolloContext, ParentType extends Re
 
 export type QueryResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   getBoard?: Resolver<ResolversTypes['Board'], ParentType, ContextType, RequireFields<QueryGetBoardArgs, 'id'>>;
+  getTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<QueryGetTodoArgs, 'id'>>;
   getTodosByBoard?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType, RequireFields<QueryGetTodosByBoardArgs, 'board'>>;
   getUser?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   getUserBoards?: Resolver<Maybe<Array<Maybe<ResolversTypes['Board']>>>, ParentType, ContextType>;

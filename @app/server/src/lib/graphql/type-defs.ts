@@ -32,8 +32,9 @@ export default gql`
     getUser: User!
     getBoard(id: Int!): Board!
     userLogin(username: String!, password: String!): User
-    getUserBoards: [Board]
     getTodosByBoard(board: Int!): [Todo]
+    getTodo(id: Int!): Todo
+    getUserBoards: [Board]
   }
 
   type Mutation {

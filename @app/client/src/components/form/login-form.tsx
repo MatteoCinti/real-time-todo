@@ -13,7 +13,7 @@ import {
 } from '~/components/ui';
 
 import { loginFormDefaultValues, loginFormFields } from './config';
-import Field from './form-field';
+import Field from './components/form-field';
 
 type Props = {
   className?: string;

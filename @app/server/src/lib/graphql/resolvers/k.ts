@@ -1,10 +1,11 @@
 import { Resolvers } from '../__generated__/resolvers-types';
 
 import {
-  userLogin,
+  getTodo,
   getUser,
-  getUserBoards,
   getBoard,
+  userLogin,
+  getUserBoards,
   getTodosByBoard
 } from './queries/z';
 import {
@@ -18,6 +19,7 @@ import { todoCreated } from './subscriptions/j';
 export const resolvers: Resolvers = {
   Query: {
     getUser,
+    getTodo,
     getBoard,
     userLogin,
     getUserBoards,

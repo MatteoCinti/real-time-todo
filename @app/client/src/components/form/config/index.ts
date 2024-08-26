@@ -7,5 +7,6 @@ export {
 export {
   todoFormDefaultValues,
   todoFormFields,
-  titleField
+  todoTitleField,
+  todoIsDoneField
 } from './todo-form.config';

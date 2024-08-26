@@ -13,7 +13,7 @@ const formSchema = z.object({
 
 type TodoFormFields = z.infer<typeof formSchema>;
 
-export const titleField: FormField<TodoFormFields> = {
+export const todoTitleField: FormField<TodoFormFields> = {
   id: 'title',
   type: 'text',
   label: 'AddTask',
@@ -23,7 +23,7 @@ export const titleField: FormField<TodoFormFields> = {
   }
 };
 
-const descriptionField: FormField<TodoFormFields> = {
+export const todoDescriptionField: FormField<TodoFormFields> = {
   id: 'description',
   label: 'Description',
   type: 'text',
@@ -33,7 +33,7 @@ const descriptionField: FormField<TodoFormFields> = {
   }
 };
 
-const isDoneField: FormField<TodoFormFields> = {
+export const todoIsDoneField: FormField<TodoFormFields> = {
   id: 'isDone',
   label: 'Completed',
   type: 'checkbox',
@@ -41,9 +41,9 @@ const isDoneField: FormField<TodoFormFields> = {
 };
 
 export const todoFormFields: FormField<TodoFormFields>[] = [
-  titleField,
-  descriptionField,
-  isDoneField
+  todoTitleField,
+  todoDescriptionField,
+  todoIsDoneField
 ];
 
 export const todoFormDefaultValues: TodoFormFields = {

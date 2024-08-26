@@ -1,7 +1,7 @@
 import { useParams } from '@tanstack/react-router';
 import { useBoardData, useGetTodos } from '~/lib/react-query';
 import { CardContent, CardHeader, CardTitle } from '../ui';
-import { TodoForm } from '../form';
+import { EditTodo, TodoForm } from '../form';
 
 function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
@@ -26,7 +26,7 @@ function TodosList() {
           return (
             <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
               <CardContent className="border-muted flex content-center border px-4 py-2">
-                {todo.title}
+                <EditTodo todoId={todo.id} />
               </CardContent>
             </li>
           );

@@ -15,6 +15,8 @@ function InputWithLabel({
   value,
   placeholder,
   onChange,
+  onClick,
+  readOnly,
   onBlur,
   label = true,
   border = true
@@ -26,8 +28,7 @@ function InputWithLabel({
   return (
     <div
       className={cn(
-        'form-control flex h-auto w-full flex-col place-items-stretch',
-        className
+        'form-control flex h-auto w-full flex-col place-items-stretch'
       )}
     >
       {title && (
@@ -41,15 +42,18 @@ function InputWithLabel({
       <Input
         className={cn(
           'text-primary border placeholder:text-gray-700 focus-within:placeholder:text-stone-500',
-          borderCn
+          borderCn,
+          className
         )}
         id={name}
         name={name}
         type={type}
         value={value}
-        placeholder={placeholder}
-        onChange={onChange}
         onBlur={onBlur}
+        onClick={onClick}
+        onChange={onChange}
+        readOnly={readOnly}
+        placeholder={placeholder}
       />
     </div>
   );

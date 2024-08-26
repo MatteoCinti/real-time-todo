@@ -4,5 +4,6 @@ export * from './input';
 export * from './sheet';
 export * from './button';
 export * from './spinner';
+export * from './checkbox';
 export * from './skeleton';
 export * from './separator';

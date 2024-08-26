@@ -9,7 +9,7 @@ import { Button, LoadingSpinner } from '~/ui';
 import { cn } from '~/lib/utils/ui';
 
 import { boardFormDefaultValues, boardFormFields } from './config';
-import Field from './form-field';
+import Field from './components/form-field';
 
 function BoardForm() {
   const { mutate, isPending, isSuccess } = useCreateBoard();

@@ -1,30 +1,38 @@
-import { useEffect } from 'react';
+/* eslint-disable */
+import { useEffect, useState } from 'react';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { useParams } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { Plus } from 'lucide-react';
 
 import { cn } from '~/lib/utils/ui';
-import { useCreateTodo } from '~/lib/react-query';
+import { useCreateTodo, useGetTodos } from '~/lib/react-query';
 import { CREATE_TODO_FORM } from '~/lib/constants';
 import { Button, LoadingSpinner } from '~/components/ui';
 
-import { todoTitleField, todoFormDefaultValues } from './config';
+import { todoIsDoneField, todoTitleField } from './config';
 import Field from './components/form-field';
+import { set } from 'zod';
 
-function CreateTodo() {
+type Props = {
+  todoId: number;
+};
+
+function EditTodo({ todoId }: Props) {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const { mutate, isPending, isSuccess } = useCreateTodo(boardId);
+  const { data } = useGetTodos({ board: Number(boardId) });
+
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const todo = data!.todos!.find((t) => t!.id === todoId);
 
   const form = useForm({
-    defaultValues: todoFormDefaultValues,
+    defaultValues: todo,
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
-      mutate({
-        title: value.title,
-        board: Number(boardId),
-        description: value.description
-      });
+      // eslint-disable-next-line no-console
+      console.log('🚀 ~ value:', value);
     }
   });
 
@@ -33,6 +41,16 @@ function CreateTodo() {
       form.reset();
     }
   }, [isSuccess, form]);
+
+  function handleClick(e: React.MouseEvent<HTMLInputElement>) {
+    if (e.detail === 2) {
+      setIsDisabled(false);
+    }
+  }
+
+  function handleBlur() {
+    setIsDisabled(true);
+  }
 
   return (
     <form
@@ -45,10 +63,27 @@ function CreateTodo() {
       className="m-0 flex w-full flex-row p-0"
     >
       <Field
+        className="mr-2 p-0"
+        key={todoIsDoneField.id}
+        input={todoIsDoneField}
         form={form}
-        className="flex-1 p-0 pr-3"
+        label={false}
+        border={false}
+        displayError={false}
+      />
+      <Field
+        onClick={handleClick}
+        className={cn(
+          'flex-1 rounded-lg border border-transparent px-2 py-1.5',
+          isDisabled && 'border-transparent',
+          !isDisabled && 'focus-visible:border-muted'
+        )}
+        onBlur={handleBlur}
         key={todoTitleField.id}
         input={todoTitleField}
+        placeholder="Edit todo"
+        readOnly={isDisabled}
+        form={form}
         label={false}
         border={false}
         displayError={false}
@@ -79,4 +114,4 @@ function CreateTodo() {
   );
 }
 
-export default CreateTodo;
+export default EditTodo;
