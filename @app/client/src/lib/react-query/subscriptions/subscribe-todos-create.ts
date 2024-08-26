@@ -6,22 +6,25 @@ import { apolloClient } from '~/lib/graphql';
 import {
   ListenTodoCreatedDocument,
   ListenTodoCreatedSubscription,
-  ListenTodoCreatedSubscriptionVariables
+  ListenTodoCreatedSubscriptionVariables,
+  Todo
 } from '~/lib/graphql/__generated__/graphql';
 import { todosQueryKeys } from '../queries';
 
-function addTodoToCache(
+export function addTodoToCache(
   queryClient: QueryClient,
-  data: ListenTodoCreatedSubscription,
+  createdTodo: ListenTodoCreatedSubscription['todoCreated'],
   variables: ListenTodoCreatedSubscriptionVariables
 ) {
-  queryClient.setQueryData(todosQueryKeys(variables), (oldData: any) => {
-    const createdTodo = data?.todoCreated ?? null;
-    if (!createdTodo) return undefined;
+  queryClient.setQueryData(
+    todosQueryKeys(variables),
+    (oldData: { todos: Todo[] }) => {
+      if (!createdTodo) return undefined;
 
-    const oldTodos = oldData.todos ?? [];
-    return { todos: [...oldTodos, createdTodo] };
-  });
+      const oldTodos = oldData.todos ?? [];
+      return { todos: [...oldTodos, createdTodo] };
+    }
+  );
 }
 
 function useSuscribeTodoCreate(
@@ -36,7 +39,7 @@ function useSuscribeTodoCreate(
 
   useEffect(() => {
     if (create?.todoCreated) {
-      addTodoToCache(queryClient, create, variables);
+      addTodoToCache(queryClient, create?.todoCreated, variables);
     }
   }, [create, queryClient, variables]);
 

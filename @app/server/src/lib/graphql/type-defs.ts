@@ -47,7 +47,7 @@ export default gql`
     createTodo(title: String!, description: String!, board: Int!): Todo!
     deleteBoard(id: Int!): BoardDeleted!
     createBoard(title: String!): Board!
-    deleteTodo(id: Int!): TodoDeleted!
+    deleteTodo(id: Int!, board: Int!): TodoDeleted!
     updateTodo(
       id: Int!
       title: String
@@ -57,7 +57,8 @@ export default gql`
   }
 
   type Subscription {
-    todoCreated(board: Int): Todo!
-    todoUpdated(board: Int): Todo!
+    todoCreated(board: Int!): Todo!
+    todoUpdated(board: Int!): Todo!
+    todoDeleted(board: Int!): TodoDeleted!
   }
 `;

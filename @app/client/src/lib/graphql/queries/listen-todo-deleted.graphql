@@ -1,0 +1,6 @@
+subscription ListenTodoDeleted($board: Int!) {
+  todoDeleted(board: $board) {
+    id
+    deleted
+  }
+}

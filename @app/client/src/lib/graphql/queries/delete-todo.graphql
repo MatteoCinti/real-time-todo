@@ -1,5 +1,5 @@
-mutation DeleteTodo($id: Int!) {
-  deleteTodo(id: $id) {
+mutation DeleteTodo($id: Int!, $board: Int!) {
+  deleteTodo(id: $id, board: $board) {
     id
     deleted
   }

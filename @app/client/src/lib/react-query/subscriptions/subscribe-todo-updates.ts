@@ -6,7 +6,8 @@ import { apolloClient } from '~/lib/graphql';
 import {
   ListenTodoUpdatedDocument,
   ListenTodoUpdatedSubscriptionVariables,
-  ListenTodoUpdatedSubscription
+  ListenTodoUpdatedSubscription,
+  Todo
 } from '~/lib/graphql/__generated__/graphql';
 import { todosQueryKeys } from '../queries';
 
@@ -15,16 +16,19 @@ export function updateTodoUpdatedCache(
   updatedTodo: ListenTodoUpdatedSubscription['todoUpdated'],
   variables: ListenTodoUpdatedSubscriptionVariables
 ) {
-  queryClient.setQueryData(todosQueryKeys(variables), (oldData: any) => {
-    if (!updatedTodo) return undefined;
+  queryClient.setQueryData(
+    todosQueryKeys(variables),
+    (oldData: { todos: Todo[] }) => {
+      if (!updatedTodo) return undefined;
 
-    const oldTodos = oldData.todos ?? [];
-    const updatedTodos = oldTodos.map((todo: any) =>
-      todo.id === updatedTodo.id ? updatedTodo : todo
-    );
+      const oldTodos = oldData.todos ?? [];
+      const updatedTodos = oldTodos.map((todo: Todo) =>
+        todo.id === updatedTodo.id ? updatedTodo : todo
+      );
 
-    return { todos: updatedTodos };
-  });
+      return { todos: updatedTodos };
+    }
+  );
 }
 
 function useSubscribeTodoUpdates(

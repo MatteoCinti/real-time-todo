@@ -1,6 +1,11 @@
 import { useParams } from '@tanstack/react-router';
-import { useBoardData, useGetTodos } from '~/lib/react-query';
+import {
+  updateTodoDeletedCache,
+  useBoardData,
+  useGetTodos
+} from '~/lib/react-query';
 import { useDeleteTodo } from '~/lib/react-query/mutations';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { CardContent, CardHeader, CardTitle } from '../ui';
 import { EditTodo, TodoForm } from '../form';
@@ -11,6 +16,8 @@ function TodosList() {
   const { data: boardData } = useBoardData({ board: Number(boardId) });
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
   const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
+  const queryClient = useQueryClient();
+
   return (
     <>
       <CardHeader className="border-muted mb-4 w-full whitespace-nowrap border-b py-3 pl-5">
@@ -26,12 +33,20 @@ function TodosList() {
       <ul>
         {todosData?.todos?.map((todo) => {
           if (!todo) return null;
+
           return (
             <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
               <CardContent className="border-muted flex content-center border px-4 py-2">
                 <EditTodo todoId={todo.id} />
                 <DeleteIcon
-                  deleteMutation={() => deleteTodo({ id: todo.id })}
+                  deleteMutation={() => {
+                    updateTodoDeletedCache(
+                      queryClient,
+                      { id: todo.id, deleted: true },
+                      { board: Number(boardId) }
+                    );
+                    deleteTodo({ id: todo.id, board: Number(boardId) });
+                  }}
                   isDeleting={isDeleting}
                 />
               </CardContent>
