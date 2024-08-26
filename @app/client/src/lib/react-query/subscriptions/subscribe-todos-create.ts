@@ -4,16 +4,16 @@ import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { apolloClient } from '~/lib/graphql';
 
 import {
-  ListenTodosDocument,
-  ListenTodosSubscription,
-  ListenTodosSubscriptionVariables
+  ListenTodoCreatedDocument,
+  ListenTodoCreatedSubscription,
+  ListenTodoCreatedSubscriptionVariables
 } from '~/lib/graphql/__generated__/graphql';
 import { todosQueryKeys } from '../queries';
 
 function addTodoToCache(
   queryClient: QueryClient,
-  data: ListenTodosSubscription,
-  variables: ListenTodosSubscriptionVariables
+  data: ListenTodoCreatedSubscription,
+  variables: ListenTodoCreatedSubscriptionVariables
 ) {
   queryClient.setQueryData(todosQueryKeys(variables), (oldData: any) => {
     const createdTodo = data?.todoCreated ?? null;
@@ -24,21 +24,23 @@ function addTodoToCache(
   });
 }
 
-function useSubscribeToDos(variables: ListenTodosSubscriptionVariables) {
+function useSuscribeTodoCreate(
+  variables: ListenTodoCreatedSubscriptionVariables
+) {
   const queryClient = useQueryClient();
 
-  const { data } = useSubscription(ListenTodosDocument, {
+  const { data: create } = useSubscription(ListenTodoCreatedDocument, {
     client: apolloClient,
     variables
   });
 
   useEffect(() => {
-    if (data?.todoCreated) {
-      addTodoToCache(queryClient, data, variables);
+    if (create?.todoCreated) {
+      addTodoToCache(queryClient, create, variables);
     }
-  }, [data, queryClient, variables]);
+  }, [create, queryClient, variables]);
 
-  return data;
+  return create;
 }
 
-export default useSubscribeToDos;
+export default useSuscribeTodoCreate;

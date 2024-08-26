@@ -1,4 +1,8 @@
-export { useSubscribeToDos } from './subscriptions';
+export {
+  useSuscribeTodoCreate,
+  useSubscribeToTodoUpdates,
+  updateTodoUpdatedCache
+} from './subscriptions';
 export { useUser, userQueryKeys, useBoardData, useGetTodos } from './queries';
 export {
   useLogin,

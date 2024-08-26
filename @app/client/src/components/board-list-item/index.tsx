@@ -1,11 +1,10 @@
 import { Link } from '@tanstack/react-router';
-import { X } from 'lucide-react';
 
 import { Board } from '~/lib/graphql/__generated__/graphql';
 import { useDeleteBoard } from '~/lib/react-query';
 import { cn } from '~/lib/utils/ui';
 
-import { LoadingSpinner } from '../ui';
+import DeleteIcon from '../delete-icon';
 
 type Props = {
   board: Omit<Board, 'owner'>;
@@ -30,20 +29,11 @@ function BoardListItem({ board, className }: Props) {
           )}
         >
           {board!.title}
-          {isDeleting ? (
-            <LoadingSpinner className="h-4 w-4" />
-          ) : (
-            <X
-              className={cn(
-                'hover:text-primary h-full cursor-pointer',
-                isActive ? 'text-slate-400' : 'text-muted'
-              )}
-              size={14}
-              onClick={async () => {
-                mutate({ id: board!.id! });
-              }}
-            />
-          )}
+          <DeleteIcon
+            className={isActive ? 'text-slate-400' : 'text-muted'}
+            deleteMutation={() => mutate({ id: board!.id! })}
+            isDeleting={isDeleting}
+          />
         </li>
       )}
     </Link>

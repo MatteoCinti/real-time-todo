@@ -1,10 +1,14 @@
 import { useParams } from '@tanstack/react-router';
 import { TodosList } from '~/components';
-import { useSubscribeToDos } from '~/lib/react-query';
+import {
+  useSubscribeToTodoUpdates,
+  useSuscribeTodoCreate
+} from '~/lib/react-query';
 
 function TodosPage() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
-  useSubscribeToDos({ board: Number(boardId) });
+  useSuscribeTodoCreate({ board: Number(boardId) });
+  useSubscribeToTodoUpdates({ board: Number(boardId) });
 
   return <TodosList />;
 }

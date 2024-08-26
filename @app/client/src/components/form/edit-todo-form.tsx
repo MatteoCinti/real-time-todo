@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { zodValidator } from '@tanstack/zod-form-adapter';
+import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { Pencil } from 'lucide-react';
 
 import { cn } from '~/lib/utils/ui';
-import { useGetTodos, useUpdateTodo } from '~/lib/react-query';
+import {
+  updateTodoUpdatedCache,
+  useGetTodos,
+  useUpdateTodo
+} from '~/lib/react-query';
 import { CREATE_TODO_FORM } from '~/lib/constants';
 import { Button, LoadingSpinner } from '~/components/ui';
 
@@ -20,6 +25,7 @@ function EditTodo({ todoId }: Props) {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const { data } = useGetTodos({ board: Number(boardId) });
   const todo = data!.todos!.find((t) => t!.id === todoId);
+  const queryClient = useQueryClient();
 
   const { mutate } = useUpdateTodo(todo!.id);
   const [isDisabled, setIsDisabled] = useState(true);
@@ -29,6 +35,14 @@ function EditTodo({ todoId }: Props) {
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
       if (value?.isDone === null || !value?.title) return;
+      updateTodoUpdatedCache(
+        queryClient,
+        { ...value },
+        {
+          board: Number(boardId)
+        }
+      );
+      setIsDisabled(true);
       mutate({
         ...value
       });
@@ -50,9 +64,17 @@ function EditTodo({ todoId }: Props) {
   }
 
   function handleCheckboxClick() {
+    const isDone = !todo?.isDone;
+    updateTodoUpdatedCache(
+      queryClient,
+      { ...form.state.values!, isDone },
+      {
+        board: Number(boardId)
+      }
+    );
     mutate({
       id: todo!.id,
-      isDone: !todo?.isDone
+      isDone
     });
   }
 
@@ -84,7 +106,7 @@ function EditTodo({ todoId }: Props) {
           !isDisabled && 'focus-visible:border-muted',
           todo?.isDone && 'border-green-700 text-slate-400 line-through'
         )}
-        onBlur={() => handleBlur}
+        onBlur={() => handleBlur()}
         key={todoTitleField.id}
         input={todoTitleField}
         placeholder="Edit todo"

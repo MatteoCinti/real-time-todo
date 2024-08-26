@@ -1,13 +1,16 @@
 import { useParams } from '@tanstack/react-router';
 import { useBoardData, useGetTodos } from '~/lib/react-query';
+import { useDeleteTodo } from '~/lib/react-query/mutations';
+
 import { CardContent, CardHeader, CardTitle } from '../ui';
 import { EditTodo, TodoForm } from '../form';
+import DeleteIcon from '../delete-icon';
 
 function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const { data: boardData } = useBoardData({ board: Number(boardId) });
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
-
+  const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
   return (
     <>
       <CardHeader className="border-muted mb-4 w-full whitespace-nowrap border-b py-3 pl-5">
@@ -27,6 +30,10 @@ function TodosList() {
             <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
               <CardContent className="border-muted flex content-center border px-4 py-2">
                 <EditTodo todoId={todo.id} />
+                <DeleteIcon
+                  deleteMutation={() => deleteTodo({ id: todo.id })}
+                  isDeleting={isDeleting}
+                />
               </CardContent>
             </li>
           );

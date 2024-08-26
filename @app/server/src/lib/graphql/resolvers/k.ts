@@ -13,9 +13,10 @@ import {
   createUser,
   createBoard,
   deleteBoard,
-  updateTodo
+  updateTodo,
+  deleteTodo
 } from './mutations/p';
-import { todoCreated } from './subscriptions/j';
+import { todoCreated, todoUpdated } from './subscriptions/j';
 
 export const resolvers: Resolvers = {
   Query: {
@@ -31,11 +32,15 @@ export const resolvers: Resolvers = {
     createUser,
     createBoard,
     deleteBoard,
-    updateTodo
+    updateTodo,
+    deleteTodo
   },
   Subscription: {
     todoCreated: {
       subscribe: todoCreated
+    },
+    todoUpdated: {
+      subscribe: todoUpdated
     }
   }
 };

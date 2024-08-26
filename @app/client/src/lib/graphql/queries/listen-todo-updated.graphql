@@ -1,0 +1,8 @@
+subscription ListenTodoUpdated($board: Int!) {
+  todoUpdated(board: $board) {
+    id
+    title
+    description
+    isDone
+  }
+}

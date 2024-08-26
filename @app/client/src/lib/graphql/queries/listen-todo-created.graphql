@@ -1,4 +1,4 @@
-subscription ListenTodos($board: Int!) {
+subscription ListenTodoCreated($board: Int!) {
   todoCreated(board: $board) {
     id
     title
