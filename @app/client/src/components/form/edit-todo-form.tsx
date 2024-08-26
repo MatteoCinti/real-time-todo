@@ -28,16 +28,12 @@ function EditTodo({ todoId }: Props) {
     defaultValues: todo,
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
-      // eslint-disable-next-line no-console
-      console.log('🚀 ~ value:', value);
+      if (value?.isDone === null || !value?.title) return;
+      mutate({
+        ...value
+      });
     }
   });
-
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       form.reset();
-  //     }
-  //   }, [isSuccess, form]);
 
   if (!todo) return null;
 
@@ -86,7 +82,7 @@ function EditTodo({ todoId }: Props) {
           'flex-1 rounded-lg border border-transparent px-2 py-1.5',
           isDisabled && 'border-transparent',
           !isDisabled && 'focus-visible:border-muted',
-          todo?.isDone && 'border-accent text-slate-400 line-through'
+          todo?.isDone && 'border-green-700 text-slate-400 line-through'
         )}
         onBlur={() => handleBlur}
         key={todoTitleField.id}
