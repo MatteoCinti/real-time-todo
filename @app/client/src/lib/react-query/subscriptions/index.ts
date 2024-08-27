@@ -4,9 +4,9 @@ export {
 } from './subscribe-todos-create';
 export {
   default as useSubscribeToTodoUpdates,
-  updateTodoUpdatedCache
-} from './subscribe-todo-updates';
+  updateGetTodosCache
+} from './subscribe-todos-updates';
 export {
   default as useSubscribeTodoDelete,
-  updateTodoDeletedCache
+  deleteTodoFromCache
 } from './subscribe-todo-delete';

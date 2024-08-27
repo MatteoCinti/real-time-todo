@@ -1,6 +1,7 @@
 import { GraphQLError } from 'graphql';
 import { Todo } from '../../../database/models';
 import { MutationUpdateTodosArgs } from '../../__generated__/resolvers-types';
+import { pubsub } from '../../../pubsub';
 
 async function updateTodos(_: unknown, { todos }: MutationUpdateTodosArgs) {
   const updatedTodos = await Promise.all(
@@ -21,9 +22,13 @@ async function updateTodos(_: unknown, { todos }: MutationUpdateTodosArgs) {
         order: order ?? todo.order,
         parentId: parentId ?? todo.parentId
       });
-      return updatedTodo;
+      return updatedTodo.toJSON() as Todo;
     })
   );
+
+  pubsub.publish('TODOS_UPDATED', {
+    todosUpdated: updatedTodos as Todo[]
+  });
 
   return updatedTodos;
 }

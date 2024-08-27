@@ -11,7 +11,7 @@ import {
 } from '~/lib/graphql/__generated__/graphql';
 import { todosQueryKeys } from '../queries';
 
-export function updateTodoDeletedCache(
+export function deleteTodoFromCache(
   queryClient: QueryClient,
   deletedTodo: ListenTodoDeletedSubscription['todoDeleted'],
   variables: ListenTodoDeletedSubscriptionVariables
@@ -43,7 +43,7 @@ function useSubscribeTodoDelete(
 
   useEffect(() => {
     if (deleted?.todoDeleted) {
-      updateTodoDeletedCache(queryClient, deleted.todoDeleted, variables);
+      deleteTodoFromCache(queryClient, deleted.todoDeleted, variables);
     }
   }, [deleted, queryClient, variables]);
 

@@ -1,5 +1,5 @@
 subscription ListenTodoUpdated($board: Int!) {
-  todoUpdated(board: $board) {
+  todosUpdated(board: $board) {
     id
     title
     description

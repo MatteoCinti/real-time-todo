@@ -27,8 +27,8 @@ async function updateTodo(_: unknown, args: MutationUpdateTodoArgs) {
 
   await todo.save();
 
-  pubsub.publish('TODO_UPDATED', {
-    todoUpdated: todo.toJSON()! as Todo
+  pubsub.publish('TODOS_UPDATED', {
+    todosUpdated: [todo.toJSON()!] as Todo[]
   });
 
   return todo.toJSON()! as Todo;

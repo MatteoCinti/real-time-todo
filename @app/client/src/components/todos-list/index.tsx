@@ -1,7 +1,14 @@
 /* eslint-disable */
 
 import { useParams } from '@tanstack/react-router';
-import { useBoardData, useGetTodos, useUpdateTodos } from '~/lib/react-query';
+import { useQueryClient } from '@tanstack/react-query';
+
+import {
+  updateGetTodosCache,
+  useBoardData,
+  useGetTodos,
+  useUpdateTodos
+} from '~/lib/react-query';
 
 import { CardContent, CardHeader, CardTitle } from '../ui';
 import { Drag, DraggedChildrenProps, DropGuide, DropZone } from '../drag';
@@ -15,6 +22,8 @@ function TodosList() {
   const { data: boardData } = useBoardData({ board: Number(boardId) });
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
   const { mutate: updateTodos } = useUpdateTodos();
+  const queryClient = useQueryClient();
+
   function reorderTodos(
     todos: Todo[],
     draggedTodoId: number,
@@ -53,6 +62,9 @@ function TodosList() {
     const todosClone = [...todosData!.todos!] as Todo[];
     const updatedTodos = reorderTodos(todosClone, dragItem, newCardPosition);
     updateTodos({ todos: updatedTodos });
+    updateGetTodosCache(queryClient, updatedTodos, {
+      board: Number(boardId)
+    });
     // eslint-disable-next-line no-console
     console.log('🚀 ~ TodosList ~ updatedTodos:', updatedTodos);
   }

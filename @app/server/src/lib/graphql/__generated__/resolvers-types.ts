@@ -113,7 +113,7 @@ export type Subscription = {
   __typename?: 'Subscription';
   todoCreated: Todo;
   todoDeleted: TodoDeleted;
-  todoUpdated: Todo;
+  todosUpdated: Array<Maybe<Todo>>;
 };
 
 
@@ -127,7 +127,7 @@ export type SubscriptionTodoDeletedArgs = {
 };
 
 
-export type SubscriptionTodoUpdatedArgs = {
+export type SubscriptionTodosUpdatedArgs = {
   board: Scalars['Int']['input'];
 };
 
@@ -303,7 +303,7 @@ export type QueryResolvers<ContextType = ApolloContext, ParentType extends Resol
 export type SubscriptionResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']> = {
   todoCreated?: SubscriptionResolver<ResolversTypes['Todo'], "todoCreated", ParentType, ContextType, RequireFields<SubscriptionTodoCreatedArgs, 'board'>>;
   todoDeleted?: SubscriptionResolver<ResolversTypes['TodoDeleted'], "todoDeleted", ParentType, ContextType, RequireFields<SubscriptionTodoDeletedArgs, 'board'>>;
-  todoUpdated?: SubscriptionResolver<ResolversTypes['Todo'], "todoUpdated", ParentType, ContextType, RequireFields<SubscriptionTodoUpdatedArgs, 'board'>>;
+  todosUpdated?: SubscriptionResolver<Array<Maybe<ResolversTypes['Todo']>>, "todosUpdated", ParentType, ContextType, RequireFields<SubscriptionTodosUpdatedArgs, 'board'>>;
 };
 
 export type TodoResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {

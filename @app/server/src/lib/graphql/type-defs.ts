@@ -66,7 +66,7 @@ export default gql`
 
   type Subscription {
     todoCreated(board: Int!): Todo!
-    todoUpdated(board: Int!): Todo!
+    todosUpdated(board: Int!): [Todo]!
     todoDeleted(board: Int!): TodoDeleted!
   }
 `;

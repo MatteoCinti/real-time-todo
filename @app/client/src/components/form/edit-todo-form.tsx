@@ -7,7 +7,7 @@ import { Pencil } from 'lucide-react';
 
 import { cn } from '~/lib/utils/ui';
 import {
-  updateTodoUpdatedCache,
+  updateGetTodosCache,
   useGetTodos,
   useUpdateTodo
 } from '~/lib/react-query';
@@ -35,13 +35,9 @@ function EditTodo({ todoId }: Props) {
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
       if (value?.isDone === null || !value?.title) return;
-      updateTodoUpdatedCache(
-        queryClient,
-        { ...value },
-        {
-          board: Number(boardId)
-        }
-      );
+      updateGetTodosCache(queryClient, [{ ...value }], {
+        board: Number(boardId)
+      });
       setIsDisabled(true);
       mutate({
         todo: {
@@ -67,13 +63,9 @@ function EditTodo({ todoId }: Props) {
 
   function handleCheckboxClick() {
     const isDone = !todo?.isDone;
-    updateTodoUpdatedCache(
-      queryClient,
-      { ...form.state.values!, isDone },
-      {
-        board: Number(boardId)
-      }
-    );
+    updateGetTodosCache(queryClient, [{ ...form.state.values!, isDone }], {
+      board: Number(boardId)
+    });
     mutate({
       todo: {
         id: todo!.id,

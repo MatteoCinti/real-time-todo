@@ -11,22 +11,24 @@ import {
 } from '~/lib/graphql/__generated__/graphql';
 import { todosQueryKeys } from '../queries';
 
-export function updateTodoUpdatedCache(
+export function updateGetTodosCache(
   queryClient: QueryClient,
-  updatedTodo: ListenTodoUpdatedSubscription['todoUpdated'],
+  updatedTodos: ListenTodoUpdatedSubscription['todosUpdated'],
   variables: ListenTodoUpdatedSubscriptionVariables
 ) {
   queryClient.setQueryData(
     todosQueryKeys(variables),
     (oldData: { todos: Todo[] }) => {
-      if (!updatedTodo) return undefined;
+      if (!updatedTodos) return undefined;
 
       const oldTodos = oldData.todos ?? [];
-      const updatedTodos = oldTodos.map((todo: Todo) =>
-        todo.id === updatedTodo.id ? updatedTodo : todo
-      );
 
-      return { todos: updatedTodos };
+      const newTodos = oldTodos.map((todo: Todo) => {
+        const updatedTodo = updatedTodos.find((ut) => ut!.id === todo.id);
+        return updatedTodo ?? todo;
+      });
+
+      return { todos: newTodos };
     }
   );
 }
@@ -42,8 +44,8 @@ function useSubscribeTodoUpdates(
   });
 
   useEffect(() => {
-    if (update?.todoUpdated) {
-      updateTodoUpdatedCache(queryClient, update.todoUpdated, variables);
+    if (update?.todosUpdated) {
+      updateGetTodosCache(queryClient, update.todosUpdated, variables);
     }
   }, [update, queryClient, variables]);
 

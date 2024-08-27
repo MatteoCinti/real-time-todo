@@ -699,7 +699,7 @@
             "deprecationReason": null
           },
           {
-            "name": "todoUpdated",
+            "name": "todosUpdated",
             "description": null,
             "args": [
               {
@@ -723,9 +723,13 @@
               "kind": "NON_NULL",
               "name": null,
               "ofType": {
-                "kind": "OBJECT",
-                "name": "Todo",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "Todo",
+                  "ofType": null
+                }
               }
             },
             "isDeprecated": false,

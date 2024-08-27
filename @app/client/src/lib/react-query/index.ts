@@ -1,10 +1,10 @@
 export {
   useSuscribeTodoCreate,
   useSubscribeToTodoUpdates,
-  updateTodoUpdatedCache,
+  updateGetTodosCache,
   addTodoToCache,
   useSubscribeTodoDelete,
-  updateTodoDeletedCache
+  deleteTodoFromCache
 } from './subscriptions';
 export { useUser, userQueryKeys, useBoardData, useGetTodos } from './queries';
 export {

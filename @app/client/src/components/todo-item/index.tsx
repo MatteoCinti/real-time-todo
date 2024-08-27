@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
 
 import { Todo } from '~/lib/graphql/__generated__/graphql';
-import { updateTodoDeletedCache, useDeleteTodo } from '~/lib/react-query';
+import { deleteTodoFromCache, useDeleteTodo } from '~/lib/react-query';
 
 import DeleteIcon from '../delete-icon';
 import { EditTodo } from '../form';
@@ -40,7 +40,7 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
             <EditTodo todoId={todo.id} />
             <DeleteIcon
               deleteMutation={() => {
-                updateTodoDeletedCache(
+                deleteTodoFromCache(
                   queryClient,
                   { id: todo.id, deleted: true },
                   { board: Number(boardId) }

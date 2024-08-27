@@ -17,7 +17,7 @@ import {
   deleteTodo,
   updateTodos
 } from './mutations/p';
-import { todoCreated, todoUpdated, todoDeleted } from './subscriptions/j';
+import { todoCreated, todosUpdated, todoDeleted } from './subscriptions/j';
 
 export const resolvers: Resolvers = {
   Query: {
@@ -41,8 +41,8 @@ export const resolvers: Resolvers = {
     todoCreated: {
       subscribe: todoCreated
     },
-    todoUpdated: {
-      subscribe: todoUpdated
+    todosUpdated: {
+      subscribe: todosUpdated
     },
     todoDeleted: {
       subscribe: todoDeleted
