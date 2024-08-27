@@ -43,8 +43,6 @@ function useSubscribeTodoUpdates(
 
   useEffect(() => {
     if (update?.todoUpdated) {
-      // eslint-disable-next-line no-console
-      console.log('🚀 ~ useEffect ~ update?.todoUpdated:', update?.todoUpdated);
       updateTodoUpdatedCache(queryClient, update.todoUpdated, variables);
     }
   }, [update, queryClient, variables]);

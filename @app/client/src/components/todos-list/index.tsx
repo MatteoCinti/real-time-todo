@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { useParams } from '@tanstack/react-router';
-import { useBoardData, useGetTodos } from '~/lib/react-query';
+import { useBoardData, useGetTodos, useUpdateTodos } from '~/lib/react-query';
 
 import { CardContent, CardHeader, CardTitle } from '../ui';
 import { Drag, DraggedChildrenProps, DropGuide, DropZone } from '../drag';
@@ -14,13 +14,12 @@ function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const { data: boardData } = useBoardData({ board: Number(boardId) });
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
-
+  const { mutate: updateTodos } = useUpdateTodos();
   function reorderTodos(
     todos: Todo[],
     draggedTodoId: number,
     newCardPosition: number
-  ): Todo[] | null {
-    if (!todos) return null;
+  ): Todo[] {
     const oldIndex = todos.findIndex((todo) => todo.id === draggedTodoId);
     // index is -1 than position
     const newIndex = newCardPosition - 1;
@@ -52,9 +51,8 @@ function TodosList() {
     //   .map((string) => parseInt(string));
     let newCardPosition = Number(drop) - 1;
     const todosClone = [...todosData!.todos!] as Todo[];
-    let task = todosClone.find((todo) => todo!.id === dragItem);
     const updatedTodos = reorderTodos(todosClone, dragItem, newCardPosition);
-
+    updateTodos({ todos: updatedTodos });
     // eslint-disable-next-line no-console
     console.log('🚀 ~ TodosList ~ updatedTodos:', updatedTodos);
   }

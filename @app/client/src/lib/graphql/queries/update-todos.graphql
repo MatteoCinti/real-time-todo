@@ -1,0 +1,10 @@
+mutation UpdateTodos($todos: [TodoInput!]!) {
+  updateTodos(todos: $todos) {
+    id
+    title
+    description
+    isDone
+    order
+    parentId
+  }
+}

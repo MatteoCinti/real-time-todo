@@ -14,7 +14,8 @@ import {
   createBoard,
   deleteBoard,
   updateTodo,
-  deleteTodo
+  deleteTodo,
+  updateTodos
 } from './mutations/p';
 import { todoCreated, todoUpdated, todoDeleted } from './subscriptions/j';
 
@@ -33,7 +34,8 @@ export const resolvers: Resolvers = {
     createBoard,
     deleteBoard,
     updateTodo,
-    deleteTodo
+    deleteTodo,
+    updateTodos
   },
   Subscription: {
     todoCreated: {
