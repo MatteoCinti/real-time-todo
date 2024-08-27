@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -11,15 +11,16 @@ export const useAuth = () => {
   const [auth, setAuth] = useState(cookies[AUTH_COOKIE] ?? null);
   const queryClient = useQueryClient();
 
+  useEffect(() => {}, [cookies]);
+
   async function signIn(user: UserLoginQuery['userLogin']) {
     setCookie(AUTH_COOKIE, user, {
       maxAge: 60 * 60 * 24 * 7,
       path: '/'
     });
     setAuth(user);
-    await queryClient.setQueryData(userQueryKeys(user?.token!), {
-      user,
-      boards: []
+    await queryClient.invalidateQueries({
+      queryKey: userQueryKeys(user!.token!)
     });
   }
 
