@@ -1,5 +1,4 @@
-/* eslint-disable */
-import { createContext, useState } from 'react';
+import { createContext, useCallback, useMemo, useState } from 'react';
 
 export type DragContextProps = {
   draggable: boolean;
@@ -34,53 +33,64 @@ function Drag({ draggable = true, handleDrop, children }: Props) {
   const [isDragging, setIsDragging] = useState(false);
   const [drop, setDrop] = useState(null);
 
-  const dragStart: DragContextProps['dragStart'] = function (
+  const dragStart: DragContextProps['dragStart'] = function dragStart(
     e,
     dragId,
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     dragType
   ) {
     e.stopPropagation();
     e.dataTransfer!.effectAllowed = 'move';
     setDragItem(dragId);
-    dragType && setDragType(dragType);
+    if (dragType) {
+      setDragType(dragType);
+    }
   };
 
-  const drag = function (e: Event) {
+  function drag(e: Event) {
     e.stopPropagation();
     setIsDragging(true);
-  };
+  }
 
-  const dragEnd = function () {
+  function dragEnd() {
     setDragItem(null);
     setDragType(null);
     setIsDragging(false);
     setDrop(null);
-  };
+  }
 
-  const onDrop = function (e: Event) {
-    e.preventDefault();
-    handleDrop && handleDrop({ dragItem, dragType, drop });
-    setDragItem(null);
-    setDragType(null);
-    setIsDragging(false);
-    setDrop(null);
-  };
+  const onDrop = useCallback(
+    (e: Event) => {
+      e.preventDefault();
+      if (handleDrop) {
+        handleDrop({ dragItem, dragType, drop });
+      }
+      setDragItem(null);
+      setDragType(null);
+      setIsDragging(false);
+      setDrop(null);
+    },
+    [dragItem, dragType, drop, handleDrop]
+  );
+
+  const contextValues = useMemo(
+    () => ({
+      draggable,
+      dragItem,
+      dragType,
+      isDragging,
+      dragStart,
+      drag,
+      dragEnd,
+      drop,
+      setDrop,
+      onDrop
+    }),
+    [draggable, dragItem, dragType, isDragging, drop, onDrop]
+  );
 
   return (
-    <DragContext.Provider
-      value={{
-        draggable,
-        dragItem,
-        dragType,
-        isDragging,
-        dragStart,
-        drag,
-        dragEnd,
-        drop,
-        setDrop,
-        onDrop
-      }}
-    >
+    <DragContext.Provider value={contextValues}>
       {typeof children === 'function'
         ? (children({
             activeItem: dragItem,

@@ -30,9 +30,8 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
       <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
         <DropZones
           key={todo.id}
-          prevId={`${todo.order - 1}`}
-          nextId={`${todo.order}`}
-          dropType="card"
+          prevId={`${todo.order}`}
+          nextId={`${todo.order + 1}`}
           remember="true"
         >
           <DropGuide dropId={`${todo.order}`} />

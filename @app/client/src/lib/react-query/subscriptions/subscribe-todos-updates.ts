@@ -27,8 +27,11 @@ export function updateGetTodosCache(
         const updatedTodo = updatedTodos.find((ut) => ut!.id === todo.id);
         return updatedTodo ?? todo;
       });
+      const sortedTodos = newTodos.sort(
+        (a, b) => (a.order ?? 0) - (b.order ?? 0)
+      );
 
-      return { todos: newTodos };
+      return { todos: sortedTodos };
     }
   );
 }

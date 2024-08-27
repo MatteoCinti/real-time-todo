@@ -1,20 +1,20 @@
-/* eslint-disable */
 import { useContext } from 'react';
-import { DragContext, DragContextProps } from './drag';
 import { cn } from '~/lib/utils';
 
-interface Props {
+import { DragContext, DragContextProps } from './drag';
+
+type Props = {
   as?: any;
   dropId?: string;
-  dropType?: string;
+  //   dropType?: string;
   remember?: 'true' | 'false';
   children?: React.ReactNode;
   className?: string;
-}
+};
 
-// listens for drags over drop zones
-function DropZone({ as, dropId, dropType, children, className }: Props) {
-  const { dragItem, dragType, setDrop, drop, onDrop } = useContext(
+function DropZone({ as, dropId, children, className, remember }: Props) {
+  // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
+  const { dragItem, setDrop, drop, onDrop } = useContext(
     DragContext
   ) as DragContextProps;
 
@@ -25,19 +25,20 @@ function DropZone({ as, dropId, dropType, children, className }: Props) {
     return false;
   }
 
-  let Component = as || 'div';
+  const Component = as || 'div';
   return (
     <Component
       onDragEnter={() => {
         // return dragItem && dropType === dragType && setDrop(dropId);
         return dragItem && setDrop(dropId);
       }}
-      onDragOver={handleDragOver}
+      onDragOver={(e: DragEvent) => handleDragOver(e)}
       onDrop={onDrop}
       className={cn('relative', className)}
+      remember={remember}
     >
       {children}
-      {drop === dropId && <div className="absolute inset-0"></div>}
+      {drop === dropId && <div className="absolute inset-0" />}
     </Component>
   );
 }

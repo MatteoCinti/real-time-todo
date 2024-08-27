@@ -1,20 +1,19 @@
-/* eslint-disable */
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import DropZone from './drop-zone';
 
-// context
 import { DragContext, DragContextProps } from './drag';
 
-interface Props {
-  dropType: string;
+type Props = {
+  //   dropType?: string;
   prevId: string;
   nextId: string;
   remember?: 'true' | 'false';
   children: React.ReactNode;
-}
+};
 
-function DropZones({ dropType, prevId, nextId, remember, children }: Props) {
-  const { dragType, isDragging } = useContext(DragContext) as DragContextProps;
+function DropZones({ prevId, nextId, remember, children }: Props) {
+  // eslint-disable-next-line @typescript-eslint/non-nullable-type-assertion-style
+  const { isDragging } = useContext(DragContext) as DragContextProps;
 
   return (
     <div style={{ position: 'relative' }}>
@@ -25,13 +24,11 @@ function DropZones({ dropType, prevId, nextId, remember, children }: Props) {
           <DropZone
             dropId={prevId}
             className="h-full w-full"
-            dropType={dropType}
             remember={remember}
           />
           <DropZone
             dropId={nextId}
             className="h-full w-full"
-            dropType={dropType}
             remember={remember}
           />
         </div>
