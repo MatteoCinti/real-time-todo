@@ -14,5 +14,6 @@ export {
   useCreateTodo,
   useUpdateTodo,
   useDeleteTodo,
-  useUpdateTodos
+  useUpdateTodos,
+  useRegister
 } from './mutations';

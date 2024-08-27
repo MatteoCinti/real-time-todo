@@ -3,8 +3,8 @@ import { useNavigate } from '@tanstack/react-router';
 
 import { gqlRequestClient } from '~/lib/graphql';
 import {
-  UserLoginDocument,
-  UserLoginQueryVariables
+  UserRegisterDocument,
+  UserRegisterMutationVariables
 } from '~/lib/graphql/__generated__/graphql';
 import { useAuth } from '~/hooks';
 
@@ -13,12 +13,12 @@ function useLogin() {
   const navigate = useNavigate();
 
   return useMutation({
-    mutationKey: ['user', UserLoginDocument],
-    mutationFn: async (variables: UserLoginQueryVariables) =>
-      gqlRequestClient().request(UserLoginDocument, variables),
+    mutationKey: ['user', UserRegisterDocument],
+    mutationFn: async (variables: UserRegisterMutationVariables) =>
+      gqlRequestClient().request(UserRegisterDocument, variables),
     onSuccess: async (data) => {
-      if (data.userLogin) {
-        await signIn(data.userLogin);
+      if (data.createUser) {
+        await signIn(data.createUser);
         navigate({ to: '/board' });
       }
     }

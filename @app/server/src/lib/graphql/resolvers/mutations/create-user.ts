@@ -1,6 +1,7 @@
+import { GraphQLError } from 'graphql';
 import { User } from '../../../database/models';
 import { MutationCreateUserArgs } from '../../__generated__/resolvers-types';
-import { hashPassword } from '../../../utils';
+import { generateToken, hashPassword } from '../../../utils';
 
 async function createUser(_: unknown, args: MutationCreateUserArgs) {
   const { username, password, firstName } = args;
@@ -12,7 +13,16 @@ async function createUser(_: unknown, args: MutationCreateUserArgs) {
     password: hashedPassword
   });
 
-  return user.toJSON() as User;
+  const userJson = user.toJSON() as User;
+
+  if (!userJson.id) {
+    throw new GraphQLError('Error creating user');
+  }
+
+  const { password: __, ...userWithoutPassword } = userJson;
+  const token = generateToken(userWithoutPassword);
+
+  return { ...userWithoutPassword, token };
 }
 
 export default createUser;

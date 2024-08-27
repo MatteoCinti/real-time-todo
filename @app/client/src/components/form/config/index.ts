@@ -1,4 +1,10 @@
-export { loginFormDefaultValues, loginFormFields } from './login-form.config';
+export {
+  loginFormDefaultValues,
+  loginFormFields,
+  registerFormDefaultValues,
+  registerFormFields
+} from './login-form.config';
+
 export {
   boardFormDefaultValues,
   boardFormFields,

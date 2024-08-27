@@ -11,14 +11,14 @@ export const useAuth = () => {
   const [auth, setAuth] = useState(cookies[AUTH_COOKIE] ?? null);
   const queryClient = useQueryClient();
 
-  async function signIn(user: UserLoginQuery) {
-    setCookie(AUTH_COOKIE, user.userLogin, {
+  async function signIn(user: UserLoginQuery['userLogin']) {
+    setCookie(AUTH_COOKIE, user, {
       maxAge: 60 * 60 * 24 * 7,
       path: '/'
     });
-    setAuth(user.userLogin);
-    await queryClient.setQueryData(userQueryKeys(user?.userLogin?.token!), {
-      user: user.userLogin,
+    setAuth(user);
+    await queryClient.setQueryData(userQueryKeys(user?.token!), {
+      user,
       boards: []
     });
   }

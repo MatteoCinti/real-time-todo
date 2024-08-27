@@ -5,3 +5,4 @@ export { default as useCreateTodo } from './use-create-todo';
 export { default as useUpdateTodo } from './use-update-todo';
 export { default as useDeleteTodo } from './use-delete-todo';
 export { default as useUpdateTodos } from './use-update-todos';
+export { default as useRegister } from './use-register';

@@ -26,6 +26,7 @@ const documents = {
     "mutation UpdateTodo($todo: TodoInput!) {\n  updateTodo(todo: $todo) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}": types.UpdateTodoDocument,
     "mutation UpdateTodos($todos: [TodoInput!]!) {\n  updateTodos(todos: $todos) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}": types.UpdateTodosDocument,
     "query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}": types.UserLoginDocument,
+    "mutation UserRegister($username: String!, $password: String!, $firstName: String!) {\n  createUser(username: $username, password: $password, firstName: $firstName) {\n    id\n    username\n    firstName\n    token\n  }\n}": types.UserRegisterDocument,
 };
 
 /**
@@ -94,6 +95,10 @@ export function gql(source: "mutation UpdateTodos($todos: [TodoInput!]!) {\n  up
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}"): (typeof documents)["query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "mutation UserRegister($username: String!, $password: String!, $firstName: String!) {\n  createUser(username: $username, password: $password, firstName: $firstName) {\n    id\n    username\n    firstName\n    token\n  }\n}"): (typeof documents)["mutation UserRegister($username: String!, $password: String!, $firstName: String!) {\n  createUser(username: $username, password: $password, firstName: $firstName) {\n    id\n    username\n    firstName\n    token\n  }\n}"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

@@ -12,7 +12,14 @@ const formSchema = z.object({
   password: z.string().min(passwordMinLength, errorMessages.password)
 });
 
+const firstNameSchema = z.object({
+  firstName: z
+    .string()
+    .min(3, 'First name should be at least 3 characters long')
+});
+
 type LoginFormFields = z.infer<typeof formSchema>;
+type RegisterFormFields = z.infer<typeof formSchema & typeof firstNameSchema>;
 
 export const loginFormFields: FormField<LoginFormFields>[] = [
   {
@@ -35,7 +42,25 @@ export const loginFormFields: FormField<LoginFormFields>[] = [
   }
 ];
 
+export const registerFormFields: FormField<RegisterFormFields>[] = [
+  ...loginFormFields,
+  {
+    id: 'firstName',
+    label: 'First Name',
+    type: 'text',
+    placeholder: 'first name',
+    validators: {
+      onChange: firstNameSchema.shape.firstName
+    }
+  }
+];
+
 export const loginFormDefaultValues: LoginFormFields = {
   username: '',
   password: ''
+};
+
+export const registerFormDefaultValues: RegisterFormFields = {
+  ...loginFormDefaultValues,
+  firstName: ''
 };

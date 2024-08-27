@@ -1,7 +1,7 @@
-import { useNavigate } from '@tanstack/react-router';
+import { useLocation, useNavigate } from '@tanstack/react-router';
 import { ChevronLeftIcon } from '@radix-ui/react-icons';
 
-import { LoginForm } from '~/components';
+import { LoginForm, RegisterForm } from '~/components';
 import { Button } from '~/components/ui';
 import { useAuth } from '~/hooks';
 
@@ -51,6 +51,9 @@ function AlreadyLoggedInPage({
 }
 
 function Login() {
+  const { pathname } = useLocation();
+  console.log('🚀 ~ Login ~ pathname:', pathname);
+
   const navigate = useNavigate();
   const { auth, logout } = useAuth();
 
@@ -69,7 +72,12 @@ function Login() {
 
   return (
     <div className="align-center mb-optical-center flex h-full w-full justify-center">
-      <LoginForm className="my-auto h-2/5 w-full lg:h-min lg:w-2/5 lg:max-w-lg" />
+      {pathname === '/login' && (
+        <LoginForm className="my-auto h-2/5 w-full lg:h-min lg:w-2/5 lg:max-w-lg" />
+      )}
+      {pathname === '/register' && (
+        <RegisterForm className="my-auto h-2/5 w-full lg:h-min lg:w-2/5 lg:max-w-lg" />
+      )}
     </div>
   );
 }

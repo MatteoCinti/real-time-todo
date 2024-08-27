@@ -1,4 +1,4 @@
-export { LoginForm, TodoForm, BoardForm, EditTodo } from './form';
+export { LoginForm, TodoForm, BoardForm, EditTodo, RegisterForm } from './form';
 export { default as BoardListItem } from './board-list-item';
 export { default as PageContainer } from './page-container';
 export { default as DeleteIcon } from './delete-icon';
