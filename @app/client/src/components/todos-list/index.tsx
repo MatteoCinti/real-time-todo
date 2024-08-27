@@ -1,14 +1,14 @@
 /* eslint-disable */
 
 import { useParams } from '@tanstack/react-router';
-import { useBoardData, useGetTodos, useUpdateTodo } from '~/lib/react-query';
+import { useBoardData, useGetTodos } from '~/lib/react-query';
 
 import { CardContent, CardHeader, CardTitle } from '../ui';
 import { Drag, DraggedChildrenProps, DropGuide, DropZone } from '../drag';
 import TodoItem from '../todo-item';
 import { TodoForm } from '../form';
-import { todo } from 'node:test';
 import { Todo } from '~/lib/graphql/__generated__/graphql';
+import { indexToPosition } from '~/lib/utils';
 
 function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
@@ -32,7 +32,7 @@ function TodosList() {
     todos.splice(newIndex, 0, draggedTodo);
     const updatedTodos = todos.map((todo, index) => ({
       ...todo,
-      order: index + 1 // Adjusting order to be 1-based instead of 0-based
+      order: indexToPosition(index) // Adjusting order to be 1-based instead of 0-based
     }));
 
     return updatedTodos;

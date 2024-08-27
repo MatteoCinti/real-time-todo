@@ -1,3 +1,3 @@
-export function generateIndex(arrayLength: number) {
-  return arrayLength + 1;
+export function indexToPosition(index: number) {
+  return index + 1;
 }
