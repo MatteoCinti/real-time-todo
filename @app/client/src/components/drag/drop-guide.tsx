@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import { cn } from '~/lib/utils/ui';
 
+import { cn } from '~/lib/utils/ui';
 import { DragContext } from './drag';
 import ErrorComponent from '../error';
 
@@ -28,8 +28,7 @@ function DropGuide({ as, dropId, children, className }: Props) {
         className
       )}
     >
-      {' '}
-      {children}{' '}
+      {children}
     </Component>
   ) : null;
 }

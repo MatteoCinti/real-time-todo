@@ -25,17 +25,17 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
         // activeItem === todo.id && activeType === 'card' && isDragging
         activeItem === todo.id && isDragging ? 'hidden' : 'translate-x-0'
       }`}
-      dragType="card"
+      dragType="task"
     >
-      <DropZones
-        key={todo.id}
-        prevId={`${0}-${todo.id}}`}
-        nextId={`${0}-${todo.id} + 1}`}
-        dropType="card"
-        remember="true"
-      >
-        <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
-          <DropGuide dropId={`${0}-${todo.id}}`} />
+      <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
+        <DropZones
+          key={todo.id}
+          prevId={`${todo.order - 1}`}
+          nextId={`${todo.order}`}
+          dropType="card"
+          remember="true"
+        >
+          <DropGuide dropId={`${todo.order}`} />
           <CardContent className="border-muted flex content-center border px-4 py-2">
             <EditTodo todoId={todo.id} />
             <DeleteIcon
@@ -50,8 +50,8 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
               isDeleting={isDeleting}
             />
           </CardContent>
-        </li>
-      </DropZones>
+        </DropZones>
+      </li>
     </DragItem>
   );
 }

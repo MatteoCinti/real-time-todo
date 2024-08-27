@@ -1,54 +1,39 @@
 /* eslint-disable */
-
 import { useContext } from 'react';
-import { DragContext } from './drag';
-import ErrorComponent from '../error';
-import { cn } from '~/lib/utils/ui';
+import { DragContext, DragContextProps } from './drag';
+import { cn } from '~/lib/utils';
 
-type Props = {
+interface Props {
+  as?: any;
   dropId?: string;
   dropType?: string;
-  as?: any;
   remember?: 'true' | 'false';
   children?: React.ReactNode;
   className?: string;
-};
+}
 
 // listens for drags over drop zones
-function DropZone({
-  as,
-  dropId,
-  dropType,
-  children,
-  remember,
-  className
-}: Props) {
-  // eslint-disable-next-line no-console
-  console.log('🚀 ~ DropZone ~ dropType:', dropType);
-  const dragContext = useContext(DragContext!);
-  if (!dragContext) {
-    return <ErrorComponent />;
-  }
-  const { dragItem, dragType, setDrop, drop, onDrop } = dragContext;
-
-  // eslint-disable-next-line no-console
-  console.log('🚀 ~ DropZone ~ dragType:', dragType);
+function DropZone({ as, dropId, dropType, children, className }: Props) {
+  const { dragItem, dragType, setDrop, drop, onDrop } = useContext(
+    DragContext
+  ) as DragContextProps;
 
   function handleDragOver(e: DragEvent) {
-    e.preventDefault();
-
+    if (e.preventDefault) {
+      e.preventDefault();
+    }
     return false;
   }
 
-  const Component = as || 'div';
+  let Component = as || 'div';
   return (
     <Component
       onDragEnter={() => {
+        // return dragItem && dropType === dragType && setDrop(dropId);
         return dragItem && setDrop(dropId);
       }}
       onDragOver={handleDragOver}
       onDrop={onDrop}
-      remember={remember}
       className={cn('relative', className)}
     >
       {children}

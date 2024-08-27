@@ -1,40 +1,36 @@
 /* eslint-disable */
-
 import React, { useContext } from 'react';
-import { DragContext } from './drag';
 import DropZone from './drop-zone';
-import ErrorComponent from '../error';
 
-type Props = {
+// context
+import { DragContext, DragContextProps } from './drag';
+
+interface Props {
   dropType: string;
   prevId: string;
   nextId: string;
   remember?: 'true' | 'false';
   children: React.ReactNode;
-};
+}
 
 function DropZones({ dropType, prevId, nextId, remember, children }: Props) {
-  const dragContext = useContext(DragContext!);
-  if (!dragContext) {
-    return <ErrorComponent />;
-  }
-  const { isDragging } = dragContext;
+  const { dragType, isDragging } = useContext(DragContext) as DragContextProps;
 
   return (
     <div style={{ position: 'relative' }}>
       {children}
       {/* {dragType === dropType && isDragging && ( */}
       {isDragging && (
-        <div className="absolute inset-0 flex flex-row">
+        <div className="absolute inset-0 flex flex-col">
           <DropZone
-            className="h-2 w-full"
             dropId={prevId}
+            className="h-full w-full"
             dropType={dropType}
             remember={remember}
           />
           <DropZone
             dropId={nextId}
-            className="h-2 w-full"
+            className="h-full w-full"
             dropType={dropType}
             remember={remember}
           />

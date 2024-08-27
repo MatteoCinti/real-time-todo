@@ -6,9 +6,9 @@ import {
   UpdateTodoMutationVariables
 } from '~/lib/graphql/__generated__/graphql';
 
-function useUpdateTodo(todoId: UpdateTodoMutationVariables['id']) {
+function useUpdateTodo() {
   return useMutation({
-    mutationKey: ['update-todo', UpdateTodoDocument, todoId],
+    mutationKey: ['update-todo', UpdateTodoDocument],
     mutationFn: async (variables: UpdateTodoMutationVariables) =>
       gqlRequestClient().request(UpdateTodoDocument, variables)
   });

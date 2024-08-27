@@ -27,7 +27,7 @@ function EditTodo({ todoId }: Props) {
   const todo = data!.todos!.find((t) => t!.id === todoId);
   const queryClient = useQueryClient();
 
-  const { mutate } = useUpdateTodo(todo!.id);
+  const { mutate } = useUpdateTodo();
   const [isDisabled, setIsDisabled] = useState(true);
 
   const form = useForm({

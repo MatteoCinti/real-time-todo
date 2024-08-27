@@ -1,27 +1,67 @@
 /* eslint-disable */
 
 import { useParams } from '@tanstack/react-router';
-import { useBoardData, useGetTodos } from '~/lib/react-query';
+import { useBoardData, useGetTodos, useUpdateTodo } from '~/lib/react-query';
 
 import { CardContent, CardHeader, CardTitle } from '../ui';
 import { Drag, DraggedChildrenProps, DropGuide, DropZone } from '../drag';
 import TodoItem from '../todo-item';
 import { TodoForm } from '../form';
+import { todo } from 'node:test';
+import { Todo } from '~/lib/graphql/__generated__/graphql';
 
 function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const { data: boardData } = useBoardData({ board: Number(boardId) });
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
 
-  function handleDrop() {
+  function reorderTodos(
+    todos: Todo[],
+    draggedTodoId: number,
+    newCardPosition: number
+  ): Todo[] | null {
+    if (!todos) return null;
+    const oldIndex = todos.findIndex((todo) => todo.id === draggedTodoId);
+    // index is -1 than position
+    const newIndex = newCardPosition - 1;
+    if (oldIndex === -1) {
+      throw new Error('Todo not found');
+    }
+
+    const [draggedTodo] = todos.splice(oldIndex, 1);
+    todos.splice(newIndex, 0, draggedTodo);
+    const updatedTodos = todos.map((todo, index) => ({
+      ...todo,
+      order: index + 1 // Adjusting order to be 1-based instead of 0-based
+    }));
+
+    return updatedTodos;
+  }
+
+  function handleDrop({
+    dragItem,
+    dragType,
+    drop
+  }: {
+    dragItem: number;
+    dragType: string;
+    drop: string;
+  }) {
+    // let [dropParentArea, newCardIndex] = drop
+    //   .split('-')
+    //   .map((string) => parseInt(string));
+    let newCardPosition = Number(drop) - 1;
+    const todosClone = [...todosData!.todos!] as Todo[];
+    let task = todosClone.find((todo) => todo!.id === dragItem);
+    const updatedTodos = reorderTodos(todosClone, dragItem, newCardPosition);
+
     // eslint-disable-next-line no-console
-    console.log('DROPPED');
+    console.log('🚀 ~ TodosList ~ updatedTodos:', updatedTodos);
   }
 
   return (
     <Drag handleDrop={handleDrop}>
       {({ activeItem, activeType, isDragging }: DraggedChildrenProps) => {
-        console.log('🚀 ~ TodosList ~ activeItem:', activeItem);
         return (
           <>
             <CardHeader className="border-muted mb-4 w-full whitespace-nowrap border-b py-3 pl-5">
@@ -52,16 +92,16 @@ function TodosList() {
                 <CardContent className="border-muted flex content-center rounded-b-lg border px-4 py-1">
                   <TodoForm />
                 </CardContent>
+                <DropZone
+                  dropId={`${todosData?.todos?.length}`}
+                  remember="true"
+                >
+                  <DropGuide
+                    dropId={`${todosData?.todos?.length! + 1}`}
+                    className="h-24"
+                  />
+                </DropZone>
               </li>
-              <DropZone
-                dropId={`${0}-${todosData?.todos?.length}`}
-                remember="true"
-              >
-                <DropGuide
-                  dropId={`${0}-${todosData?.todos?.length}`}
-                  className="m-2 h-24 rounded-lg bg-gray-200"
-                />
-              </DropZone>
             </ul>
           </>
         );

@@ -11,6 +11,8 @@ mutation UpdateTodo(
     title: $title
     description: $description
     isDone: $isDone
+    order: $order
+    parentId: $parentId
   ) {
     id
     title
