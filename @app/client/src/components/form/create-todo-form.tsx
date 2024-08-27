@@ -4,26 +4,31 @@ import { useParams } from '@tanstack/react-router';
 import { useForm } from '@tanstack/react-form';
 import { Plus } from 'lucide-react';
 
-import { cn } from '~/lib/utils/ui';
-import { useCreateTodo } from '~/lib/react-query';
-import { CREATE_TODO_FORM } from '~/lib/constants';
+import { useCreateTodo, useGetTodos } from '~/lib/react-query';
 import { Button, LoadingSpinner } from '~/components/ui';
+import { CREATE_TODO_FORM } from '~/lib/constants';
+import { generateIndex, cn } from '~/lib/utils';
 
 import { todoTitleField, todoFormDefaultValues } from './config';
 import Field from './components/form-field';
 
 function CreateTodo() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
+  const { data: todosData } = useGetTodos({ board: Number(boardId) });
   const { mutate, isPending, isSuccess } = useCreateTodo(boardId);
 
   const form = useForm({
     defaultValues: todoFormDefaultValues,
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
+      const todosLength = todosData?.todos?.length ?? 0;
+      const order = generateIndex(todosLength);
+
       mutate({
         title: value.title,
         board: Number(boardId),
-        description: value.description
+        description: value.description,
+        order
       });
     }
   });
