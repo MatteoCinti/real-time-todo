@@ -1,19 +1,5 @@
-mutation UpdateTodo(
-  $id: Int!
-  $title: String
-  $description: String
-  $isDone: Boolean
-  $order: Int
-  $parentId: Int
-) {
-  updateTodo(
-    id: $id
-    title: $title
-    description: $description
-    isDone: $isDone
-    order: $order
-    parentId: $parentId
-  ) {
+mutation UpdateTodo($todo: TodoInput!) {
+  updateTodo(todo: $todo) {
     id
     title
     description

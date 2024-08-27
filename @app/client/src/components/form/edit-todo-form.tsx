@@ -44,7 +44,9 @@ function EditTodo({ todoId }: Props) {
       );
       setIsDisabled(true);
       mutate({
-        ...value
+        todo: {
+          ...value
+        }
       });
     }
   });
@@ -73,8 +75,10 @@ function EditTodo({ todoId }: Props) {
       }
     );
     mutate({
-      id: todo!.id,
-      isDone
+      todo: {
+        id: todo!.id,
+        isDone
+      }
     });
   }
 

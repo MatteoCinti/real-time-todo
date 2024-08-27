@@ -30,6 +30,15 @@ export default gql`
     parentId: Int
   }
 
+  input TodoInput {
+    id: Int!
+    order: Int
+    title: String
+    isDone: Boolean
+    parentId: Int
+    description: String
+  }
+
   type TodoDeleted {
     id: Int!
     deleted: Boolean!
@@ -56,14 +65,8 @@ export default gql`
     deleteBoard(id: Int!): BoardDeleted!
     createBoard(title: String!): Board!
     deleteTodo(id: Int!, board: Int!): TodoDeleted!
-    updateTodo(
-      id: Int!
-      title: String
-      description: String
-      isDone: Boolean
-      order: Int
-      parentId: Int
-    ): Todo!
+    updateTodo(todo: TodoInput!): Todo!
+    updateTodos(todos: [TodoInput!]!): [Todo]
   }
 
   type Subscription {
