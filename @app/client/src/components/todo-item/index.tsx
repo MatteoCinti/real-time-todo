@@ -7,33 +7,52 @@ import { updateTodoDeletedCache, useDeleteTodo } from '~/lib/react-query';
 import DeleteIcon from '../delete-icon';
 import { EditTodo } from '../form';
 import { CardContent } from '../ui';
+import { DraggedChildrenProps, DragItem, DropGuide, DropZones } from '../drag';
 
-type Props = {
+type Props = DraggedChildrenProps & {
   todo: Todo;
 };
 
-function TodoItem({ todo }: Props) {
+function TodoItem({ todo, activeItem, isDragging }: Props) {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const queryClient = useQueryClient();
   const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
 
   return (
-    <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
-      <CardContent className="border-muted flex content-center border px-4 py-2">
-        <EditTodo todoId={todo.id} />
-        <DeleteIcon
-          deleteMutation={() => {
-            updateTodoDeletedCache(
-              queryClient,
-              { id: todo.id, deleted: true },
-              { board: Number(boardId) }
-            );
-            deleteTodo({ id: todo.id, board: Number(boardId) });
-          }}
-          isDeleting={isDeleting}
-        />
-      </CardContent>
-    </li>
+    <DragItem
+      dragId={todo.id}
+      className={`cursor-no-drop ${
+        // activeItem === todo.id && activeType === 'card' && isDragging
+        activeItem === todo.id && isDragging ? 'hidden' : 'translate-x-0'
+      }`}
+      dragType="card"
+    >
+      <DropZones
+        key={todo.id}
+        prevId={`${0}-${todo.id}}`}
+        nextId={`${0}-${todo.id} + 1}`}
+        dropType="card"
+        remember="true"
+      >
+        <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
+          <DropGuide dropId={`${0}-${todo.id}}`} />
+          <CardContent className="border-muted flex content-center border px-4 py-2">
+            <EditTodo todoId={todo.id} />
+            <DeleteIcon
+              deleteMutation={() => {
+                updateTodoDeletedCache(
+                  queryClient,
+                  { id: todo.id, deleted: true },
+                  { board: Number(boardId) }
+                );
+                deleteTodo({ id: todo.id, board: Number(boardId) });
+              }}
+              isDeleting={isDeleting}
+            />
+          </CardContent>
+        </li>
+      </DropZones>
+    </DragItem>
   );
 }
 
