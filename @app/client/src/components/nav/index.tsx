@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 
 import { useAuth } from '~/hooks';
@@ -7,8 +8,10 @@ import { Button } from '../ui';
 import { HamburgerNav, NameTag } from './components';
 
 function Nav() {
-  const { logout } = useAuth();
+  const { auth, logout } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {}, [auth]);
 
   return (
     <nav
@@ -23,7 +26,7 @@ function Nav() {
           variant="link"
           onClick={() => {
             logout();
-            navigate({ to: '/login' });
+            navigate({ to: '/login', replace: true });
           }}
         >
           Logout

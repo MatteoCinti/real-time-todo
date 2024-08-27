@@ -25,6 +25,7 @@ export const useAuth = () => {
 
   const logout = () => {
     removeCookie(AUTH_COOKIE);
+    setAuth(null);
   };
 
   return { auth, logout, signIn };

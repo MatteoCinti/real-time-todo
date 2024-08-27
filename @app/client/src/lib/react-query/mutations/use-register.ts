@@ -8,7 +8,7 @@ import {
 } from '~/lib/graphql/__generated__/graphql';
 import { useAuth } from '~/hooks';
 
-function useLogin() {
+function useRegister() {
   const { signIn } = useAuth();
   const navigate = useNavigate();
 
@@ -25,4 +25,4 @@ function useLogin() {
   });
 }
 
-export default useLogin;
+export default useRegister;
