@@ -4,5 +4,7 @@ subscription ListenTodoUpdated($board: Int!) {
     title
     description
     isDone
+    order
+    parentId
   }
 }

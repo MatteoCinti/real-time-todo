@@ -5,5 +5,7 @@ query GetTodos($board: Int!) {
     description
     isDone
     board
+    order
+    parentId
   }
 }

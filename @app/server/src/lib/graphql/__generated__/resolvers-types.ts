@@ -140,6 +140,8 @@ export type Todo = {
   description?: Maybe<Scalars['String']['output']>;
   id: Scalars['Int']['output'];
   isDone: Scalars['Boolean']['output'];
+  order: Scalars['Int']['output'];
+  parentId?: Maybe<Scalars['Int']['output']>;
   title: Scalars['String']['output'];
 };
 
@@ -299,6 +301,8 @@ export type TodoResolvers<ContextType = ApolloContext, ParentType extends Resolv
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   isDone?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  order?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  parentId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

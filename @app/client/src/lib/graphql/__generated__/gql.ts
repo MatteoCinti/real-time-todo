@@ -14,16 +14,16 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}": types.CreateBoardDocument,
-    "mutation CreateTodo($title: String!, $board: Int!, $description: String!) {\n  createTodo(title: $title, board: $board, description: $description) {\n    id\n    title\n    description\n    isDone\n  }\n}": types.CreateTodoDocument,
+    "mutation CreateTodo($title: String!, $board: Int!, $description: String!, $order: Int, $parentId: Int) {\n  createTodo(\n    title: $title\n    board: $board\n    description: $description\n    order: $order\n    parentId: $parentId\n  ) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}": types.CreateTodoDocument,
     "mutation DeleteBoard($id: Int!) {\n  deleteBoard(id: $id) {\n    id\n    deleted\n  }\n}": types.DeleteBoardDocument,
     "mutation DeleteTodo($id: Int!, $board: Int!) {\n  deleteTodo(id: $id, board: $board) {\n    id\n    deleted\n  }\n}": types.DeleteTodoDocument,
     "query GetBoardData($board: Int!) {\n  getBoard(id: $board) {\n    id\n    title\n  }\n}": types.GetBoardDataDocument,
-    "query GetTodos($board: Int!) {\n  getTodosByBoard(board: $board) {\n    id\n    title\n    description\n    isDone\n    board\n  }\n}": types.GetTodosDocument,
+    "query GetTodos($board: Int!) {\n  getTodosByBoard(board: $board) {\n    id\n    title\n    description\n    isDone\n    board\n    order\n    parentId\n  }\n}": types.GetTodosDocument,
     "query GetUserData {\n  getUser {\n    id\n    username\n    firstName\n  }\n  getUserBoards {\n    id\n    title\n  }\n}": types.GetUserDataDocument,
     "subscription ListenTodoCreated($board: Int!) {\n  todoCreated(board: $board) {\n    id\n    title\n    description\n    isDone\n  }\n}": types.ListenTodoCreatedDocument,
     "subscription ListenTodoDeleted($board: Int!) {\n  todoDeleted(board: $board) {\n    id\n    deleted\n  }\n}": types.ListenTodoDeletedDocument,
-    "subscription ListenTodoUpdated($board: Int!) {\n  todoUpdated(board: $board) {\n    id\n    title\n    description\n    isDone\n  }\n}": types.ListenTodoUpdatedDocument,
-    "mutation UpdateTodo($id: Int!, $title: String, $description: String, $isDone: Boolean) {\n  updateTodo(id: $id, title: $title, description: $description, isDone: $isDone) {\n    id\n    title\n    description\n    isDone\n  }\n}": types.UpdateTodoDocument,
+    "subscription ListenTodoUpdated($board: Int!) {\n  todoUpdated(board: $board) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}": types.ListenTodoUpdatedDocument,
+    "mutation UpdateTodo($id: Int!, $title: String, $description: String, $isDone: Boolean, $order: Int, $parentId: Int) {\n  updateTodo(id: $id, title: $title, description: $description, isDone: $isDone) {\n    id\n    title\n    description\n    isDone\n  }\n}": types.UpdateTodoDocument,
     "query UserLogin($username: String!, $password: String!) {\n  userLogin(username: $username, password: $password) {\n    id\n    username\n    firstName\n    token\n  }\n}": types.UserLoginDocument,
 };
 
@@ -48,7 +48,7 @@ export function gql(source: "mutation CreateBoard($title: String!) {\n  createBo
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "mutation CreateTodo($title: String!, $board: Int!, $description: String!) {\n  createTodo(title: $title, board: $board, description: $description) {\n    id\n    title\n    description\n    isDone\n  }\n}"): (typeof documents)["mutation CreateTodo($title: String!, $board: Int!, $description: String!) {\n  createTodo(title: $title, board: $board, description: $description) {\n    id\n    title\n    description\n    isDone\n  }\n}"];
+export function gql(source: "mutation CreateTodo($title: String!, $board: Int!, $description: String!, $order: Int, $parentId: Int) {\n  createTodo(\n    title: $title\n    board: $board\n    description: $description\n    order: $order\n    parentId: $parentId\n  ) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}"): (typeof documents)["mutation CreateTodo($title: String!, $board: Int!, $description: String!, $order: Int, $parentId: Int) {\n  createTodo(\n    title: $title\n    board: $board\n    description: $description\n    order: $order\n    parentId: $parentId\n  ) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -64,7 +64,7 @@ export function gql(source: "query GetBoardData($board: Int!) {\n  getBoard(id: 
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "query GetTodos($board: Int!) {\n  getTodosByBoard(board: $board) {\n    id\n    title\n    description\n    isDone\n    board\n  }\n}"): (typeof documents)["query GetTodos($board: Int!) {\n  getTodosByBoard(board: $board) {\n    id\n    title\n    description\n    isDone\n    board\n  }\n}"];
+export function gql(source: "query GetTodos($board: Int!) {\n  getTodosByBoard(board: $board) {\n    id\n    title\n    description\n    isDone\n    board\n    order\n    parentId\n  }\n}"): (typeof documents)["query GetTodos($board: Int!) {\n  getTodosByBoard(board: $board) {\n    id\n    title\n    description\n    isDone\n    board\n    order\n    parentId\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -80,11 +80,11 @@ export function gql(source: "subscription ListenTodoDeleted($board: Int!) {\n  t
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "subscription ListenTodoUpdated($board: Int!) {\n  todoUpdated(board: $board) {\n    id\n    title\n    description\n    isDone\n  }\n}"): (typeof documents)["subscription ListenTodoUpdated($board: Int!) {\n  todoUpdated(board: $board) {\n    id\n    title\n    description\n    isDone\n  }\n}"];
+export function gql(source: "subscription ListenTodoUpdated($board: Int!) {\n  todoUpdated(board: $board) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}"): (typeof documents)["subscription ListenTodoUpdated($board: Int!) {\n  todoUpdated(board: $board) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "mutation UpdateTodo($id: Int!, $title: String, $description: String, $isDone: Boolean) {\n  updateTodo(id: $id, title: $title, description: $description, isDone: $isDone) {\n    id\n    title\n    description\n    isDone\n  }\n}"): (typeof documents)["mutation UpdateTodo($id: Int!, $title: String, $description: String, $isDone: Boolean) {\n  updateTodo(id: $id, title: $title, description: $description, isDone: $isDone) {\n    id\n    title\n    description\n    isDone\n  }\n}"];
+export function gql(source: "mutation UpdateTodo($id: Int!, $title: String, $description: String, $isDone: Boolean, $order: Int, $parentId: Int) {\n  updateTodo(id: $id, title: $title, description: $description, isDone: $isDone) {\n    id\n    title\n    description\n    isDone\n  }\n}"): (typeof documents)["mutation UpdateTodo($id: Int!, $title: String, $description: String, $isDone: Boolean, $order: Int, $parentId: Int) {\n  updateTodo(id: $id, title: $title, description: $description, isDone: $isDone) {\n    id\n    title\n    description\n    isDone\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

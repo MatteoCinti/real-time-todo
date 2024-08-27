@@ -1,8 +1,22 @@
-mutation CreateTodo($title: String!, $board: Int!, $description: String!) {
-  createTodo(title: $title, board: $board, description: $description) {
+mutation CreateTodo(
+  $title: String!
+  $board: Int!
+  $description: String!
+  $order: Int
+  $parentId: Int
+) {
+  createTodo(
+    title: $title
+    board: $board
+    description: $description
+    order: $order
+    parentId: $parentId
+  ) {
     id
     title
     description
     isDone
+    order
+    parentId
   }
 }

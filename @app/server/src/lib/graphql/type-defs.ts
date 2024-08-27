@@ -26,6 +26,8 @@ export default gql`
     title: String!
     isDone: Boolean!
     description: String
+    order: Int!
+    parentId: Int
   }
 
   type TodoDeleted {

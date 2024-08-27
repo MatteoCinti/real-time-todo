@@ -3,6 +3,8 @@ mutation UpdateTodo(
   $title: String
   $description: String
   $isDone: Boolean
+  $order: Int
+  $parentId: Int
 ) {
   updateTodo(
     id: $id
