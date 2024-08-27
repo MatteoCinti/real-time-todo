@@ -2,7 +2,7 @@ import { useParams } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { Todo } from '~/lib/graphql/__generated__/graphql';
-import { reorderTodos } from '~/lib/utils';
+import { cn, reorderTodos } from '~/lib/utils';
 import {
   updateGetTodosCache,
   useBoardData,
@@ -10,14 +10,20 @@ import {
   useUpdateTodos
 } from '~/lib/react-query';
 
-import { CardContent, CardHeader, CardTitle } from '../ui';
+import { CardContent, CardHeader, CardTitle, Skeleton } from '../ui';
 import { Drag, DraggedChildrenProps, DropGuide, DropZone } from '../drag';
 import TodoItem from '../todo-item';
 import { TodoForm } from '../form';
 
+function SectionTitleSkeleton() {
+  return <Skeleton className="h-4 w-16 rounded-sm p-1" />;
+}
+
 function TodosList() {
   const { board: boardId } = useParams({ from: '/_auth/board/$board' });
-  const { data: boardData } = useBoardData({ board: Number(boardId) });
+  const { data: boardData, isLoading: boardLoading } = useBoardData({
+    board: Number(boardId)
+  });
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
   const { mutate: updateTodos } = useUpdateTodos();
   const queryClient = useQueryClient();
@@ -56,37 +62,46 @@ function TodosList() {
         return (
           <>
             <CardHeader className="border-muted mb-4 w-full whitespace-nowrap border-b py-3 pl-5">
-              <CardTitle>
-                Start by completing the{' '}
+              <CardTitle className="flex flex-row whitespace-pre-wrap">
+                <span>{`Start by completing the `}</span>
                 <span className="text-accent font-black">
+                  {boardLoading && <SectionTitleSkeleton />}
                   {boardData?.board.title}
-                </span>{' '}
-                you have left!
+                </span>
+                {` you have left!`}
               </CardTitle>
             </CardHeader>
 
-            <ul>
+            <ul className="flex w-full flex-col">
               {todosData?.todos?.map((todo) => {
                 if (!todo) return null;
 
                 return (
-                  <TodoItem
-                    key={`todo-${todo.id}`}
-                    todo={todo}
-                    activeItem={activeItem}
-                    isDragging={isDragging}
-                    activeType={activeType}
-                  />
+                  <li
+                    className={cn(
+                      'border-muted mx-3 mt-[-1px] flex flex-1 flex-row border',
+                      todo.isDone && 'bg-muted border-primary-foreground'
+                    )}
+                    key={todo.id}
+                  >
+                    <TodoItem
+                      key={`todo-${todo.id}`}
+                      todo={todo}
+                      activeItem={activeItem}
+                      isDragging={isDragging}
+                      activeType={activeType}
+                    />
+                  </li>
                 );
               })}
-              <li className="relative m-0 mx-3 mt-[-1px] list-none p-0">
+              <li className="border-muted relative mx-3 mt-[-1px] h-12 list-none rounded-b-lg border p-0">
                 <DropZone dropId={lastPosition.toString()} remember="true">
                   <DropGuide
                     dropId={lastPosition.toString()}
                     className="h-12"
                   />
                 </DropZone>
-                <CardContent className="border-muted flex content-center rounded-b-lg border px-4 py-1">
+                <CardContent className="flex h-full content-center px-4 py-1">
                   <TodoForm />
                 </CardContent>
               </li>

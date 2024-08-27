@@ -1,8 +1,10 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
+import { GripVertical } from 'lucide-react';
 
 import { Todo } from '~/lib/graphql/__generated__/graphql';
 import { deleteTodoFromCache, useDeleteTodo } from '~/lib/react-query';
+import { cn } from '~/lib/utils';
 
 import DeleteIcon from '../delete-icon';
 import { EditTodo } from '../form';
@@ -21,36 +23,36 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
   return (
     <DragItem
       dragId={todo.id}
-      className={`cursor-no-drop ${
+      className={cn(
+        'flex-1 cursor-grab',
         // activeItem === todo.id && activeType === 'card' && isDragging
         activeItem === todo.id && isDragging ? 'hidden' : 'translate-x-0'
-      }`}
+      )}
       dragType="task"
     >
-      <li className="mx-3 [&>div]:first:rounded-t-lg" key={todo.id}>
-        <DropZones
-          key={todo.id}
-          prevId={`${todo.order}`}
-          nextId={`${todo.order + 1}`}
-          remember="true"
-        >
-          <DropGuide dropId={`${todo.order}`} />
-          <CardContent className="border-muted flex content-center border px-4 py-2">
-            <EditTodo todoId={todo.id} />
-            <DeleteIcon
-              deleteMutation={() => {
-                deleteTodoFromCache(
-                  queryClient,
-                  { id: todo.id, deleted: true },
-                  { board: Number(boardId) }
-                );
-                deleteTodo({ id: todo.id, board: Number(boardId) });
-              }}
-              isDeleting={isDeleting}
-            />
-          </CardContent>
-        </DropZones>
-      </li>
+      <DropZones
+        key={todo.id}
+        prevId={`${todo.order}`}
+        nextId={`${todo.order + 1}`}
+        remember="true"
+      >
+        <DropGuide dropId={`${todo.order}`} />
+        <CardContent className="flex content-center py-2 pl-2 pr-4">
+          <GripVertical size={18} className="text-muted my-auto mr-2" />
+          <EditTodo todoId={todo.id} />
+          <DeleteIcon
+            deleteMutation={() => {
+              deleteTodoFromCache(
+                queryClient,
+                { id: todo.id, deleted: true },
+                { board: Number(boardId) }
+              );
+              deleteTodo({ id: todo.id, board: Number(boardId) });
+            }}
+            isDeleting={isDeleting}
+          />
+        </CardContent>
+      </DropZones>
     </DragItem>
   );
 }

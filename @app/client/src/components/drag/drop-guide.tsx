@@ -24,7 +24,7 @@ function DropGuide({ as, dropId, children, className }: Props) {
   return drop === dropId ? (
     <Component
       className={cn(
-        'border-primary h-12 w-full rounded-lg border border-dashed',
+        'border-primary h-12 w-full rounded-md border border-dashed border-opacity-45',
         className
       )}
     >

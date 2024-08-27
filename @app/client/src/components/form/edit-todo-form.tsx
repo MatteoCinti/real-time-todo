@@ -85,7 +85,10 @@ function EditTodo({ todoId }: Props) {
       className="m-0 flex w-full flex-row p-0"
     >
       <Field
-        className="my-auto mr-2 p-0"
+        className={cn(
+          'my-auto mr-2 p-0',
+          todo?.isDone && '!bg-success border-success'
+        )}
         onCheckboxClick={() => handleCheckboxClick()}
         key={todoIsDoneField.id}
         input={todoIsDoneField}
@@ -100,7 +103,7 @@ function EditTodo({ todoId }: Props) {
           'flex-1 rounded-lg border border-transparent px-2 py-1.5',
           isDisabled && 'border-transparent',
           !isDisabled && 'focus-visible:border-muted',
-          todo?.isDone && 'border-green-700 text-slate-400 line-through'
+          todo?.isDone && 'italic text-slate-400 line-through'
         )}
         onBlur={() => handleBlur()}
         key={todoTitleField.id}
