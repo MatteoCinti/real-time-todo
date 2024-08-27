@@ -6,6 +6,11 @@ import { pubsub } from '../../../pubsub';
 
 async function updateTodo(_: unknown, args: MutationUpdateTodoArgs) {
   const { id, title, description, isDone, order, parentId } = args.todo;
+
+  if (!id) {
+    throw new GraphQLError('Id is required');
+  }
+
   const todo = await Todo.findOne({ where: { id } });
 
   if (!todo) {

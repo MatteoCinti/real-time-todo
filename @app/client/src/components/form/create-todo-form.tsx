@@ -25,10 +25,12 @@ function CreateTodo() {
       const order = generateIndex(todosLength);
 
       mutate({
-        title: value.title,
-        board: Number(boardId),
-        description: value.description,
-        order
+        todo: {
+          title: value.title,
+          board: Number(boardId),
+          description: value.description,
+          order
+        }
       });
     }
   });

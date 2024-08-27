@@ -47,11 +47,7 @@ export type MutationCreateBoardArgs = {
 
 
 export type MutationCreateTodoArgs = {
-  board: Scalars['Int']['input'];
-  description: Scalars['String']['input'];
-  order?: InputMaybe<Scalars['Int']['input']>;
-  parentId?: InputMaybe<Scalars['Int']['input']>;
-  title: Scalars['String']['input'];
+  todo: TodoInput;
 };
 
 
@@ -153,8 +149,9 @@ export type TodoDeleted = {
 };
 
 export type TodoInput = {
+  board?: InputMaybe<Scalars['Int']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
-  id: Scalars['Int']['input'];
+  id?: InputMaybe<Scalars['Int']['input']>;
   isDone?: InputMaybe<Scalars['Boolean']['input']>;
   order?: InputMaybe<Scalars['Int']['input']>;
   parentId?: InputMaybe<Scalars['Int']['input']>;
@@ -286,7 +283,7 @@ export type BoardDeletedResolvers<ContextType = ApolloContext, ParentType extend
 
 export type MutationResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createBoard?: Resolver<ResolversTypes['Board'], ParentType, ContextType, RequireFields<MutationCreateBoardArgs, 'title'>>;
-  createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'board' | 'description' | 'title'>>;
+  createTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'todo'>>;
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'firstName' | 'password' | 'username'>>;
   deleteBoard?: Resolver<ResolversTypes['BoardDeleted'], ParentType, ContextType, RequireFields<MutationDeleteBoardArgs, 'id'>>;
   deleteTodo?: Resolver<ResolversTypes['TodoDeleted'], ParentType, ContextType, RequireFields<MutationDeleteTodoArgs, 'board' | 'id'>>;

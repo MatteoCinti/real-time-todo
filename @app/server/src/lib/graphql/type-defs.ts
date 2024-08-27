@@ -31,7 +31,8 @@ export default gql`
   }
 
   input TodoInput {
-    id: Int!
+    id: Int
+    board: Int
     order: Int
     title: String
     isDone: Boolean
@@ -55,13 +56,7 @@ export default gql`
 
   type Mutation {
     createUser(username: String!, firstName: String!, password: String!): User!
-    createTodo(
-      title: String!
-      description: String!
-      board: Int!
-      order: Int
-      parentId: Int
-    ): Todo!
+    createTodo(todo: TodoInput!): Todo!
     deleteBoard(id: Int!): BoardDeleted!
     createBoard(title: String!): Board!
     deleteTodo(id: Int!, board: Int!): TodoDeleted!

@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "mutation CreateBoard($title: String!) {\n  createBoard(title: $title) {\n    id\n    title\n  }\n}": types.CreateBoardDocument,
-    "mutation CreateTodo($title: String!, $board: Int!, $description: String!, $order: Int, $parentId: Int) {\n  createTodo(\n    title: $title\n    board: $board\n    description: $description\n    order: $order\n    parentId: $parentId\n  ) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}": types.CreateTodoDocument,
+    "mutation CreateTodo($todo: TodoInput!) {\n  createTodo(todo: $todo) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}": types.CreateTodoDocument,
     "mutation DeleteBoard($id: Int!) {\n  deleteBoard(id: $id) {\n    id\n    deleted\n  }\n}": types.DeleteBoardDocument,
     "mutation DeleteTodo($id: Int!, $board: Int!) {\n  deleteTodo(id: $id, board: $board) {\n    id\n    deleted\n  }\n}": types.DeleteTodoDocument,
     "query GetBoardData($board: Int!) {\n  getBoard(id: $board) {\n    id\n    title\n  }\n}": types.GetBoardDataDocument,
@@ -48,7 +48,7 @@ export function gql(source: "mutation CreateBoard($title: String!) {\n  createBo
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "mutation CreateTodo($title: String!, $board: Int!, $description: String!, $order: Int, $parentId: Int) {\n  createTodo(\n    title: $title\n    board: $board\n    description: $description\n    order: $order\n    parentId: $parentId\n  ) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}"): (typeof documents)["mutation CreateTodo($title: String!, $board: Int!, $description: String!, $order: Int, $parentId: Int) {\n  createTodo(\n    title: $title\n    board: $board\n    description: $description\n    order: $order\n    parentId: $parentId\n  ) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}"];
+export function gql(source: "mutation CreateTodo($todo: TodoInput!) {\n  createTodo(todo: $todo) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}"): (typeof documents)["mutation CreateTodo($todo: TodoInput!) {\n  createTodo(todo: $todo) {\n    id\n    title\n    description\n    isDone\n    order\n    parentId\n  }\n}"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
