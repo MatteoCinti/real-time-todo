@@ -12,5 +12,6 @@ export {
   useDeleteBoard,
   useCreateBoard,
   useCreateTodo,
-  useUpdateTodo
+  useUpdateTodo,
+  useDeleteTodo
 } from './mutations';
