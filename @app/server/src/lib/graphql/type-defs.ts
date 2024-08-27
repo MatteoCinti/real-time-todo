@@ -44,7 +44,13 @@ export default gql`
 
   type Mutation {
     createUser(username: String!, firstName: String!, password: String!): User!
-    createTodo(title: String!, description: String!, board: Int!): Todo!
+    createTodo(
+      title: String!
+      description: String!
+      board: Int!
+      order: Int
+      parentId: Int
+    ): Todo!
     deleteBoard(id: Int!): BoardDeleted!
     createBoard(title: String!): Board!
     deleteTodo(id: Int!, board: Int!): TodoDeleted!
@@ -53,6 +59,8 @@ export default gql`
       title: String
       description: String
       isDone: Boolean
+      order: Int
+      parentId: Int
     ): Todo!
   }
 

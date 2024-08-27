@@ -5,7 +5,7 @@ import { Todo } from '../../../database/models';
 import { pubsub } from '../../../pubsub';
 
 async function updateTodo(_: unknown, args: MutationUpdateTodoArgs) {
-  const { id, title, description, isDone } = args;
+  const { id, title, description, isDone, order, parentId } = args;
   const todo = await Todo.findOne({ where: { id } });
 
   if (!todo) {
@@ -15,7 +15,9 @@ async function updateTodo(_: unknown, args: MutationUpdateTodoArgs) {
   await todo.update({
     title: title ?? todo.title,
     description: description ?? todo.description,
-    isDone: isDone ?? todo.isDone
+    isDone: isDone ?? todo.isDone,
+    order: order ?? todo.order,
+    parentId: parentId ?? todo.parentId
   });
 
   await todo.save();

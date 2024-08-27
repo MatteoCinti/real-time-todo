@@ -7,6 +7,8 @@ export type TodoAttributes = {
   board: number;
   description?: string;
   isDone?: boolean;
+  parentId: number | null;
+  order?: number;
 };
 
 class Todo extends Model<TodoAttributes> implements TodoAttributes {
@@ -15,6 +17,8 @@ class Todo extends Model<TodoAttributes> implements TodoAttributes {
   public board!: number;
   public isDone!: boolean;
   public description!: string;
+  public parentId!: number;
+  public order!: number;
 }
 
 Todo.init(
@@ -41,6 +45,22 @@ Todo.init(
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: false
+    },
+    parentId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: 'Todo',
+        key: 'id'
+      },
+      defaultValue: null,
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
+    },
+    order: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
     }
   },
   {

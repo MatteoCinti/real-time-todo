@@ -48,6 +48,8 @@ export type MutationCreateBoardArgs = {
 export type MutationCreateTodoArgs = {
   board: Scalars['Int']['input'];
   description: Scalars['String']['input'];
+  order?: InputMaybe<Scalars['Int']['input']>;
+  parentId?: InputMaybe<Scalars['Int']['input']>;
   title: Scalars['String']['input'];
 };
 
@@ -74,6 +76,8 @@ export type MutationUpdateTodoArgs = {
   description?: InputMaybe<Scalars['String']['input']>;
   id: Scalars['Int']['input'];
   isDone?: InputMaybe<Scalars['Boolean']['input']>;
+  order?: InputMaybe<Scalars['Int']['input']>;
+  parentId?: InputMaybe<Scalars['Int']['input']>;
   title?: InputMaybe<Scalars['String']['input']>;
 };
 

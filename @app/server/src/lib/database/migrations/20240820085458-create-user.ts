@@ -1,5 +1,3 @@
-const { DataTypes, QueryInterface } = require('sequelize');
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface: typeof QueryInterface, Sequelize: typeof DataTypes) {
