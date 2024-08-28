@@ -36,10 +36,13 @@ function useSubscribeTodoDelete(
 ) {
   const queryClient = useQueryClient();
 
-  const { data: deleted, error } = useSubscription(ListenTodoDeletedDocument, {
-    client: apolloClient,
-    variables
-  });
+  const { data: deleted, error: deleteError } = useSubscription(
+    ListenTodoDeletedDocument,
+    {
+      client: apolloClient,
+      variables
+    }
+  );
 
   useEffect(() => {
     if (deleted?.todoDeleted) {
@@ -48,7 +51,7 @@ function useSubscribeTodoDelete(
     }
   }, [deleted, queryClient, variables]);
 
-  return { error, deleted };
+  return { deleteError, deleted };
 }
 
 export default useSubscribeTodoDelete;

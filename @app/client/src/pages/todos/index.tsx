@@ -16,6 +16,7 @@ function TodosPage() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
     if (deleteError || updateError || creationError) {
       toast({
         title: 'Uh oh! Something went wrong.',
