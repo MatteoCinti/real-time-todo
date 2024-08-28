@@ -3,7 +3,13 @@ import { Todo } from '../../../database/models';
 import { MutationUpdateTodosArgs } from '../../__generated__/resolvers-types';
 import { pubsub } from '../../../pubsub';
 
-async function updateTodos(_: unknown, { todos }: MutationUpdateTodosArgs) {
+async function updateTodos(
+  _: unknown,
+  { todos, board }: MutationUpdateTodosArgs
+) {
+  if (!board) {
+    throw new GraphQLError('Board is necessary');
+  }
   const updatedTodos = await Promise.all(
     todos.map(async (input) => {
       const { id, title, description, isDone, order, parentId } = input;
@@ -27,6 +33,7 @@ async function updateTodos(_: unknown, { todos }: MutationUpdateTodosArgs) {
   );
 
   pubsub.publish('TODOS_UPDATED', {
+    board,
     todosUpdated: updatedTodos as Todo[]
   });
 

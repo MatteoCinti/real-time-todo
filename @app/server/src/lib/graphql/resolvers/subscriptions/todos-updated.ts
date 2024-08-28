@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { withFilter } from 'graphql-subscriptions';
 
 import { SubscriptionTodosUpdatedArgs } from '../../__generated__/resolvers-types';
@@ -7,7 +8,7 @@ async function todosUpdated(_: unknown, args: SubscriptionTodosUpdatedArgs) {
   return {
     [Symbol.asyncIterator]: withFilter(
       () => pubsub.asyncIterator('TODOS_UPDATED'),
-      (payload, __, ___) => payload.todoUpdated.board === args.board
+      (payload, __, ___) => payload.board === args.board
     )
   };
 }

@@ -16,8 +16,8 @@ import {
   updateTodo,
   deleteTodo,
   updateTodos
-} from './mutations/p';
-import { todoCreated, todosUpdated, todoDeleted } from './subscriptions/j';
+} from './mutations/a';
+import { todoCreated, todosUpdated, todoDeleted } from './subscriptions/p';
 
 export const resolvers: Resolvers = {
   Query: {

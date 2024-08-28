@@ -40,6 +40,7 @@ function useSuscribeTodoCreate(
   useEffect(() => {
     if (create?.todoCreated) {
       addTodoToCache(queryClient, create?.todoCreated, variables);
+      //   queryClient.invalidateQueries({ queryKey: todosQueryKeys(variables) });
     }
   }, [create, queryClient, variables]);
 

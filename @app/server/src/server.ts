@@ -10,7 +10,7 @@ import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
 import { ApolloServer } from '@apollo/server';
 
-import { resolvers } from './lib/graphql/resolvers/k';
+import { resolvers } from './lib/graphql/resolvers/z';
 import typeDefs from './lib/graphql/type-defs';
 
 const app: Express = express();

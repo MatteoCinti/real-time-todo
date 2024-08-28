@@ -5,10 +5,14 @@ import { Todo } from '../../../database/models';
 import { pubsub } from '../../../pubsub';
 
 async function updateTodo(_: unknown, args: MutationUpdateTodoArgs) {
+  const { board } = args;
   const { id, title, description, isDone, order, parentId } = args.todo;
 
   if (!id) {
     throw new GraphQLError('Id is required');
+  }
+  if (!board) {
+    throw new GraphQLError('Board is required');
   }
 
   const todo = await Todo.findOne({ where: { id } });
@@ -28,6 +32,7 @@ async function updateTodo(_: unknown, args: MutationUpdateTodoArgs) {
   await todo.save();
 
   pubsub.publish('TODOS_UPDATED', {
+    board,
     todosUpdated: [todo.toJSON()!] as Todo[]
   });
 

@@ -60,8 +60,8 @@ export default gql`
     deleteBoard(id: Int!): BoardDeleted!
     createBoard(title: String!): Board!
     deleteTodo(id: Int!, board: Int!): TodoDeleted!
-    updateTodo(todo: TodoInput!): Todo!
-    updateTodos(todos: [TodoInput!]!): [Todo]
+    updateTodo(todo: TodoInput!, board: Int!): Todo!
+    updateTodos(todos: [TodoInput!]!, board: Int!): [Todo]
   }
 
   type Subscription {

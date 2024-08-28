@@ -40,6 +40,7 @@ function EditTodo({ todoId }: Props) {
       });
       setIsDisabled(true);
       mutate({
+        board: Number(boardId),
         todo: {
           ...value
         }
@@ -67,6 +68,7 @@ function EditTodo({ todoId }: Props) {
       board: Number(boardId)
     });
     mutate({
+      board: Number(boardId),
       todo: {
         id: todo!.id,
         isDone

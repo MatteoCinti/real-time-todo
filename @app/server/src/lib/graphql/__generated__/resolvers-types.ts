@@ -70,11 +70,13 @@ export type MutationDeleteTodoArgs = {
 
 
 export type MutationUpdateTodoArgs = {
+  board: Scalars['Int']['input'];
   todo: TodoInput;
 };
 
 
 export type MutationUpdateTodosArgs = {
+  board: Scalars['Int']['input'];
   todos: Array<TodoInput>;
 };
 
@@ -287,8 +289,8 @@ export type MutationResolvers<ContextType = ApolloContext, ParentType extends Re
   createUser?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationCreateUserArgs, 'firstName' | 'password' | 'username'>>;
   deleteBoard?: Resolver<ResolversTypes['BoardDeleted'], ParentType, ContextType, RequireFields<MutationDeleteBoardArgs, 'id'>>;
   deleteTodo?: Resolver<ResolversTypes['TodoDeleted'], ParentType, ContextType, RequireFields<MutationDeleteTodoArgs, 'board' | 'id'>>;
-  updateTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationUpdateTodoArgs, 'todo'>>;
-  updateTodos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType, RequireFields<MutationUpdateTodosArgs, 'todos'>>;
+  updateTodo?: Resolver<ResolversTypes['Todo'], ParentType, ContextType, RequireFields<MutationUpdateTodoArgs, 'board' | 'todo'>>;
+  updateTodos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType, RequireFields<MutationUpdateTodosArgs, 'board' | 'todos'>>;
 };
 
 export type QueryResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {

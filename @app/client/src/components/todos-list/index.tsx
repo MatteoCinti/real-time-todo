@@ -43,7 +43,7 @@ function TodosList() {
     const newCardPosition = Number(drop);
     const todosClone = [...todosData!.todos!] as Todo[];
     const updatedTodos = reorderTodos(todosClone, dragItem, newCardPosition);
-    updateTodos({ todos: updatedTodos });
+    updateTodos({ board: boardId, todos: updatedTodos });
     updateGetTodosCache(queryClient, updatedTodos, {
       board: Number(boardId)
     });

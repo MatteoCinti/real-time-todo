@@ -44,6 +44,7 @@ function useSubscribeTodoDelete(
   useEffect(() => {
     if (deleted?.todoDeleted) {
       deleteTodoFromCache(queryClient, deleted.todoDeleted, variables);
+      //   queryClient.invalidateQueries({ queryKey: todosQueryKeys(variables) });
     }
   }, [deleted, queryClient, variables]);
 

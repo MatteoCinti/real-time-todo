@@ -1,5 +1,5 @@
-mutation UpdateTodos($todos: [TodoInput!]!) {
-  updateTodos(todos: $todos) {
+mutation UpdateTodos($todos: [TodoInput!]!, $board: Int!) {
+  updateTodos(todos: $todos, board: $board) {
     id
     title
     description
