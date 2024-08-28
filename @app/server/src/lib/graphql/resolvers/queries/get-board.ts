@@ -8,8 +8,8 @@ async function getBoard(
   context: ApolloContext
 ) {
   const { id } = args;
-  const { id: owner } = verifyUser(context);
-  const board = await Board.findOne({ where: { owner, id } });
+  verifyUser(context);
+  const board = await Board.findOne({ where: { id } });
 
   return board!.toJSON() as Board;
 }

@@ -51,7 +51,10 @@ async function initServer() {
     express.json(),
     expressMiddleware(server, {
       context: async ({ req }) => {
-        return { token: req.headers.authorization };
+        return {
+          token: req.headers.authorization,
+          guest: req.headers.guest
+        };
       }
     })
   );

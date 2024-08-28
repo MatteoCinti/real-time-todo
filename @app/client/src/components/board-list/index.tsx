@@ -1,4 +1,7 @@
-import { useUser } from '~/lib/react-query';
+import { useBoardData, useUser } from '~/lib/react-query';
+import { useParams } from '@tanstack/react-router';
+import { useAuth } from '~/hooks';
+
 import BoardListItem from '../board-list-item';
 import ErrorComponent from '../error';
 import { BoardForm } from '../form';
@@ -22,14 +25,23 @@ function LoadingSkeleton() {
 export const componentTitle = 'Yet more things to do?';
 
 function BoardList() {
+  const { board: boardId } = useParams({ from: '/_auth/board/$board' });
   const {
     data,
     isError: userFetchError,
     isLoading: boardsLoading,
     isFetching: boardsFetching
   } = useUser();
+  const {
+    data: guestBoardView,
+    isLoading: guestBoardLoading,
+    isError: guestFetchError
+  } = useBoardData({
+    board: Number(boardId)
+  });
+  const { guest, auth } = useAuth();
 
-  if (userFetchError) {
+  if (userFetchError && guestFetchError) {
     return <ErrorComponent />;
   }
 
@@ -39,7 +51,7 @@ function BoardList() {
         <CardTitle>{componentTitle}</CardTitle>
       </CardHeader>
       <CardContent className="pl-2">
-        {boardsLoading || boardsFetching ? (
+        {boardsLoading || boardsFetching || guestBoardLoading ? (
           <LoadingSkeleton />
         ) : (
           <ul>
@@ -47,9 +59,19 @@ function BoardList() {
               if (!board) return null;
               return <BoardListItem key={board.id!} board={board} />;
             })}
-            <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 ml-3 border-b p-0">
-              <BoardForm />
-            </li>
+
+            {guestBoardView?.board && (
+              <BoardListItem
+                isGuestView={!!guest}
+                board={guestBoardView.board}
+              />
+            )}
+
+            {auth && (
+              <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 ml-3 border-b p-0">
+                <BoardForm />
+              </li>
+            )}
           </ul>
         )}
       </CardContent>

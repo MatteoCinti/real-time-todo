@@ -17,6 +17,7 @@ import { Route as AuthImport } from './routes/_auth';
 import { Route as AuthIndexImport } from './routes/_auth.index';
 import { Route as AuthBoardImport } from './routes/_auth.board';
 import { Route as AuthBoardBoardImport } from './routes/_auth.board.$board';
+import { Route as AuthBoardBoardGuestImport } from './routes/_auth.board.$board.$guest';
 
 // Create/Update Routes
 
@@ -48,6 +49,11 @@ const AuthBoardRoute = AuthBoardImport.update({
 const AuthBoardBoardRoute = AuthBoardBoardImport.update({
   path: '/$board',
   getParentRoute: () => AuthBoardRoute
+} as any);
+
+const AuthBoardBoardGuestRoute = AuthBoardBoardGuestImport.update({
+  path: '/$guest',
+  getParentRoute: () => AuthBoardBoardRoute
 } as any);
 
 // Populate the FileRoutesByPath interface
@@ -96,6 +102,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthBoardBoardImport;
       parentRoute: typeof AuthBoardImport;
     };
+    '/_auth/board/$board/$guest': {
+      id: '/_auth/board/$board/$guest';
+      path: '/$guest';
+      fullPath: '/board/$board/$guest';
+      preLoaderRoute: typeof AuthBoardBoardGuestImport;
+      parentRoute: typeof AuthBoardBoardImport;
+    };
   }
 }
 
@@ -103,7 +116,11 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   AuthRoute: AuthRoute.addChildren({
-    AuthBoardRoute: AuthBoardRoute.addChildren({ AuthBoardBoardRoute }),
+    AuthBoardRoute: AuthBoardRoute.addChildren({
+      AuthBoardBoardRoute: AuthBoardBoardRoute.addChildren({
+        AuthBoardBoardGuestRoute
+      })
+    }),
     AuthIndexRoute
   }),
   LoginRoute,
@@ -149,7 +166,14 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_auth/board/$board": {
       "filePath": "_auth.board.$board.tsx",
-      "parent": "/_auth/board"
+      "parent": "/_auth/board",
+      "children": [
+        "/_auth/board/$board/$guest"
+      ]
+    },
+    "/_auth/board/$board/$guest": {
+      "filePath": "_auth.board.$board.$guest.tsx",
+      "parent": "/_auth/board/$board"
     }
   }
 }

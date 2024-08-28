@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useQueryClient } from '@tanstack/react-query';
@@ -9,6 +10,7 @@ import { userQueryKeys } from '~/lib/react-query/queries/query-keys';
 export const useAuth = () => {
   const [cookies, setCookie, removeCookie] = useCookies([AUTH_COOKIE]);
   const [auth, setAuth] = useState(cookies[AUTH_COOKIE] ?? null);
+  const [guest, setGuest] = useState(sessionStorage.getItem('guest') ?? null);
   const queryClient = useQueryClient();
 
   useEffect(() => {}, [cookies]);
@@ -24,12 +26,22 @@ export const useAuth = () => {
     });
   }
 
+  async function signInAsGuest(guestUser: string) {
+    setGuest(guestUser);
+    sessionStorage.setItem('guest', guestUser);
+  }
+
+  function logoutGuest() {
+    sessionStorage.removeItem('guest');
+    setGuest(null);
+  }
+
   const logout = () => {
     removeCookie(AUTH_COOKIE);
     setAuth(null);
   };
 
-  return { auth, logout, signIn };
+  return { auth, guest, logoutGuest, logout, signIn, signInAsGuest };
 };
 
 export type AuthContext = ReturnType<typeof useAuth>;

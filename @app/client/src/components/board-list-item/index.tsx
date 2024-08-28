@@ -9,9 +9,10 @@ import DeleteIcon from '../delete-icon';
 type Props = {
   board: Omit<Board, 'owner'>;
   className?: string;
+  isGuestView?: boolean;
 };
 
-function BoardListItem({ board, className }: Props) {
+function BoardListItem({ board, className, isGuestView }: Props) {
   const { mutate, isPending: isDeleting } = useDeleteBoard();
 
   return (
@@ -25,7 +26,7 @@ function BoardListItem({ board, className }: Props) {
           className={cn(
             'hover:bg-muted mb-1.5 flex cursor-pointer flex-row items-center justify-between rounded-lg px-3 py-2 text-sm',
             className,
-            isActive ? 'bg-muted' : 'bg-inherit'
+            isActive || isGuestView ? 'bg-muted' : 'bg-inherit'
           )}
         >
           {board!.title}

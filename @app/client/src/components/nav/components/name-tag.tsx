@@ -1,9 +1,12 @@
 import { Eclipse } from 'lucide-react';
+import ErrorComponent from '~/components/error';
 import { Card, CardFooter, Skeleton } from '~/components/ui';
+import { useAuth } from '~/hooks';
 import { useUser } from '~/lib/react-query';
 
 function NameTag() {
-  const { data, isLoading } = useUser();
+  const { data, isError: userFetchingError, isLoading } = useUser();
+  const { guest } = useAuth();
 
   if (isLoading) {
     return (
@@ -13,17 +16,22 @@ function NameTag() {
     );
   }
 
-  if (data) {
-    return (
-      <Card className="border-muted flex items-center justify-center text-nowrap rounded-md">
-        <CardFooter className="py-1 pl-2 pr-4">
-          <Eclipse size="16" className="mr-2" />
-          <p>Hello&nbsp;</p>
-          <span className="italic">{data.user.firstName}</span>
-        </CardFooter>
-      </Card>
-    );
+  if (userFetchingError && !guest) {
+    return <ErrorComponent />;
   }
+
+  return (
+    <Card className="border-muted flex items-center justify-center text-nowrap rounded-md">
+      <CardFooter className="py-1 pl-2 pr-4">
+        <Eclipse size="16" className="mr-2" />
+        <p>Welcome&nbsp;</p>
+        {data?.user.firstName && (
+          <span className="italic">{data.user.firstName}</span>
+        )}
+        {guest && <span className="italic">dear guest</span>}
+      </CardFooter>
+    </Card>
+  );
 }
 
 export default NameTag;

@@ -11,10 +11,10 @@ export const userQueryKeys = (token: string) => {
 };
 
 export const boardDataQueryKeys = (
-  token: string,
+  headers: { Authorization?: string; guest?: string },
   variables: GetBoardDataQueryVariables
 ) => {
-  return ['board-data', GetBoardDataDocument, token, variables];
+  return ['board-data', GetBoardDataDocument, headers, variables];
 };
 
 export const todosQueryKeys = (variables: GetTodosQueryVariables) => {

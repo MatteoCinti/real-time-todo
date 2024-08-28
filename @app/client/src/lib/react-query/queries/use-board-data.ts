@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { useGetUserToken } from '~/hooks';
+import { useAuth, useGetUserToken } from '~/hooks';
 import { gqlRequestClient } from '~/lib/graphql';
 import {
   GetBoardDataDocument,
@@ -12,13 +12,26 @@ import { boardDataQueryKeys } from './query-keys';
 
 function useBoardData(variables: GetBoardDataQueryVariables) {
   const token = useGetUserToken();
+  const { guest } = useAuth();
+
+  const headers: {
+    Authorization?: string;
+    guest?: string;
+  } = {};
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  if (guest) {
+    headers.guest = guest;
+  }
 
   return useQuery({
-    queryKey: boardDataQueryKeys(token, variables),
+    queryKey: boardDataQueryKeys(headers, variables),
     queryFn: async () => {
-      const response = await gqlRequestClient({
-        Authorization: `Bearer ${token}`
-      }).request(GetBoardDataDocument, variables);
+      const response = await gqlRequestClient(headers).request(
+        GetBoardDataDocument,
+        variables
+      );
       return {
         board: response.getBoard
       } as UseBoardData;

@@ -11,9 +11,10 @@ export const decodeToken = (token: string) => {
 };
 
 export function verifyUser(context: ApolloContext) {
+  const { guest } = context;
   let { token } = context;
 
-  if (!token) {
+  if (!token && !guest) {
     throw new GraphQLError('No authentication was sent with the request', {
       extensions: {
         code: 'UNAUTHENTICATED',
@@ -21,7 +22,11 @@ export function verifyUser(context: ApolloContext) {
       }
     });
   }
-  token = token.replace('Bearer ', '');
+  if (guest) {
+    return { id: guest };
+  }
+
+  token = token!.replace('Bearer ', '');
   const user = decodeToken(token) as User;
   return user;
 }

@@ -22,7 +22,8 @@ function useUser() {
       } as UseUserData;
     },
     refetchOnWindowFocus: false,
-    staleTime: Infinity
+    staleTime: Infinity,
+    enabled: !!token
   });
 }
 
