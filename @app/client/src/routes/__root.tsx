@@ -4,6 +4,7 @@ import { QueryClient } from '@tanstack/react-query';
 
 import { PageContainer } from '~/components';
 import { AuthContext } from '~/hooks';
+import { Toaster } from '~/components/ui';
 
 type RouterContext = {
   authentication: AuthContext;
@@ -13,8 +14,11 @@ type RouterContext = {
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <PageContainer>
-      <Outlet />
+      <main className="flex h-full w-full flex-col overflow-y-hidden">
+        <Outlet />
+      </main>
       <TanStackRouterDevtools />
+      <Toaster />
     </PageContainer>
   )
 });

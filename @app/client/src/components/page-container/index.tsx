@@ -9,7 +9,10 @@ const themeClassNames = 'bg-background text-primary';
 function Layout({ children }: Props) {
   return (
     <div
-      className={cn('flex h-full w-full flex-col px-4 py-2', themeClassNames)}
+      className={cn(
+        'flex h-full w-full flex-col p-1 lg:px-4 lg:py-2',
+        themeClassNames
+      )}
     >
       {children}
     </div>

@@ -63,16 +63,16 @@ function TodosList() {
           <>
             <CardHeader className="border-muted mb-4 w-full whitespace-nowrap border-b py-3 pl-5">
               <CardTitle className="flex flex-row whitespace-pre-wrap">
-                <span>{`Start by completing the `}</span>
-                <span className="text-accent font-black">
+                <span className="hidden lg:inline-flex">{`Start by completing the `}</span>
+                <span className="text-accent font-bold lg:font-black">
                   {boardLoading && <SectionTitleSkeleton />}
                   {boardData?.board.title}
                 </span>
-                {` you have left!`}
+                <span className="hidden lg:inline-flex">{` you have left!`}</span>
               </CardTitle>
             </CardHeader>
 
-            <ul className="flex w-full flex-col">
+            <ul className="flex w-full flex-col overflow-y-scroll">
               {todosData?.todos?.map((todo) => {
                 if (!todo) return null;
 

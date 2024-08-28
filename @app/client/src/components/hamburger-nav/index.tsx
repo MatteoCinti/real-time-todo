@@ -23,7 +23,6 @@ function HamburgerNav({ logout }: { logout: () => void }) {
   const navigate = useNavigate();
 
   function closeMenu() {
-    console.log('closeMenu');
     setMenuOpen(false);
   }
 
