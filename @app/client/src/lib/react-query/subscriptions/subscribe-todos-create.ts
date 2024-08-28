@@ -32,10 +32,13 @@ function useSuscribeTodoCreate(
 ) {
   const queryClient = useQueryClient();
 
-  const { data: create } = useSubscription(ListenTodoCreatedDocument, {
-    client: apolloClient,
-    variables
-  });
+  const { data: create, error: creationError } = useSubscription(
+    ListenTodoCreatedDocument,
+    {
+      client: apolloClient,
+      variables
+    }
+  );
 
   useEffect(() => {
     if (create?.todoCreated) {
@@ -44,7 +47,7 @@ function useSuscribeTodoCreate(
     }
   }, [create, queryClient, variables]);
 
-  return create;
+  return { creationError, create };
 }
 
 export default useSuscribeTodoCreate;

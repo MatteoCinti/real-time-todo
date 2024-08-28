@@ -1,6 +1,6 @@
 import { Outlet } from '@tanstack/react-router';
 import { BoardList } from '~/components';
-import { Card } from '~/components/ui';
+import { Card, Toaster } from '~/components/ui';
 
 function Home() {
   return (
@@ -11,6 +11,7 @@ function Home() {
       </Card>
       <Card className="border-muted col-span-6 my-4 mr-4 flex flex-col">
         <Outlet />
+        <Toaster />
       </Card>
     </Card>
   );

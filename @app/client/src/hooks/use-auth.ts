@@ -20,6 +20,7 @@ export const useAuth = () => {
       path: '/'
     });
     setAuth(user);
+    sessionStorage.removeItem('guest');
     await queryClient.invalidateQueries({
       queryKey: userQueryKeys(user!.token!)
     });
@@ -37,6 +38,7 @@ export const useAuth = () => {
 
   const logout = () => {
     removeCookie(AUTH_COOKIE);
+    sessionStorage.removeItem('guest');
     setAuth(null);
   };
 

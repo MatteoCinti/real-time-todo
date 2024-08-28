@@ -41,10 +41,13 @@ function useSubscribeTodoUpdates(
 ) {
   const queryClient = useQueryClient();
 
-  const { data: update } = useSubscription(ListenTodoUpdatedDocument, {
-    client: apolloClient,
-    variables
-  });
+  const { data: update, error: updateError } = useSubscription(
+    ListenTodoUpdatedDocument,
+    {
+      client: apolloClient,
+      variables
+    }
+  );
 
   useEffect(() => {
     if (update?.todosUpdated) {
@@ -53,7 +56,7 @@ function useSubscribeTodoUpdates(
     }
   }, [update, queryClient, variables]);
 
-  return update;
+  return { update, updateError };
 }
 
 export default useSubscribeTodoUpdates;

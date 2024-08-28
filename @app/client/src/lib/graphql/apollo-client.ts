@@ -9,11 +9,12 @@ const httpLink = new HttpLink({
   uri: `${VITE_BACKEND_URL}/graphql`
 });
 
-const wsLink = new GraphQLWsLink(
-  createClient({
-    url: `${VITE_WS_URL}/graphql`
-  })
-);
+export const wsClient = createClient({
+  url: `${VITE_WS_URL}/graphql`,
+  retryAttempts: 10
+});
+
+export const wsLink = new GraphQLWsLink(wsClient);
 
 const splitLink = split(
   ({ query }) => {
