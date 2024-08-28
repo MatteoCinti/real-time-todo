@@ -20,7 +20,7 @@ function SectionTitleSkeleton() {
 }
 
 function TodosList() {
-  const { board: boardId } = useParams({ from: '/_auth/board/$board' });
+  const { board: boardId } = useParams({ strict: false });
   const { data: boardData, isLoading: boardLoading } = useBoardData({
     board: Number(boardId)
   });

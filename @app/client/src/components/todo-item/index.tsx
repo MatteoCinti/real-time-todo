@@ -16,7 +16,7 @@ type Props = DraggedChildrenProps & {
 };
 
 function TodoItem({ todo, activeItem, isDragging }: Props) {
-  const { board: boardId } = useParams({ from: '/_auth/board/$board' });
+  const { board: boardId } = useParams({ strict: false });
   const queryClient = useQueryClient();
   const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
 

@@ -25,7 +25,7 @@ function LoadingSkeleton() {
 export const componentTitle = 'Yet more things to do?';
 
 function BoardList() {
-  const { board: boardId } = useParams({ from: '/_auth/board/$board' });
+  const { board: boardId } = useParams({ strict: false });
   const {
     data,
     isError: userFetchError,

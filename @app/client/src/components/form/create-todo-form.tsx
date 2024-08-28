@@ -13,7 +13,7 @@ import { todoTitleField, todoFormDefaultValues } from './config';
 import Field from './components/form-field';
 
 function CreateTodo() {
-  const { board: boardId } = useParams({ from: '/_auth/board/$board' });
+  const { board: boardId } = useParams({ strict: false });
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
   const { mutate, isPending, isSuccess } = useCreateTodo(boardId);
 

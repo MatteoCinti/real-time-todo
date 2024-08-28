@@ -22,7 +22,7 @@ type Props = {
 };
 
 function EditTodo({ todoId }: Props) {
-  const { board: boardId } = useParams({ from: '/_auth/board/$board' });
+  const { board: boardId } = useParams({ strict: false });
   const { data } = useGetTodos({ board: Number(boardId) });
   const todo = data!.todos!.find((t) => t!.id === todoId);
   const queryClient = useQueryClient();
