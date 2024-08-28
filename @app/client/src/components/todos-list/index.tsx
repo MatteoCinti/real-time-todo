@@ -72,14 +72,14 @@ function TodosList() {
               </CardTitle>
             </CardHeader>
 
-            <ul className="flex h-[calc(100%-var(--nav-height))] w-full flex-col overflow-y-scroll pb-1">
+            <ul className="flex h-full w-full flex-col overflow-y-auto overscroll-contain pb-1 hover:overflow-y-scroll">
               {todosData?.todos?.map((todo) => {
                 if (!todo) return null;
 
                 return (
                   <li
                     className={cn(
-                      'border-muted mx-3 mt-[-1px] flex flex-1 flex-row border',
+                      'border-muted mx-3 mt-[-1px] flex flex-1 flex-row border first-of-type:mt-0',
                       todo.isDone && 'bg-muted border-primary-foreground'
                     )}
                     key={todo.id}
@@ -94,7 +94,7 @@ function TodosList() {
                   </li>
                 );
               })}
-              <li className="border-muted relative mx-3 mt-[-1px] h-12 list-none rounded-b-lg border p-0">
+              <li className="border-muted relative mx-3 h-12 list-none rounded-b-lg border p-0">
                 <DropZone dropId={lastPosition.toString()} remember="true">
                   <DropGuide
                     dropId={lastPosition.toString()}
