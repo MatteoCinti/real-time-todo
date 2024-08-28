@@ -72,7 +72,7 @@ function TodosList() {
               </CardTitle>
             </CardHeader>
 
-            <ul className="flex w-full flex-col overflow-y-scroll">
+            <ul className="flex h-[calc(100%-var(--nav-height))] w-full flex-col overflow-y-scroll pb-1">
               {todosData?.todos?.map((todo) => {
                 if (!todo) return null;
 

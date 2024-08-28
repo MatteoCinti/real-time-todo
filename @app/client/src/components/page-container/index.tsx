@@ -10,7 +10,7 @@ function Layout({ children }: Props) {
   return (
     <div
       className={cn(
-        'flex h-full w-full flex-col p-1 lg:px-4 lg:py-2',
+        'flex h-full w-full flex-col p-2 lg:px-4 lg:py-2',
         themeClassNames
       )}
     >

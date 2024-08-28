@@ -1,5 +1,4 @@
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
-import { TanStackRouterDevtools } from '@tanstack/router-devtools';
 import { QueryClient } from '@tanstack/react-query';
 
 import { PageContainer } from '~/components';
@@ -14,10 +13,9 @@ type RouterContext = {
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <PageContainer>
-      <main className="flex h-full w-full flex-col overflow-y-hidden">
+      <main className="flex h-full w-full flex-col">
         <Outlet />
       </main>
-      <TanStackRouterDevtools />
       <Toaster />
     </PageContainer>
   )
