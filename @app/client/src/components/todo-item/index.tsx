@@ -38,7 +38,13 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
       >
         <DropGuide dropId={`${todo.order}`} />
         <CardContent className="flex content-center py-2 pl-2 pr-4">
-          <GripVertical size={18} className="text-muted my-auto mr-2" />
+          <GripVertical
+            size={18}
+            className={cn(
+              'text-muted my-auto mr-2',
+              todo.isDone && 'text-primary'
+            )}
+          />
           <EditTodo todoId={todo.id} />
           <DeleteIcon
             deleteMutation={() => {

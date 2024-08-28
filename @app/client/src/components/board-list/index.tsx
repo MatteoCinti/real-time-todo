@@ -9,8 +9,8 @@ import { CardContent, CardHeader, CardTitle, Skeleton } from '../ui';
 
 function LoadingSkeleton() {
   return (
-    <div className="flex flex-col space-y-3">
-      {[...Array(16)].map((_, i) => (
+    <div className="mt-12 flex flex-col space-y-3 lg:mt-0">
+      {[...Array(14)].map((_, i) => (
         <Skeleton
           // eslint-disable-next-line react/no-array-index-key
           key={`skel-${i}`}
@@ -24,22 +24,25 @@ function LoadingSkeleton() {
 
 export const componentTitle = 'Yet more things to do?';
 
-function BoardList() {
+type Props = {
+  onListClick?: () => void;
+};
+
+function BoardList({ onListClick }: Props) {
   const { board: boardId } = useParams({ strict: false });
+  const { guest, auth } = useAuth();
   const {
     data,
     isError: userFetchError,
     isLoading: boardsLoading,
     isFetching: boardsFetching
   } = useUser();
-  const {
-    data: guestBoardView,
-    isLoading: guestBoardLoading,
-    isError: guestFetchError
-  } = useBoardData({
-    board: Number(boardId)
-  });
-  const { guest, auth } = useAuth();
+  const { data: guestBoardView, isError: guestFetchError } = useBoardData(
+    {
+      board: Number(boardId)
+    },
+    !!guest
+  );
 
   if (userFetchError && guestFetchError) {
     return <ErrorComponent />;
@@ -47,28 +50,35 @@ function BoardList() {
 
   return (
     <>
-      <CardHeader className="border-muted mb-4 border-b py-3 pl-5">
-        <CardTitle>{componentTitle}</CardTitle>
+      <CardHeader className="border-muted text-primary absolute left-0 right-0 border-b py-3 pl-5 lg:relative lg:mb-4">
+        <CardTitle className="text-xs lg:text-base">{componentTitle}</CardTitle>
       </CardHeader>
-      <CardContent className="pl-2">
-        {boardsLoading || boardsFetching || guestBoardLoading ? (
+      <CardContent className="text-primary px-2">
+        {boardsLoading || boardsFetching ? (
           <LoadingSkeleton />
         ) : (
-          <ul>
+          <ul className="mt-12 lg:mt-0">
             {data?.boards?.map((board) => {
               if (!board) return null;
-              return <BoardListItem key={board.id!} board={board} />;
+              return (
+                <BoardListItem
+                  onListClick={onListClick}
+                  key={board.id!}
+                  board={board}
+                />
+              );
             })}
 
-            {guestBoardView?.board && (
+            {guest && guestBoardView?.board && (
               <BoardListItem
+                onListClick={onListClick}
                 isGuestView={!!guest}
                 board={guestBoardView.board}
               />
             )}
 
             {auth && (
-              <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 ml-3 border-b p-0">
+              <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 mx-2 border-b p-0">
                 <BoardForm />
               </li>
             )}

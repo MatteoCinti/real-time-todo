@@ -3,14 +3,19 @@ import ErrorComponent from '~/components/error';
 import { Card, CardFooter, Skeleton } from '~/components/ui';
 import { useAuth } from '~/hooks';
 import { useUser } from '~/lib/react-query';
+import { cn } from '~/lib/utils';
 
-function NameTag() {
+type Props = {
+  className?: string;
+};
+
+function NameTag({ className }: Props) {
   const { data, isError: userFetchingError, isLoading } = useUser();
   const { guest } = useAuth();
 
   if (isLoading) {
     return (
-      <Skeleton className="flex h-7 w-32 items-center pl-2">
+      <Skeleton className="flex h-7 w-32 items-center lg:pl-2">
         <Eclipse size="16" />
       </Skeleton>
     );
@@ -21,8 +26,13 @@ function NameTag() {
   }
 
   return (
-    <Card className="border-muted flex items-center justify-center text-nowrap rounded-md">
-      <CardFooter className="py-1 pl-2 pr-4">
+    <Card
+      className={cn(
+        'border-muted mr-8 flex items-center justify-center text-nowrap rounded-md p-0 lg:mr-0',
+        className
+      )}
+    >
+      <CardFooter className="py-1 pr-4 lg:pl-2">
         <Eclipse size="16" className="mr-2" />
         <p>Welcome&nbsp;</p>
         {data?.user.firstName && (

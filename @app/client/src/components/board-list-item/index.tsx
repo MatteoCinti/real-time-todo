@@ -10,9 +10,10 @@ type Props = {
   board: Omit<Board, 'owner'>;
   className?: string;
   isGuestView?: boolean;
+  onListClick?: () => void;
 };
 
-function BoardListItem({ board, className, isGuestView }: Props) {
+function BoardListItem({ board, className, isGuestView, onListClick }: Props) {
   const { mutate, isPending: isDeleting } = useDeleteBoard();
 
   return (
@@ -22,19 +23,24 @@ function BoardListItem({ board, className, isGuestView }: Props) {
       activeOptions={{ exact: true }}
     >
       {({ isActive }) => (
-        <li
-          className={cn(
-            'hover:bg-muted mb-1.5 flex cursor-pointer flex-row items-center justify-between rounded-lg px-3 py-2 text-sm',
-            className,
-            isActive || isGuestView ? 'bg-muted' : 'bg-inherit'
-          )}
-        >
-          {board!.title}
-          <DeleteIcon
-            className={isActive ? 'text-slate-400' : 'text-muted'}
-            deleteMutation={() => mutate({ id: board!.id! })}
-            isDeleting={isDeleting}
-          />
+        <li>
+          <button
+            className={cn(
+              'hover:bg-muted mb-1.5 flex w-full cursor-pointer flex-row items-center justify-between rounded-lg px-3 py-2 text-sm',
+              className,
+              isActive || isGuestView ? 'bg-muted' : 'bg-inherit'
+            )}
+            type="button"
+            onClick={onListClick}
+            onKeyDown={onListClick}
+          >
+            {board!.title}
+            <DeleteIcon
+              className={isActive ? 'text-slate-400' : 'text-muted'}
+              deleteMutation={() => mutate({ id: board!.id! })}
+              isDeleting={isDeleting}
+            />
+          </button>
         </li>
       )}
     </Link>

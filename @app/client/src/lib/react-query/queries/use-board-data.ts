@@ -10,7 +10,7 @@ import {
 import { UseBoardData } from '../types';
 import { boardDataQueryKeys } from './query-keys';
 
-function useBoardData(variables: GetBoardDataQueryVariables) {
+function useBoardData(variables: GetBoardDataQueryVariables, enabled = true) {
   const token = useGetUserToken();
   const { guest } = useAuth();
 
@@ -37,7 +37,8 @@ function useBoardData(variables: GetBoardDataQueryVariables) {
       } as UseBoardData;
     },
     refetchOnWindowFocus: false,
-    staleTime: Infinity
+    staleTime: Infinity,
+    enabled: enabled && (!!token || !!guest)
   });
 }
 

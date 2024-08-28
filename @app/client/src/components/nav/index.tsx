@@ -5,7 +5,9 @@ import { useAuth } from '~/hooks';
 import { NAV_ID } from '~/lib/constants';
 
 import { Button } from '../ui';
-import { HamburgerNav, NameTag } from './components';
+
+import HamburgerNav from '../hamburger-nav';
+import NameTag from '../name-tag';
 
 function Nav() {
   const { auth, logout } = useAuth();
