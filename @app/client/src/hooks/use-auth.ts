@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useQueryClient } from '@tanstack/react-query';

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { useEffect } from 'react';
 import { useSubscription } from '@apollo/client';
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
@@ -48,10 +47,9 @@ function useSubscribeTodoUpdates(
   });
 
   useEffect(() => {
-    console.log('🚀 ~ useEffect ~ update:', update);
     if (update?.todosUpdated) {
       updateGetTodosCache(queryClient, update.todosUpdated, variables);
-      //   queryClient.invalidateQueries({ queryKey: todosQueryKeys(variables) });
+      queryClient.invalidateQueries({ queryKey: todosQueryKeys(variables) });
     }
   }, [update, queryClient, variables]);
 

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { withFilter } from 'graphql-subscriptions';
 
 import { SubscriptionTodosUpdatedArgs } from '../../__generated__/resolvers-types';
