@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 
-import { useAuth } from '~/hooks';
+import { useAuth, useTheme } from '~/hooks';
 import { NAV_ID } from '~/lib/constants';
 
-import { Button } from '../ui';
+import { Button, Switch } from '../ui';
 
 import HamburgerNav from '../hamburger-nav';
 import NameTag from '../name-tag';
@@ -12,6 +12,7 @@ import NameTag from '../name-tag';
 function Nav() {
   const { auth, logout } = useAuth();
   const navigate = useNavigate();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {}, [auth]);
 
@@ -23,6 +24,10 @@ function Nav() {
       <div className="flex h-full items-center justify-between">
         <NameTag />
         <HamburgerNav logout={logout} />
+        <Switch
+          value={theme}
+          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+        />
         <Button
           className="ml-auto mr-0 hidden w-min lg:inline-block"
           variant="link"

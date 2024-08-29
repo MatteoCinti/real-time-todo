@@ -4,6 +4,7 @@ export * from './input';
 export * from './sheet';
 export * from './toast';
 export * from './button';
+export * from './switch';
 export * from './spinner';
 export * from './toaster';
 export * from './checkbox';
