@@ -28,18 +28,21 @@ function BoardListItem({ board, className, isGuestView, onListClick }: Props) {
             className={cn(
               'hover:bg-muted mb-1.5 flex w-full cursor-pointer flex-row items-center justify-between rounded-lg px-3 py-2 text-sm',
               className,
-              isActive || isGuestView ? 'bg-muted' : 'bg-inherit'
+              isActive || isGuestView ? 'bg-muted' : 'bg-inherit',
+              isGuestView && 'cursor-default'
             )}
             type="button"
             onClick={onListClick}
             onKeyDown={onListClick}
           >
             {board!.title}
-            <DeleteIcon
-              className={isActive ? 'text-slate-400' : 'text-muted'}
-              deleteMutation={() => mutate({ id: board!.id! })}
-              isDeleting={isDeleting}
-            />
+            {!isGuestView && (
+              <DeleteIcon
+                className={isActive ? 'text-slate-400' : 'text-muted'}
+                deleteMutation={() => mutate({ id: board!.id! })}
+                isDeleting={isDeleting}
+              />
+            )}
           </button>
         </li>
       )}

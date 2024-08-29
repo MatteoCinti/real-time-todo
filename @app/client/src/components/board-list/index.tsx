@@ -58,16 +58,17 @@ function BoardList({ onListClick }: Props) {
           <LoadingSkeleton />
         ) : (
           <ul className="mt-12 lg:mt-0">
-            {data?.boards?.map((board) => {
-              if (!board) return null;
-              return (
-                <BoardListItem
-                  onListClick={onListClick}
-                  key={board.id!}
-                  board={board}
-                />
-              );
-            })}
+            {!guest &&
+              data?.boards?.map((board) => {
+                if (!board) return null;
+                return (
+                  <BoardListItem
+                    onListClick={onListClick}
+                    key={board.id!}
+                    board={board}
+                  />
+                );
+              })}
 
             {guest && guestBoardView?.board && (
               <BoardListItem
