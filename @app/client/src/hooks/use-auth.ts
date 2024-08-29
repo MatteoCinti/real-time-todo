@@ -12,7 +12,7 @@ export const useAuth = () => {
   const [guest, setGuest] = useState(sessionStorage.getItem('guest') ?? null);
   const queryClient = useQueryClient();
 
-  useEffect(() => {}, [cookies]);
+  useEffect(() => {}, [cookies, auth]);
 
   async function signIn(user: UserLoginQuery['userLogin']) {
     setCookie(AUTH_COOKIE, user, {
