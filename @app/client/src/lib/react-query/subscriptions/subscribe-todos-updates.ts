@@ -20,6 +20,7 @@ export function updateGetTodosCache(
     todosQueryKeys(variables),
     (oldData: { todos: Todo[] }) => {
       if (!updatedTodos) return undefined;
+      console.log('🚀 ~ updatedTodos:', updatedTodos);
 
       const oldTodos = oldData.todos ?? [];
       console.log('🚀 ~ oldTodos:', oldTodos);
