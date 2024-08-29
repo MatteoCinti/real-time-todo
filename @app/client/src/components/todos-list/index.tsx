@@ -72,14 +72,14 @@ function TodosList() {
               </CardTitle>
             </CardHeader>
 
-            <ul className="flex h-full w-full flex-col overflow-y-auto overscroll-contain pb-1 hover:overflow-y-scroll">
+            <ul className="flex h-full w-full flex-col overflow-y-auto overscroll-contain pb-1">
               {todosData?.todos?.map((todo) => {
                 if (!todo) return null;
 
                 return (
                   <li
                     className={cn(
-                      'border-muted mx-3 mt-[-1px] flex flex-1 flex-row border first-of-type:mt-0',
+                      'border-muted mx-3 mt-[-1px] flex flex-row border first-of-type:mt-0',
                       todo.isDone && 'bg-muted border-primary-foreground'
                     )}
                     key={todo.id}

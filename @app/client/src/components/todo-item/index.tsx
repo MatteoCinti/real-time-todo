@@ -4,7 +4,7 @@ import { GripVertical } from 'lucide-react';
 
 import { Todo } from '~/lib/graphql/__generated__/graphql';
 import { deleteTodoFromCache, useDeleteTodo } from '~/lib/react-query';
-import { cn } from '~/lib/utils';
+import { cn, isTouchScreenDevice } from '~/lib/utils';
 
 import DeleteIcon from '../delete-icon';
 import { EditTodo } from '../form';
@@ -19,6 +19,7 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
   const { board: boardId } = useParams({ strict: false });
   const queryClient = useQueryClient();
   const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
+  const isTouch = isTouchScreenDevice();
 
   return (
     <DragItem
@@ -36,7 +37,10 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
         nextId={`${todo.order + 1}`}
         remember="true"
       >
-        <DropGuide dropId={`${todo.order}`} />
+        <DropGuide
+          className={cn(isTouch && 'hidden')}
+          dropId={`${todo.order}`}
+        />
         <CardContent className="flex content-center py-2 pl-2 pr-4">
           <GripVertical
             size={18}
