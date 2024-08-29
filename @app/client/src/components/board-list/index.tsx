@@ -77,7 +77,7 @@ function BoardList({ onListClick }: Props) {
               />
             )}
 
-            {auth && (
+            {auth && !guest && (
               <li className="border-muted hover:border-primary focus-within:border-primary relative m-0 mx-2 border-b p-0">
                 <BoardForm />
               </li>
