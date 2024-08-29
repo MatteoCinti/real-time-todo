@@ -32,13 +32,15 @@ function NameTag({ className }: Props) {
         className
       )}
     >
-      <CardFooter className="py-1 pr-4 lg:pl-2">
+      <CardFooter className="px-2 py-1 pr-4 lg:pl-2">
         <Eclipse size="16" className="mr-2" />
         <p>Welcome&nbsp;</p>
         {data?.user.firstName && (
           <span className="italic">{data.user.firstName}</span>
         )}
-        {guest && <span className="italic">dear guest</span>}
+        {guest && !data?.user.firstName && (
+          <span className="italic">dear guest</span>
+        )}
       </CardFooter>
     </Card>
   );
