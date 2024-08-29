@@ -52,7 +52,7 @@ function useSubscribeTodoUpdates(
   useEffect(() => {
     if (update?.todosUpdated) {
       updateGetTodosCache(queryClient, update.todosUpdated, variables);
-      //   queryClient.invalidateQueries({ queryKey: todosQueryKeys(variables) });
+      queryClient.invalidateQueries({ queryKey: todosQueryKeys(variables) });
     }
   }, [update, queryClient, variables]);
 
