@@ -20,17 +20,22 @@ export function updateGetTodosCache(
     todosQueryKeys(variables),
     (oldData: { todos: Todo[] }) => {
       if (!updatedTodos) return undefined;
-      console.log('🚀 ~ updatedTodos:', updatedTodos);
 
       const oldTodos = oldData.todos ?? [];
-      console.log('🚀 ~ oldTodos:', oldTodos);
 
       const newTodos = oldTodos.map((todo: Todo) => {
         const updatedTodo = updatedTodos.find((ut) => ut!.id === todo.id);
         return updatedTodo ?? todo;
-      });
-      console.log('🚀 ~ newTodos ~ newTodos:', newTodos);
-      const sortedTodos = newTodos.sort(
+      }) as Todo[];
+
+      const uniqueTodos = newTodos.reduce((acc: Todo[], currentTodo: Todo) => {
+        if (!acc.some((todo) => todo.id === currentTodo.id)) {
+          acc.push(currentTodo);
+        }
+        return acc;
+      }, []);
+
+      const sortedTodos = uniqueTodos.sort(
         (a, b) => (a.order ?? 0) - (b.order ?? 0)
       );
 
