@@ -22,11 +22,13 @@ export function updateGetTodosCache(
       if (!updatedTodos) return undefined;
 
       const oldTodos = oldData.todos ?? [];
+      console.log('🚀 ~ oldTodos:', oldTodos);
 
       const newTodos = oldTodos.map((todo: Todo) => {
         const updatedTodo = updatedTodos.find((ut) => ut!.id === todo.id);
         return updatedTodo ?? todo;
       });
+      console.log('🚀 ~ newTodos ~ newTodos:', newTodos);
       const sortedTodos = newTodos.sort(
         (a, b) => (a.order ?? 0) - (b.order ?? 0)
       );
