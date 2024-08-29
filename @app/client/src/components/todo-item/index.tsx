@@ -46,11 +46,13 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
             size={18}
             className={cn(
               'text-muted my-auto mr-2',
-              todo.isDone && 'text-primary'
+              todo.isDone && 'text-primary',
+              isTouch && 'hidden'
             )}
           />
           <EditTodo todoId={todo.id} />
           <DeleteIcon
+            className={cn(todo.isDone && 'text-background')}
             deleteMutation={() => {
               deleteTodoFromCache(
                 queryClient,
