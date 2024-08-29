@@ -5,3 +5,5 @@ export const NAV_ID = 'nav';
 export const CREATE_BOARD_FORM = 'board-form';
 export const CREATE_TODO_FORM = 'create-todo-form';
 export const LOGIN_FORM = 'login-form';
+export const REGISTER_FORM = 'register-form';
+export const THEME_SWITCH = 'theme-switch';

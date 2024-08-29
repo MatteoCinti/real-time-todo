@@ -7,6 +7,7 @@ export * from './button';
 export * from './switch';
 export * from './spinner';
 export * from './toaster';
+export * from './tooltip';
 export * from './checkbox';
 export * from './skeleton';
 export * from './separator';

@@ -22,6 +22,18 @@ vi.mock('~/lib/react-query', async (importOriginal) => {
   };
 });
 
+vi.mock('~/hooks', async (importOriginal) => {
+  const actual = await importOriginal();
+  return {
+    // @ts-ignore
+    ...actual,
+    useAuth: () => ({
+      guest: false,
+      auth: true
+    })
+  };
+});
+
 describe('Index Component', () => {
   beforeEach(async () => {
     await waitFor(() => {

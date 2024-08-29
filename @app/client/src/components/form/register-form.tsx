@@ -2,7 +2,7 @@ import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 
 import { useRegister } from '~/lib/react-query';
-import { LOGIN_FORM } from '~/lib/constants';
+import { REGISTER_FORM } from '~/lib/constants';
 import { Button, CardContent, LoadingSpinner } from '~/components/ui';
 
 import { registerFormDefaultValues, registerFormFields } from './config';
@@ -25,7 +25,7 @@ function RegisterForm() {
           e.stopPropagation();
           form.handleSubmit();
         }}
-        data-testid={LOGIN_FORM}
+        data-testid={REGISTER_FORM}
         className="flex flex-col space-y-8"
       >
         <div>
