@@ -30,7 +30,6 @@ function ThemeProvider({
 
       root.classList.add(systemTheme);
 
-      // eslint-disable-next-line no-console
       return;
     }
 

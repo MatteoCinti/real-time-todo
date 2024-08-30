@@ -11,3 +11,4 @@ export * from './tooltip';
 export * from './checkbox';
 export * from './skeleton';
 export * from './separator';
+export * from './dropdown-menu';

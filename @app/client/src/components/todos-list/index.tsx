@@ -2,7 +2,9 @@ import { useParams } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { Todo } from '~/lib/graphql/__generated__/graphql';
-import { cn, reorderTodos } from '~/lib/utils';
+
+import { cn, filterTodos, reorderTodos } from '~/lib/utils';
+import { useActiveFilters } from '~/hooks';
 import {
   updateGetTodosCache,
   useBoardData,
@@ -10,8 +12,8 @@ import {
   useUpdateTodos
 } from '~/lib/react-query';
 
-import { CardContent, CardHeader, CardTitle, Skeleton } from '../ui';
 import { Drag, DraggedChildrenProps, DropGuide, DropZone } from '../drag';
+import { CardContent, CardHeader, CardTitle, Skeleton } from '../ui';
 import TodoItem from '../todo-item';
 import { TodoForm } from '../form';
 
@@ -21,6 +23,8 @@ function SectionTitleSkeleton() {
 
 function TodosList() {
   const { board: boardId } = useParams({ strict: false });
+  const filters = useActiveFilters();
+
   const { data: boardData, isLoading: boardLoading } = useBoardData({
     board: Number(boardId)
   });
@@ -73,7 +77,7 @@ function TodosList() {
             </CardHeader>
 
             <ul className="flex h-full w-full flex-col overflow-y-auto overscroll-contain pb-1">
-              {todosData?.todos?.map((todo) => {
+              {filterTodos(todosData?.todos, filters).map((todo) => {
                 if (!todo) return null;
 
                 return (

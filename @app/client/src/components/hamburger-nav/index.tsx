@@ -11,11 +11,16 @@ import {
   SheetTitle,
   SheetTrigger
 } from '~/components/ui';
-import { isTouchScreenDevice } from '~/lib/utils';
+import { cn, isTouchScreenDevice } from '~/lib/utils';
 import BoardList from '../board-list';
 import NameTag from '../name-tag';
 
-function HamburgerNav({ logout }: { logout: () => void }) {
+type Props = {
+  className?: string;
+  logout: () => void;
+};
+
+function HamburgerNav({ logout, className }: Props) {
   const { board: boardId } = useParams({ strict: false });
   const [menuOpen, setMenuOpen] = useState(
     (isTouchScreenDevice() && !boardId) ?? false
@@ -28,7 +33,7 @@ function HamburgerNav({ logout }: { logout: () => void }) {
 
   return (
     <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
-      <SheetTrigger className="ml-auto mr-6 lg:hidden">
+      <SheetTrigger className={cn('lg:hidden', className)}>
         <Menu />
       </SheetTrigger>
 
