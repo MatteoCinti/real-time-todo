@@ -3,7 +3,7 @@ import {
   createRootRoute,
   createRouter
 } from '@tanstack/react-router';
-import { FiltersProvider, QueryProvider } from '~/lib/providers';
+import { FiltersProvider, QueryProvider, AuthProvider } from '~/lib/providers';
 
 function TestProviders({ children }: { children: React.JSX.Element }) {
   const rootRouter = createRootRoute({
@@ -16,7 +16,9 @@ function TestProviders({ children }: { children: React.JSX.Element }) {
   return (
     <QueryProvider>
       <FiltersProvider>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </FiltersProvider>
     </QueryProvider>
   );
