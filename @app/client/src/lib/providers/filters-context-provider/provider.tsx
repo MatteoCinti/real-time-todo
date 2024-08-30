@@ -3,10 +3,11 @@ import { FiltersProviderContext } from './context';
 
 function FiltersProvider({ children }: { children: React.ReactNode }) {
   const [showCompleted, setShowCompleted] = useState(true);
+  const [textSearch, setTextSearch] = useState('');
 
   const filters = useMemo(
-    () => ({ showCompleted, setShowCompleted }),
-    [showCompleted, setShowCompleted]
+    () => ({ showCompleted, setShowCompleted, textSearch, setTextSearch }),
+    [showCompleted, setShowCompleted, textSearch, setTextSearch]
   );
 
   return (

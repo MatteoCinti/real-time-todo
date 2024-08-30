@@ -10,6 +10,7 @@ export {
   boardFormFields,
   boardTitleField
 } from './board-form.config';
+
 export {
   todoFormDefaultValues,
   todoFormFields,

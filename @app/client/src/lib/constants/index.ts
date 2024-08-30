@@ -7,3 +7,4 @@ export const CREATE_TODO_FORM = 'create-todo-form';
 export const LOGIN_FORM = 'login-form';
 export const REGISTER_FORM = 'register-form';
 export const THEME_SWITCH = 'theme-switch';
+export const FILTERS_FORM = 'filters-form';

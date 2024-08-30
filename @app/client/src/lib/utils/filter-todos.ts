@@ -3,7 +3,7 @@ import { useTodosData } from '../react-query/types';
 
 function filterTodos(
   todos: useTodosData['todos'] | [],
-  { showCompleted }: ActiveFilters
+  { showCompleted, textSearch }: ActiveFilters
 ) {
   if (!todos) return [];
 
@@ -12,6 +12,17 @@ function filterTodos(
     if (!showCompleted) {
       return !todo.isDone;
     }
+
+    if (textSearch) {
+      const searchText = textSearch.toLowerCase();
+      const titleMatches = todo.title?.toLowerCase().includes(searchText);
+      const descriptionMatches = todo.description
+        ?.toLowerCase()
+        .includes(searchText);
+
+      return titleMatches || descriptionMatches;
+    }
+
     return true;
   });
 }
