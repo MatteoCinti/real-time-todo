@@ -21,6 +21,7 @@ function BoardListItem({ board, className, isGuestView, onListClick }: Props) {
       to="/board/$board"
       params={{ board: board!.id }}
       activeOptions={{ exact: true }}
+      disabled={isGuestView}
     >
       {({ isActive }) => (
         <li>
