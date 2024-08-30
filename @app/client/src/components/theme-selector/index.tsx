@@ -15,7 +15,7 @@ function ThemeSelector() {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger>
+        <TooltipTrigger asChild>
           <Switch
             data-testid={THEME_SWITCH}
             theme={theme}
@@ -30,7 +30,7 @@ function ThemeSelector() {
             <span className="font-bold">
               {theme === 'light' ? 'white' : 'black'}
             </span>
-            {` blinding your eyes? Swtich theme!`}
+            {` blinding your eyes? Switch theme!`}
           </p>
         </TooltipContent>
       </Tooltip>
