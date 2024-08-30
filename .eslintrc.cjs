@@ -70,6 +70,7 @@ module.exports = {
     'no-shadow': 'off',
     '@typescript-eslint/no-shadow': ['error'],
     'arrow-body-style': 'off',
-    '@typescript-eslint/consistent-type-definitions': ['error', 'type']
+    '@typescript-eslint/consistent-type-definitions': ['error', 'type'],
+    'no-plusplus': 'off'
   }
 };
