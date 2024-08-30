@@ -1,6 +1,6 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
-type FlitersProviderState = {
+export type FlitersProviderState = {
   showCompleted: boolean;
   setShowCompleted: Dispatch<SetStateAction<boolean>>;
   textSearch: string;

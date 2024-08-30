@@ -1,9 +1,9 @@
-import { ActiveFilters } from '~/hooks';
+import { FlitersProviderState } from '../providers/filters-context-provider/context';
 import { useTodosData } from '../react-query/types';
 
 function filterTodos(
   todos: useTodosData['todos'] | [],
-  { showCompleted, textSearch }: ActiveFilters
+  { showCompleted, textSearch }: FlitersProviderState
 ) {
   if (!todos) return [];
 

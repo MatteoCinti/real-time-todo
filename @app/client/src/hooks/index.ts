@@ -1,5 +1,4 @@
 export { default as useActiveFilters } from './use-active-filters';
-export type { ActiveFilters } from './use-active-filters';
 export { default as useGetUserToken } from './get-token-from-cookies';
 export { useTheme } from './use-theme';
 
