@@ -12,7 +12,13 @@ import {
   useUpdateTodo
 } from '~/lib/react-query';
 import { CREATE_TODO_FORM } from '~/lib/constants';
-import { Button, LoadingSpinner } from '~/components/ui';
+import {
+  Button,
+  LoadingSpinner,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider
+} from '~/components/ui';
 
 import { todoIsDoneField, todoTitleField } from './config';
 import Field from './components/form-field';
@@ -26,9 +32,11 @@ function EditTodo({ todoId }: Props) {
   const { data } = useGetTodos({ board: Number(boardId) });
   const todo = data!.todos!.find((t) => t!.id === todoId);
   const queryClient = useQueryClient();
-
   const { mutate } = useUpdateTodo();
-  const [isDisabled, setIsDisabled] = useState(true);
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
+  const [inputFocused, setInputFocused] = useState(false);
+  const inputDisabled = !inputFocused || todo?.isDone;
 
   const form = useForm({
     defaultValues: todo,
@@ -38,7 +46,7 @@ function EditTodo({ todoId }: Props) {
       updateGetTodosCache(queryClient, [{ ...value }], {
         board: Number(boardId)
       });
-      setIsDisabled(true);
+      setInputFocused(false);
       mutate({
         board: Number(boardId),
         todo: {
@@ -54,12 +62,15 @@ function EditTodo({ todoId }: Props) {
     e: React.MouseEvent<HTMLInputElement, MouseEvent>
   ) {
     if (e.detail === 2) {
-      setIsDisabled(false);
+      setInputFocused(true);
+    }
+    if (inputDisabled) {
+      setTooltipOpen(true);
     }
   }
 
   function handleBlur() {
-    setIsDisabled(true);
+    setInputFocused(false);
   }
 
   function handleCheckboxClick() {
@@ -77,71 +88,80 @@ function EditTodo({ todoId }: Props) {
   }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        form.handleSubmit();
-      }}
-      data-testid={CREATE_TODO_FORM}
-      className="m-0 flex w-full flex-row p-0"
-    >
-      <Field
-        className={cn(
-          'my-auto mr-2 p-0',
-          todo?.isDone && '!bg-success border-success'
-        )}
-        onCheckboxClick={() => handleCheckboxClick()}
-        key={todoIsDoneField.id}
-        input={todoIsDoneField}
-        form={form}
-        label={false}
-        border={false}
-        displayError={false}
-      />
-      <Field
-        onTextAreaClick={(e) => handleTextAreaClick(e)}
-        className={cn(
-          'flex-1 rounded-lg border border-transparent px-2 py-1.5',
-          isDisabled && 'border-transparent',
-          !isDisabled && 'focus-visible:border-muted',
-          todo?.isDone && 'italic text-slate-400 line-through'
-        )}
-        onBlur={() => handleBlur()}
-        key={todoTitleField.id}
-        input={todoTitleField}
-        placeholder="Edit todo"
-        readOnly={isDisabled}
-        form={form}
-        label={false}
-        border={false}
-        displayError={false}
-      />
+    <TooltipProvider>
+      <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+          data-testid={CREATE_TODO_FORM}
+          className="m-0 flex w-full flex-row p-0"
+        >
+          <Field
+            className={cn(
+              'my-auto mr-2 p-0',
+              todo?.isDone && '!bg-success border-success'
+            )}
+            onCheckboxClick={() => handleCheckboxClick()}
+            key={todoIsDoneField.id}
+            input={todoIsDoneField}
+            form={form}
+            label={false}
+            border={false}
+            displayError={false}
+          />
 
-      <form.Subscribe
-        selector={(state) => [state.canSubmit, state.isSubmitting]}
-      >
-        {([canSubmit, isSubmitting]) =>
-          !isDisabled && (
-            <Button
-              variant="ghost"
-              type="submit"
-              className={cn(
-                'hover:text-primary focus-visible:bg-muted z-10 my-auto ml-3 h-min w-min cursor-pointer items-center p-0 text-slate-600 hover:bg-transparent',
-                canSubmit && 'text-primary'
-              )}
-              disabled={!canSubmit || isSubmitting}
-            >
-              {isSubmitting ? (
-                <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
-              ) : (
-                <Pencil size="14" />
-              )}
-            </Button>
-          )
-        }
-      </form.Subscribe>
-    </form>
+          <Field
+            onTextAreaClick={(e) => handleTextAreaClick(e)}
+            className={cn(
+              'flex-1 rounded-lg border border-transparent px-2 py-1.5',
+              !inputFocused && 'border-transparent',
+              inputFocused && 'focus-visible:border-muted',
+              todo?.isDone && 'italic text-slate-400 line-through'
+            )}
+            onBlur={() => handleBlur()}
+            key={todoTitleField.id}
+            input={todoTitleField}
+            placeholder="Edit todo"
+            readOnly={inputDisabled}
+            form={form}
+            label={false}
+            border={false}
+            displayError={false}
+          />
+
+          <TooltipContent className="translate-x-4 translate-y-10">
+            <p>Completed todos cannot be edited.</p>
+          </TooltipContent>
+
+          <form.Subscribe
+            selector={(state) => [state.canSubmit, state.isSubmitting]}
+          >
+            {([canSubmit, isSubmitting]) =>
+              !inputDisabled && (
+                <Button
+                  variant="ghost"
+                  type="submit"
+                  className={cn(
+                    'hover:text-primary focus-visible:bg-muted z-10 my-auto ml-3 h-min w-min cursor-pointer items-center p-0 text-slate-600 hover:bg-transparent',
+                    canSubmit && 'text-primary'
+                  )}
+                  disabled={!canSubmit || isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
+                  ) : (
+                    <Pencil size="14" />
+                  )}
+                </Button>
+              )
+            }
+          </form.Subscribe>
+        </form>
+      </Tooltip>
+    </TooltipProvider>
   );
 }
 

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useActiveFilters } from '~/hooks';
 import { cn } from '~/lib/utils';
@@ -17,6 +18,15 @@ type Props = {
 
 function TodosFilter({ className }: Props) {
   const { showCompleted, setShowCompleted } = useActiveFilters();
+  const [isFilterApplied, setIsFilterApplied] = useState(false);
+
+  useEffect(() => {
+    if (!showCompleted) {
+      setIsFilterApplied(true);
+    } else {
+      setIsFilterApplied(false);
+    }
+  }, [showCompleted]);
 
   return (
     <DropdownMenu>
@@ -24,11 +34,12 @@ function TodosFilter({ className }: Props) {
         <Button
           variant="outline"
           className={cn(
-            'focus:bg-muted focus-within:bg-muted hover:bg-muted h-min px-3 py-1',
-            className
+            'focus:bg-muted hover:bg-muted h-min px-3 py-1',
+            className,
+            isFilterApplied && 'bg-accent focus:bg-accent'
           )}
         >
-          <Eye size={16} className="text-primary h-min" />
+          <Eye size={16} className={cn('text-primary h-min')} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">

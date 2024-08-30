@@ -1,5 +1,6 @@
 import { THEME_SWITCH } from '~/lib/constants';
 import { useTheme } from '~/hooks';
+import { cn } from '~/lib/utils';
 
 import {
   Switch,
@@ -9,7 +10,11 @@ import {
   TooltipTrigger
 } from '../ui';
 
-function ThemeSelector() {
+type Props = {
+  className?: string;
+};
+
+function ThemeSelector({ className }: Props) {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -19,7 +24,7 @@ function ThemeSelector() {
           <Switch
             data-testid={THEME_SWITCH}
             theme={theme}
-            className="!bg-muted"
+            className={cn('!bg-muted', className)}
             value={theme}
             onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
           />

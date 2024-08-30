@@ -16,6 +16,7 @@ import { Drag, DraggedChildrenProps, DropGuide, DropZone } from '../drag';
 import { CardContent, CardHeader, CardTitle, Skeleton } from '../ui';
 import TodoItem from '../todo-item';
 import { TodoForm } from '../form';
+import TodosFilter from '../todos-filter';
 
 function SectionTitleSkeleton() {
   return <Skeleton className="h-4 w-16 rounded-sm p-1" />;
@@ -73,6 +74,8 @@ function TodosList() {
                   {boardData?.board.title}
                 </span>
                 <span className="hidden lg:inline-flex">{` you have left!`}</span>
+
+                <TodosFilter className="ml-auto" />
               </CardTitle>
             </CardHeader>
 
