@@ -17,6 +17,7 @@ import { CardContent, CardHeader, CardTitle, Skeleton } from '../ui';
 import TodoItem from '../todo-item';
 import { TodoForm } from '../form';
 import TodosFilter from '../todos-filter';
+import ShareBoardLink from '../share-board-link';
 
 function SectionTitleSkeleton() {
   return <Skeleton className="h-4 w-16 rounded-sm p-1" />;
@@ -75,7 +76,8 @@ function TodosList() {
                 </span>
                 <span className="hidden lg:inline-flex">{` you have left!`}</span>
 
-                <TodosFilter className="ml-auto" />
+                <ShareBoardLink className="ml-auto mr-2" />
+                <TodosFilter />
               </CardTitle>
             </CardHeader>
 

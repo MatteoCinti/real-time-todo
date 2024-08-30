@@ -12,13 +12,11 @@ type RouterContext = {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <>
-      <PageContainer>
-        <main className="flex h-full w-full flex-col">
-          <Outlet />
-        </main>
-      </PageContainer>
+    <PageContainer>
+      <main className="flex h-full w-full flex-col">
+        <Outlet />
+      </main>
       <Toaster />
-    </>
+    </PageContainer>
   )
 });
