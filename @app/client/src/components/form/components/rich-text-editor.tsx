@@ -16,7 +16,6 @@ import {
   CreateLink,
   linkDialogPlugin,
   tablePlugin,
-  InsertAdmonition,
   directivesPlugin,
   Separator,
   InsertThematicBreak,
@@ -56,8 +55,6 @@ function toolbarContents() {
         <BlockTypeSelect />
         <Separator />
         <InsertTable />
-        <Separator />
-        <InsertAdmonition />
       </>
     )
   };
@@ -102,9 +99,8 @@ function RichTextEditor<T>({
       <MDXEditor
         ref={ref}
         className={cn(
-          'border-muted text-primary h-full overflow-auto border',
-          isDarkTheme && 'dark-editor',
-          !readOnly && 'border-accent cursor-text'
+          'border-muted text-primary focus-visible:border-muted-foreground focus-within:border-muted-foreground h-full overflow-auto border',
+          isDarkTheme && 'dark-editor'
         )}
         readOnly={readOnly}
         markdown={placeholder}

@@ -72,8 +72,8 @@ function TodoItem({ todo, activeItem, isDragging }: Props) {
               <SheetContent className="!min-w-2/4 flex h-full w-4/5 flex-col sm:max-w-full">
                 <SheetHeader>
                   <SheetTitle className="whitespace-nowrap">
-                    <span className="font-bold">{todo.title} </span>
-                    <span>Details</span>
+                    <span className="text-accent font-bold">{todo.title} </span>
+                    <span>details</span>
                   </SheetTitle>
                 </SheetHeader>
                 <SheetDescription>
