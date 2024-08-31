@@ -1,7 +1,7 @@
 import { Outlet, createRootRouteWithContext } from '@tanstack/react-router';
 import { QueryClient } from '@tanstack/react-query';
 
-import { PageContainer } from '~/components';
+import { ErrorComponent, PageContainer } from '~/components';
 import { AuthContext } from '~/hooks';
 import { Toaster } from '~/components/ui';
 
@@ -18,5 +18,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
       </main>
       <Toaster />
     </PageContainer>
-  )
+  ),
+  errorComponent: () => <ErrorComponent />
 });

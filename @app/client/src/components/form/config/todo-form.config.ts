@@ -25,8 +25,8 @@ export const todoTitleField: FormField<TodoFormFields> = {
 
 export const todoDescriptionField: FormField<TodoFormFields> = {
   id: 'description',
-  label: 'Description',
-  type: 'text',
+  label: 'Todo Description',
+  type: 'textarea',
   placeholder: 'Enter description',
   validators: {
     onChange: formSchema.shape.description

@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 @layer base {
   html {
     font-family: 'Inter', system-ui, sans-serif;
@@ -73,4 +72,29 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  .dark .dark-editor {
+    --baseBase: hsl(var(--muted));
+    --baseTextContrast: hsl(var(--muted-foreground));
+    --basePageBg: hsl(var(--primary-foreground));
+    --baseBg: hsl(var(--muted));
+    color: hsl(var(--muted-foreground));
+    background: hsl(var(--muted));
+  }
+  .dark .prose {
+    --tw-prose-headings: hsl(var(--muted-foreground));
+    --tw-prose-bold: hsl(var(--muted-foreground));
+
+    --tw-prose-quotes: hsl(var(--muted-foreground));
+    --tw-prose-quote-borders: hsl(var(--background));
+    --tw-prose-bullets: hsl(var(--background));
+
+    color: hsl(var(--muted-foreground));
+    background: hsl(var(--muted));
+  }
+}
+
+.mdxeditor-popup-container {
+  z-index: 10000 !important;
+  border: none;
 }

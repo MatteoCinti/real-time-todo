@@ -16,8 +16,7 @@ import {
   Button,
   LoadingSpinner,
   Tooltip,
-  TooltipContent,
-  TooltipProvider
+  TooltipContent
 } from '~/components/ui';
 
 import { todoIsDoneField, todoTitleField } from './config';
@@ -58,13 +57,10 @@ function EditTodo({ todoId }: Props) {
 
   if (!todo) return null;
 
-  function handleTextAreaClick(
-    e: React.MouseEvent<HTMLInputElement, MouseEvent>
-  ) {
-    if (e.detail === 2) {
-      setInputFocused(true);
-    }
-    if (inputDisabled) {
+  function handleTextInputClick() {
+    setInputFocused(true);
+
+    if (todo?.isDone) {
       setTooltipOpen(true);
     }
   }
@@ -88,80 +84,75 @@ function EditTodo({ todoId }: Props) {
   }
 
   return (
-    <TooltipProvider>
-      <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            form.handleSubmit();
-          }}
-          data-testid={CREATE_TODO_FORM}
-          className="m-0 flex w-full flex-row p-0"
+    <Tooltip open={tooltipOpen} onOpenChange={setTooltipOpen}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          form.handleSubmit();
+        }}
+        data-testid={CREATE_TODO_FORM}
+        className="m-0 flex w-full flex-row p-0"
+      >
+        <Field
+          className={cn(
+            'my-auto mr-2 p-0',
+            todo?.isDone && '!bg-success border-success'
+          )}
+          onCheckboxClick={() => handleCheckboxClick()}
+          key={todoIsDoneField.id}
+          input={todoIsDoneField}
+          form={form}
+          label={false}
+          border={false}
+          displayError={false}
+        />
+
+        <Field
+          onTextInputClick={() => handleTextInputClick()}
+          className={cn(
+            'focus-visible:border-muted flex-1 rounded-lg border border-transparent px-2 py-1.5',
+
+            todo?.isDone && 'italic text-slate-400 line-through'
+          )}
+          onBlur={() => handleBlur()}
+          key={todoTitleField.id}
+          input={todoTitleField}
+          placeholder="Edit todo"
+          form={form}
+          label={false}
+          border={false}
+          displayError={false}
+        />
+
+        <TooltipContent className="z-auto translate-x-4 translate-y-24">
+          <p>Completed todos cannot be edited.</p>
+        </TooltipContent>
+
+        <form.Subscribe
+          selector={(state) => [state.canSubmit, state.isSubmitting]}
         >
-          <Field
-            className={cn(
-              'my-auto mr-2 p-0',
-              todo?.isDone && '!bg-success border-success'
-            )}
-            onCheckboxClick={() => handleCheckboxClick()}
-            key={todoIsDoneField.id}
-            input={todoIsDoneField}
-            form={form}
-            label={false}
-            border={false}
-            displayError={false}
-          />
-
-          <Field
-            onTextAreaClick={(e) => handleTextAreaClick(e)}
-            className={cn(
-              'flex-1 rounded-lg border border-transparent px-2 py-1.5',
-              !inputFocused && 'border-transparent',
-              inputFocused && 'focus-visible:border-muted',
-              todo?.isDone && 'italic text-slate-400 line-through'
-            )}
-            onBlur={() => handleBlur()}
-            key={todoTitleField.id}
-            input={todoTitleField}
-            placeholder="Edit todo"
-            readOnly={inputDisabled}
-            form={form}
-            label={false}
-            border={false}
-            displayError={false}
-          />
-
-          <TooltipContent className="translate-x-4 translate-y-10">
-            <p>Completed todos cannot be edited.</p>
-          </TooltipContent>
-
-          <form.Subscribe
-            selector={(state) => [state.canSubmit, state.isSubmitting]}
-          >
-            {([canSubmit, isSubmitting]) =>
-              !inputDisabled && (
-                <Button
-                  variant="ghost"
-                  type="submit"
-                  className={cn(
-                    'hover:text-primary focus-visible:bg-muted z-10 my-auto ml-3 h-min w-min cursor-pointer items-center p-0 text-slate-600 hover:bg-transparent',
-                    canSubmit && 'text-primary'
-                  )}
-                  disabled={!canSubmit || isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
-                  ) : (
-                    <Pencil size="14" />
-                  )}
-                </Button>
-              )
-            }
-          </form.Subscribe>
-        </form>
-      </Tooltip>
-    </TooltipProvider>
+          {([canSubmit, isSubmitting]) =>
+            !inputDisabled && (
+              <Button
+                variant="ghost"
+                type="submit"
+                className={cn(
+                  'hover:text-primary focus-visible:bg-muted text-muted-foreground z-10 mx-3 my-auto h-min w-min cursor-pointer items-center p-0 hover:bg-transparent'
+                )}
+                disabled={!canSubmit || isSubmitting}
+              >
+                {isSubmitting ? (
+                  <LoadingSpinner className="bg-primary-foreground h-5 w-5" />
+                ) : (
+                  <Pencil size="14" />
+                )}
+              </Button>
+            )
+          }
+        </form.Subscribe>
+      </form>
+    </Tooltip>
   );
 }
 

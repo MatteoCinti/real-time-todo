@@ -42,7 +42,7 @@ function BoardListItem({ board, className, isGuestView, onListClick }: Props) {
             <TaskCounter className="ml-auto" board={board} />
             {!isGuestView && (
               <DeleteIcon
-                className={isActive ? 'text-slate-400' : 'text-muted'}
+                className="text-primary hover:text-muted-foreground"
                 deleteMutation={() => mutate({ id: board!.id! })}
                 isDeleting={isDeleting}
               />

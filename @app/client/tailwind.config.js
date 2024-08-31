@@ -1,6 +1,6 @@
 import animate from 'tailwindcss-animate';
 import { fontFamily } from 'tailwindcss/defaultTheme';
-
+import tailwindTypography from '@tailwindcss/typography';
 const navHeight = '3.125rem';
 
 /** @type {import('tailwindcss').Config} */
@@ -42,7 +42,7 @@ export default {
           foreground: 'hsl(var(--muted-foreground))'
         },
         accent: {
-          DEFAULT: 'hsl(var(--chart-5))',
+          DEFAULT: 'hsl(var(--chart-1))',
           foreground: 'hsl(var(--accent-foreground))'
         },
         popover: {
@@ -94,5 +94,5 @@ export default {
       }
     }
   },
-  plugins: [animate]
+  plugins: [animate, tailwindTypography]
 };

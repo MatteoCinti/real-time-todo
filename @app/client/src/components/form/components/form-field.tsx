@@ -1,4 +1,5 @@
 import { useField } from '@tanstack/react-form';
+
 import { Checkbox } from '~/components/ui';
 import { cn } from '~/lib/utils/ui';
 import { InputWithLabel } from '../../input';
@@ -7,7 +8,7 @@ function Field<T>({
   input,
   form,
   onBlur,
-  onTextAreaClick,
+  onTextInputClick,
   onCheckboxClick,
   className,
   placeholder,
@@ -22,7 +23,7 @@ function Field<T>({
   border?: boolean;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onCheckboxClick?: () => void;
-  onTextAreaClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
+  onTextInputClick?: (e: React.MouseEvent<HTMLInputElement>) => void;
   readOnly?: boolean;
   className?: string;
   placeholder?: string;
@@ -57,7 +58,7 @@ function Field<T>({
         className={className}
         border={border}
         onBlur={onBlur}
-        onClick={onTextAreaClick}
+        onClick={onTextInputClick}
         onChange={(e) => field.handleChange(e.target.value as any)}
       />
     );

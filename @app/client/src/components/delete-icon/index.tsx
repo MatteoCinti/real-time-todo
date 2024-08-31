@@ -13,9 +13,8 @@ function DeleteIcon({ isDeleting, deleteMutation, className }: Props) {
     <LoadingSpinner className="my-auto ml-2 h-4 w-4" />
   ) : (
     <X
-      strokeWidth={4}
       className={cn(
-        'text-muted hover:text-primary my-auto ml-2 h-full cursor-pointer',
+        'text-muted-foreground hover:text-primary my-auto ml-2 h-full cursor-pointer',
         className
       )}
       size={14}
