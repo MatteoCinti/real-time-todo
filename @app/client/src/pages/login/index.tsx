@@ -17,7 +17,7 @@ function Login() {
 
   return (
     <div className="align-center mb-optical-center flex h-full w-full justify-center">
-      <Card className="my-auto h-2/5 w-full lg:h-min lg:w-2/5 lg:max-w-lg">
+      <Card className="my-auto h-2/5 min-h-fit w-full lg:h-min lg:w-2/5 lg:max-w-lg">
         <CardHeader className="justify-center-center flex flex-row *:!m-0">
           <Link className="m-0" to="/login">
             {({ isActive }) => {
