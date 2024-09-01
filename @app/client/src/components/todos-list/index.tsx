@@ -83,7 +83,7 @@ function TodosList() {
               </CardTitle>
             </CardHeader>
 
-            <ul className="flex h-full w-full flex-col overflow-y-auto overscroll-contain pb-1">
+            <ul className="flex h-full w-full flex-col overflow-y-auto overflow-x-hidden pb-1">
               {filterTodos(todosData?.todos, filters).map((todo) => {
                 if (!todo) return null;
 
