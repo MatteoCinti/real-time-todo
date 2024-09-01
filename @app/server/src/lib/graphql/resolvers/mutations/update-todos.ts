@@ -26,7 +26,7 @@ async function updateTodos(
         description: description ?? todo.description,
         isDone: isDone ?? todo.isDone,
         order: order ?? todo.order,
-        parentId: parentId ?? todo.parentId
+        parentId: parentId === null ? null : (parentId ?? todo.parentId)
       });
       return updatedTodo.toJSON() as Todo;
     })

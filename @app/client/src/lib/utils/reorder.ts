@@ -35,7 +35,7 @@ export function reorderTodos(
 
       return {
         ...todo,
-        parentId: isSubtask ? newParentId : 0,
+        parentId: isSubtask ? newParentId : null,
         order: indexToPosition(index)
       };
     }
