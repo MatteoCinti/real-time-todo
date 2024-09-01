@@ -54,5 +54,28 @@ export function reorderTodos(
     };
   });
 
+  const parentTasks: Todo[] = [];
+  const subTasks: Todo[] = [];
+
+  updatedTodos.forEach((todo) => {
+    if (todo.parentId) {
+      subTasks.push(todo);
+    } else {
+      parentTasks.push(todo);
+    }
+  });
+
+  parentTasks.forEach((parentTask, parentIndex) => {
+    const children = subTasks.filter(
+      (subTask) => subTask.parentId === parentTask.id
+    );
+    updatedTodos.find((t) => t.id === parentTask.id)!.order =
+      indexToPosition(parentIndex);
+    children.forEach((child, childIndex) => {
+      updatedTodos.find((t) => t.id === child.id)!.order =
+        indexToPosition(childIndex);
+    });
+  });
+
   return updatedTodos;
 }
