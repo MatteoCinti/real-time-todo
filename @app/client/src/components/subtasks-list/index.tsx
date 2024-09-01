@@ -78,7 +78,7 @@ function SubtaskList({
               className="h-12"
             />
             <CardContent className="flex h-full w-full flex-1 content-center px-4 py-1">
-              <TodoForm />
+              <TodoForm parentId={parentTodo.id} position={lastPosition} />
             </CardContent>
           </DropZone>
         </li>

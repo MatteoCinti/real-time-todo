@@ -12,7 +12,12 @@ import { indexToPosition, cn } from '~/lib/utils';
 import { todoTitleField, todoFormDefaultValues } from './config';
 import Field from './components/form-field';
 
-function CreateTodo() {
+type Props = {
+  parentId?: number;
+  position?: number;
+};
+
+function CreateTodo({ parentId, position }: Props) {
   const { board: boardId } = useParams({ strict: false });
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
   const { mutate, isPending, isSuccess } = useCreateTodo(boardId);
@@ -22,14 +27,15 @@ function CreateTodo() {
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
       const todosLength = todosData?.todos?.length ?? 0;
-      const order = indexToPosition(todosLength);
+      const order = position ?? indexToPosition(todosLength);
 
       mutate({
         todo: {
           title: value.title,
           board: Number(boardId),
           description: value.description,
-          order
+          order,
+          parentId: parentId ?? null
         }
       });
     }
