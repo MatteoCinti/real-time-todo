@@ -32,7 +32,7 @@ function TopLevelTodo({
         setSubmenuOpen={setSubmenuOpen}
       />
       <div
-        className="h-2 w-full"
+        className="ml-4 h-2 w-full"
         onDragEnter={() => {
           setSubmenuOpen(true);
         }}

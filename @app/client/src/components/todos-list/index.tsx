@@ -44,35 +44,17 @@ function TodosList() {
       .split('-')
       .map((string) => Number(string));
 
-    const droppedAsSubtask = parentId !== 0;
-
-    if (!droppedAsSubtask) {
-      const todosClone = [...todosData!.todos!] as Todo[];
-      const updatedTodos = reorderTodos(
-        todosClone,
-        dragItem,
-        newCardPosition,
-        0
-      );
-      updateTodos({ board: Number(boardId), todos: updatedTodos });
-      updateGetTodosCache(queryClient, updatedTodos, {
-        board: Number(boardId)
-      });
-    }
-
-    if (droppedAsSubtask) {
-      const todosClone = [...todosData!.todos!] as Todo[];
-      const updatedTodos = reorderTodos(
-        todosClone,
-        dragItem,
-        newCardPosition,
-        parentId
-      );
-      updateTodos({ board: Number(boardId), todos: updatedTodos });
-      updateGetTodosCache(queryClient, updatedTodos, {
-        board: Number(boardId)
-      });
-    }
+    const todosClone = [...todosData!.todos!] as Todo[];
+    const updatedTodos = reorderTodos(
+      todosClone,
+      dragItem,
+      newCardPosition,
+      parentId
+    );
+    updateTodos({ board: Number(boardId), todos: updatedTodos });
+    updateGetTodosCache(queryClient, updatedTodos, {
+      board: Number(boardId)
+    });
   }
 
   return (

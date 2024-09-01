@@ -7,7 +7,7 @@ import { Plus } from 'lucide-react';
 import { useCreateTodo, useGetTodos } from '~/lib/react-query';
 import { Button, LoadingSpinner } from '~/components/ui';
 import { CREATE_TODO_FORM } from '~/lib/constants';
-import { indexToPosition, cn } from '~/lib/utils';
+import { cn } from '~/lib/utils';
 
 import { todoTitleField, todoFormDefaultValues } from './config';
 import Field from './components/form-field';
@@ -27,7 +27,7 @@ function CreateTodo({ parentId, position }: Props) {
     validatorAdapter: zodValidator(),
     onSubmit: async ({ value }) => {
       const todosLength = todosData?.todos?.length ?? 0;
-      const order = position ?? indexToPosition(todosLength);
+      const order = position ?? todosLength;
 
       mutate({
         todo: {

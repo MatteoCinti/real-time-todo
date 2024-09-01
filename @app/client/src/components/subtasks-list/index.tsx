@@ -26,6 +26,7 @@ function SubtaskList({
   const subTasks = todosData!.todos!.filter(
     (t) => t!.parentId === parentTodo.id
   );
+  const sortedSubtasks = subTasks?.sort((a, b) => a!.order - b!.order);
   const lastPosition = subTasks ? subTasks.length + 1 : 1;
 
   return (
@@ -36,7 +37,7 @@ function SubtaskList({
             <DropGuide as="li" dropId={`${parentTodo.id}-1`} className="h-12" />
           </DropZone>
         )}
-        {subTasks?.map((subTask) => {
+        {sortedSubtasks?.map((subTask) => {
           if (!subTask) return null;
           return (
             <li
