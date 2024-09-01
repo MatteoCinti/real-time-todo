@@ -9,7 +9,6 @@ type Props = {
   dropId: string;
   children?: React.ReactNode;
   className?: string;
-  //   dropType?: string;
 };
 
 function DropGuide({ as, dropId, children, className }: Props) {

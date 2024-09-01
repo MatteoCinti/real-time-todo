@@ -8,10 +8,20 @@ type Props = {
   dragId: number;
   dragType: string;
   className?: string;
+  onDragEnter?: (e: DragEvent) => void;
+  onDragLeave?: (e: DragEvent) => void;
   children: React.ReactNode;
 };
 
-function DragItem({ as, dragId, dragType, className, children }: Props) {
+function DragItem({
+  as,
+  dragId,
+  dragType,
+  className,
+  children,
+  onDragEnter,
+  onDragLeave
+}: Props) {
   const dragContext = useContext(DragContext!);
   if (!dragContext) {
     return <ErrorComponent />;
@@ -26,6 +36,8 @@ function DragItem({ as, dragId, dragType, className, children }: Props) {
       draggable={draggable}
       onDragEnd={dragEnd}
       className={className}
+      onDragEnter={onDragEnter}
+      onDragLeave={onDragLeave}
     >
       {children}
     </Component>

@@ -3,7 +3,7 @@ import { cn } from '~/lib/utils/ui';
 import { LoadingSpinner } from '../ui';
 
 type Props = {
-  isDeleting: boolean;
+  isDeleting?: boolean;
   deleteMutation: () => void;
   className?: string;
 };
@@ -14,7 +14,7 @@ function DeleteIcon({ isDeleting, deleteMutation, className }: Props) {
   ) : (
     <X
       className={cn(
-        'text-muted-foreground hover:text-primary my-auto ml-2 h-full cursor-pointer',
+        'text-muted-foreground hover:text-primary my-auto h-full cursor-pointer',
         className
       )}
       size={14}

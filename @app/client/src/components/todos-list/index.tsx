@@ -2,7 +2,6 @@ import { useParams } from '@tanstack/react-router';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { Todo } from '~/lib/graphql/__generated__/graphql';
-
 import { cn, filterTodos, reorderTodos } from '~/lib/utils';
 import { useActiveFilters } from '~/hooks';
 import {
@@ -12,12 +11,18 @@ import {
   useUpdateTodos
 } from '~/lib/react-query';
 
-import { Drag, DraggedChildrenProps, DropGuide, DropZone } from '../drag';
+import {
+  Drag,
+  DraggedChildrenProps,
+  DragItem,
+  DropGuide,
+  DropZone
+} from '../drag';
 import { CardContent, CardHeader, CardTitle, Skeleton } from '../ui';
-import TodoItem from '../todo-item';
 import { TodoForm } from '../form';
 import TodosFilter from '../todos-filter';
 import ShareBoardLink from '../share-board-link';
+import TopLevelTodo from '../top-level-todo-item.tsx';
 
 function SectionTitleSkeleton() {
   return <Skeleton className="h-4 w-16 rounded-sm p-1" />;
@@ -34,25 +39,40 @@ function TodosList() {
   const { mutate: updateTodos } = useUpdateTodos();
   const queryClient = useQueryClient();
 
-  function handleDrop({
-    dragItem,
-    // dragType,
-    drop
-  }: {
-    dragItem: number;
-    dragType: string;
-    drop: string;
-  }) {
-    // let [dropParentArea, newCardIndex] = drop
-    //   .split('-')
-    //   .map((string) => parseInt(string));
-    const newCardPosition = Number(drop);
-    const todosClone = [...todosData!.todos!] as Todo[];
-    const updatedTodos = reorderTodos(todosClone, dragItem, newCardPosition);
-    updateTodos({ board: Number(boardId), todos: updatedTodos });
-    updateGetTodosCache(queryClient, updatedTodos, {
-      board: Number(boardId)
-    });
+  function handleDrop({ dragItem, drop }: { dragItem: number; drop: string }) {
+    const [parentId, newCardPosition] = drop
+      .split('-')
+      .map((string) => Number(string));
+
+    const droppedAsSubtask = parentId !== 0;
+
+    if (!droppedAsSubtask) {
+      const todosClone = [...todosData!.todos!] as Todo[];
+      const updatedTodos = reorderTodos(
+        todosClone,
+        dragItem,
+        newCardPosition,
+        0
+      );
+      updateTodos({ board: Number(boardId), todos: updatedTodos });
+      updateGetTodosCache(queryClient, updatedTodos, {
+        board: Number(boardId)
+      });
+    }
+
+    if (droppedAsSubtask) {
+      const todosClone = [...todosData!.todos!] as Todo[];
+      const updatedTodos = reorderTodos(
+        todosClone,
+        dragItem,
+        newCardPosition,
+        parentId
+      );
+      updateTodos({ board: Number(boardId), todos: updatedTodos });
+      updateGetTodosCache(queryClient, updatedTodos, {
+        board: Number(boardId)
+      });
+    }
   }
 
   return (
@@ -88,31 +108,47 @@ function TodosList() {
                 return (
                   <li
                     className={cn(
-                      'border-muted mx-3 mt-[-1px] flex flex-row border first-of-type:mt-0',
+                      'border-muted mx-3 mt-[-1px] flex flex-col flex-wrap first-of-type:mt-0',
                       todo.isDone && 'bg-muted border-primary-foreground'
                     )}
                     key={todo.id}
                   >
-                    <TodoItem
-                      key={`todo-${todo.id}`}
-                      todo={todo}
-                      activeItem={activeItem}
-                      isDragging={isDragging}
-                      activeType={activeType}
-                    />
+                    <DragItem
+                      dragId={todo.id}
+                      className={cn(
+                        'group flex-1 cursor-grab',
+                        activeItem === todo.id && isDragging
+                          ? 'hidden'
+                          : 'translate-x-0'
+                      )}
+                      dragType="task"
+                    >
+                      <TopLevelTodo
+                        key={`todo-${todo.id}`}
+                        todo={todo}
+                        activeItem={activeItem}
+                        isDragging={isDragging}
+                        activeType={activeType}
+                        // eslint-disable-next-line react/jsx-boolean-value
+                        hasSubMenu={true}
+                      />
+                    </DragItem>
                   </li>
                 );
               })}
-              <li className="border-muted relative mx-3 h-12 list-none rounded-b-lg border p-0">
-                <DropZone dropId={lastPosition.toString()} remember="true">
+              <li className="border-muted relative mx-3 flex h-12 list-none flex-row rounded-b-lg border p-0">
+                <DropZone
+                  dropId={`0-${lastPosition.toString()}`}
+                  remember="true"
+                >
                   <DropGuide
-                    dropId={lastPosition.toString()}
+                    dropId={`0-${lastPosition.toString()}`}
                     className="h-12"
                   />
+                  <CardContent className="flex h-full w-full content-center px-4 py-1">
+                    <TodoForm />
+                  </CardContent>
                 </DropZone>
-                <CardContent className="flex h-full content-center px-4 py-1">
-                  <TodoForm />
-                </CardContent>
               </li>
             </ul>
           </>

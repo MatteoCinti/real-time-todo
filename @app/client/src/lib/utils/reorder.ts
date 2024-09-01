@@ -14,22 +14,45 @@ export function positionToIndex(position: number) {
 export function reorderTodos(
   todos: Todo[],
   draggedTodoId: number,
-  newCardPosition: number
+  newCardPosition: number,
+  newParentId?: number
 ): Todo[] {
   const oldIndex = todos.findIndex((todo) => todo.id === draggedTodoId);
   let newIndex = positionToIndex(newCardPosition);
 
   if (oldIndex < newIndex) {
-    // eslint-disable-next-line no-plusplus
     newIndex--;
   }
 
   const [draggedTodo] = todos.splice(oldIndex, 1);
   todos.splice(newIndex, 0, draggedTodo);
-  const updatedTodos = todos.map((todo, index) => ({
-    ...todo,
-    order: indexToPosition(index)
-  }));
+
+  const updatedTodos = todos.map((todo, index) => {
+    const isDraggedTodo = todo.id === draggedTodoId;
+
+    if (isDraggedTodo) {
+      const isSubtask = newParentId !== 0 && newParentId !== undefined;
+
+      return {
+        ...todo,
+        parentId: isSubtask ? newParentId : 0,
+        order: indexToPosition(index)
+      };
+    }
+
+    if (todo.parentId === draggedTodoId) {
+      return {
+        ...todo,
+        parentId: newParentId,
+        order: indexToPosition(index)
+      };
+    }
+
+    return {
+      ...todo,
+      order: indexToPosition(index)
+    };
+  });
 
   return updatedTodos;
 }

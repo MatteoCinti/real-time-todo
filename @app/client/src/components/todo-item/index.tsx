@@ -1,106 +1,85 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from '@tanstack/react-router';
-import { GripVertical, Maximize2 } from 'lucide-react';
+import { GripVertical } from 'lucide-react';
 
 import { Todo } from '~/lib/graphql/__generated__/graphql';
 import { deleteTodoFromCache, useDeleteTodo } from '~/lib/react-query';
 import { cn, isTouchScreenDevice } from '~/lib/utils';
 
 import DeleteIcon from '../delete-icon';
-import { EditTodo, EditTodoDescriptionForm } from '../form';
-import {
-  CardContent,
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-  TooltipProvider
-} from '../ui';
-import { DraggedChildrenProps, DragItem, DropGuide, DropZones } from '../drag';
+import { EditTodo } from '../form';
+import { CardContent, TooltipProvider } from '../ui';
+import { DraggedChildrenProps, DropGuide, DropZones } from '../drag';
+import { TodoDetailSheet, ToggleSubmenu } from './components';
 
 type Props = DraggedChildrenProps & {
   todo: Todo;
+  hasSubMenu?: boolean;
+  submenuOpen?: boolean;
+  setSubmenuOpen?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function TodoItem({ todo, activeItem, isDragging }: Props) {
-  const { board: boardId } = useParams({ strict: false });
-  const queryClient = useQueryClient();
-  const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
+function TodoItem({
+  todo,
+  hasSubMenu = false,
+  submenuOpen,
+  setSubmenuOpen
+}: Props) {
   const isTouch = isTouchScreenDevice();
+  const { board: boardId } = useParams({ strict: false });
+  const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
+  const queryClient = useQueryClient();
+
+  const parentId = todo.parentId ?? 0;
 
   return (
     <TooltipProvider>
-      <DragItem
-        dragId={todo.id}
-        className={cn(
-          'flex-1 cursor-grab',
-          // activeItem === todo.id && activeType === 'card' && isDragging
-          activeItem === todo.id && isDragging ? 'hidden' : 'translate-x-0'
-        )}
-        dragType="task"
+      <DropZones
+        key={todo.id}
+        prevId={`${parentId}-${todo.order}`}
+        nextId={`${parentId}-${todo.order + 1}`}
+        remember="true"
       >
-        <DropZones
-          key={todo.id}
-          prevId={`${todo.order}`}
-          nextId={`${todo.order + 1}`}
-          remember="true"
-        >
-          <DropGuide
-            className={cn(isTouch && 'hidden')}
-            dropId={`${todo.order}`}
+        <DropGuide
+          className={cn(isTouch && 'hidden')}
+          dropId={`${parentId}-${todo.order}`}
+        />
+        <CardContent className="border-muted flex flex-1 flex-row content-center border py-2 pl-2 pr-4">
+          <GripVertical
+            size={18}
+            className={cn(
+              'text-muted-foreground my-auto mr-2',
+              todo.isDone && 'text-primary',
+              isTouch && 'hidden'
+            )}
           />
-          <CardContent className="flex content-center py-2 pl-2 pr-4">
-            <GripVertical
-              size={18}
-              className={cn(
-                'text-muted-foreground my-auto mr-2',
-                todo.isDone && 'text-primary',
-                isTouch && 'hidden'
-              )}
+
+          <EditTodo todoId={todo.id} />
+          {hasSubMenu && (
+            <ToggleSubmenu
+              submenuOpen={submenuOpen!}
+              setSubmenuOpen={setSubmenuOpen!}
             />
-            <EditTodo todoId={todo.id} />
-            <Sheet>
-              <SheetTrigger>
-                <Maximize2
-                  className="text-muted-foreground hover:text-primary"
-                  size={14}
-                />
-              </SheetTrigger>
+          )}
+          <TodoDetailSheet todo={todo} />
 
-              <SheetContent className="!min-w-2/4 flex h-full w-4/5 flex-col sm:max-w-full">
-                <SheetHeader>
-                  <SheetTitle className="whitespace-nowrap">
-                    <span className="text-accent font-bold">{todo.title} </span>
-                    <span>details</span>
-                  </SheetTitle>
-                </SheetHeader>
-                <SheetDescription>
-                  Add more details about your todo
-                </SheetDescription>
-
-                <EditTodoDescriptionForm className="h-full" todoId={todo.id} />
-              </SheetContent>
-            </Sheet>
-
-            <DeleteIcon
-              className={cn(
-                todo.isDone && 'text-muted-foreground hover:text-primary'
-              )}
-              deleteMutation={() => {
-                deleteTodoFromCache(
-                  queryClient,
-                  { id: todo.id, deleted: true },
-                  { board: Number(boardId) }
-                );
-                deleteTodo({ id: todo.id, board: Number(boardId) });
-              }}
-              isDeleting={isDeleting}
-            />
-          </CardContent>
-        </DropZones>
-      </DragItem>
+          <DeleteIcon
+            className={cn(
+              'ml-2',
+              todo.isDone && 'text-muted-foreground hover:text-primary'
+            )}
+            deleteMutation={() => {
+              deleteTodoFromCache(
+                queryClient,
+                { id: todo.id, deleted: true },
+                { board: Number(boardId) }
+              );
+              deleteTodo({ id: todo.id, board: Number(boardId) });
+            }}
+            isDeleting={isDeleting}
+          />
+        </CardContent>
+      </DropZones>
     </TooltipProvider>
   );
 }

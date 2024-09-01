@@ -25,16 +25,18 @@ function DropZone({ as, dropId, children, className, remember }: Props) {
     return false;
   }
 
+  const [dropZone] = dropId ? dropId.split('-') : [''];
+
   const Component = as || 'div';
   return (
     <Component
       onDragEnter={() => {
         // return dragItem && dropType === dragType && setDrop(dropId);
-        return dragItem && setDrop(dropId);
+        return dragItem && dragItem !== Number(dropZone) && setDrop(dropId);
       }}
       onDragOver={(e: DragEvent) => handleDragOver(e)}
       onDrop={onDrop}
-      className={cn('relative', className)}
+      className={cn('relative w-full', className)}
       remember={remember}
     >
       {children}

@@ -9,6 +9,8 @@ function filterTodos(
 
   return todos.filter((todo) => {
     if (!todo) return false;
+    if (todo.parentId) return false;
+
     if (!showCompleted) {
       return !todo.isDone;
     }
