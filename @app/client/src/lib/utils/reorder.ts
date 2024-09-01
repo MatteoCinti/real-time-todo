@@ -27,12 +27,16 @@ export function reorderTodos(
   const [draggedTodo] = todos.splice(oldIndex, 1);
   todos.splice(newIndex, 0, draggedTodo);
 
-  const updatedTodos = todos.map((todo) => {
-    if (todo.id === draggedTodoId) {
+  const updatedTodos = todos.map((todo, index) => {
+    const isDraggedTodo = todo.id === draggedTodoId;
+
+    if (isDraggedTodo) {
+      const isSubtask = newParentId !== 0 && newParentId !== undefined;
+
       return {
         ...todo,
-        parentId: newParentId ?? 0,
-        order: 0
+        parentId: isSubtask ? newParentId : 0,
+        order: indexToPosition(index)
       };
     }
 
@@ -40,35 +44,15 @@ export function reorderTodos(
       return {
         ...todo,
         parentId: newParentId,
-        order: 0
+        order: indexToPosition(index)
       };
     }
 
     return {
       ...todo,
-      order: 0
+      order: indexToPosition(index)
     };
   });
 
-  const todosByParent = updatedTodos.reduce(
-    (acc, todo) => {
-      const parentId = todo.parentId ?? 0;
-      if (!acc[parentId]) {
-        acc[parentId] = [];
-      }
-      acc[parentId].push(todo);
-      return acc;
-    },
-    {} as Record<number, Todo[]>
-  );
-
-  const finalUpdatedTodos = Object.values(todosByParent).flatMap(
-    (parentTodos) =>
-      parentTodos.map((todo, index) => ({
-        ...todo,
-        order: indexToPosition(index)
-      }))
-  );
-
-  return finalUpdatedTodos;
+  return updatedTodos;
 }
