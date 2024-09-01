@@ -39,7 +39,7 @@ function BoardListItem({ board, className, isGuestView, onListClick }: Props) {
           >
             {board!.title}
 
-            <TaskCounter className="ml-auto" board={board} />
+            <TaskCounter className="ml-auto mr-2" board={board} />
             {!isGuestView && (
               <DeleteIcon
                 className="text-primary hover:text-muted-foreground"

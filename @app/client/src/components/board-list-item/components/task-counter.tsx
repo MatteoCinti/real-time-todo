@@ -10,8 +10,9 @@ type Props = {
 
 function TaskCounter({ board, className }: Props) {
   const { data: todosData } = useGetTodos({ board: Number(board.id!) });
-  const todos = todosData?.todos ?? [];
-  const [completed, total] = todos.reduce(
+  const primaryTasks = todosData!.todos!.filter((t) => t!.parentId === null);
+
+  const [completed, total] = primaryTasks.reduce(
     (acc, todo) => {
       if (todo?.isDone) {
         acc[0]++;
@@ -33,7 +34,10 @@ function TaskCounter({ board, className }: Props) {
       )}
     >
       {noTasks && (
-        <Badge className="py-0.5" variant="outline">
+        <Badge
+          className="text-muted-foreground border-muted-foreground py-0.5"
+          variant="outline"
+        >
           Empty
         </Badge>
       )}
@@ -47,14 +51,12 @@ function TaskCounter({ board, className }: Props) {
       )}
 
       {!noTasks && !allTasksCompleted && (
-        <p
-          className={cn(
-            'text-sm font-medium',
-            allTasksCompleted && 'text-green-600 text-opacity-55'
-          )}
+        <Badge
+          className="text-muted-foreground border-muted-foreground py-0.5"
+          variant="outline"
         >
-          {completed} / {total}
-        </p>
+          {completed} / {total}{' '}
+        </Badge>
       )}
     </div>
   );

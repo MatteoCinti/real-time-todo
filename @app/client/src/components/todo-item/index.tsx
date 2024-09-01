@@ -3,12 +3,16 @@ import { useParams } from '@tanstack/react-router';
 import { GripVertical } from 'lucide-react';
 
 import { Todo } from '~/lib/graphql/__generated__/graphql';
-import { deleteTodoFromCache, useDeleteTodo } from '~/lib/react-query';
+import {
+  deleteTodoFromCache,
+  useDeleteTodo,
+  useGetTodos
+} from '~/lib/react-query';
 import { cn, isTouchScreenDevice } from '~/lib/utils';
 
 import DeleteIcon from '../delete-icon';
 import { EditTodo } from '../form';
-import { CardContent, TooltipProvider } from '../ui';
+import { Badge, CardContent, TooltipProvider } from '../ui';
 import { DraggedChildrenProps, DropGuide, DropZones } from '../drag';
 import { TodoDetailSheet, ToggleSubmenu } from './components';
 
@@ -28,6 +32,9 @@ function TodoItem({
   const isTouch = isTouchScreenDevice();
   const { board: boardId } = useParams({ strict: false });
   const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
+  const { data: todosData } = useGetTodos({ board: Number(boardId) });
+  const subtasks = todosData!.todos!.filter((t) => t!.parentId === todo.id);
+
   const queryClient = useQueryClient();
 
   const parentId = todo.parentId ?? 0;
@@ -55,6 +62,14 @@ function TodoItem({
           />
 
           <EditTodo todoId={todo.id} />
+          {subtasks.length > 0 && (
+            <Badge
+              className="my-auto mr-2 h-min py-0 text-xs"
+              variant="secondary"
+            >
+              {subtasks.length}
+            </Badge>
+          )}
           {hasSubMenu && (
             <ToggleSubmenu
               submenuOpen={submenuOpen!}
