@@ -34,6 +34,7 @@ function TodoItem({
   const { mutate: deleteTodo, isPending: isDeleting } = useDeleteTodo();
   const { data: todosData } = useGetTodos({ board: Number(boardId) });
   const subtasks = todosData!.todos!.filter((t) => t!.parentId === todo.id);
+  const allSubtasksDone = subtasks.every((t) => t!.isDone);
 
   const queryClient = useQueryClient();
 
@@ -51,7 +52,12 @@ function TodoItem({
           className={cn(isTouch && 'hidden')}
           dropId={`${parentId}-${todo.order}`}
         />
-        <CardContent className="border-muted flex flex-1 flex-row content-center border py-2 pl-2 pr-4">
+        <CardContent
+          className={cn(
+            'border-muted flex flex-1 flex-row content-center border py-2 pl-2 pr-4',
+            todo.isDone && 'bg-muted border-primary-foreground'
+          )}
+        >
           <GripVertical
             size={18}
             className={cn(
@@ -64,7 +70,11 @@ function TodoItem({
           <EditTodo todoId={todo.id} />
           {subtasks.length > 0 && (
             <Badge
-              className="my-auto mr-2 h-min py-0 text-xs"
+              className={cn(
+                'my-auto mr-2 h-min py-0 text-xs',
+                todo.isDone && 'bg-primary-foreground',
+                allSubtasksDone && 'bg-green-600'
+              )}
               variant="secondary"
             >
               {subtasks.length}

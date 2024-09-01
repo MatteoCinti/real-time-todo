@@ -108,8 +108,7 @@ function TodosList() {
                 return (
                   <li
                     className={cn(
-                      'border-muted mx-3 mt-[-1px] flex flex-col flex-wrap first-of-type:mt-0',
-                      todo.isDone && 'bg-muted border-primary-foreground'
+                      'border-muted mx-3 mt-[-1px] flex flex-col flex-wrap first-of-type:mt-0'
                     )}
                     key={todo.id}
                   >
