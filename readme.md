@@ -102,11 +102,11 @@ This project is deployed on [railway.app](https://railway.app/). Railway reads f
 
 ##### My diatribe about the project
 
-I decided to use a monorepo template I had built not long ago as a hobby project as the base structure for this project. The monorepo template is setup with yarn workspaces and docker compose for local development. The frontend is a react app setup with vite, typescript, and tailwindcss. The backend is an express app setup with typescript and graphl. Husky will run prettier and eslint on commit.
+I decided to use a monorepo template I had built not long ago as a hobby project as the base structure for this project. The monorepo template is setup with pnpm workspaces and docker compose for local development. The frontend is a react app setup with vite, typescript, and tailwindcss. The backend is an express app setup with typescript and graphql. Husky will run prettier and eslint on commit.
 
 ##### Frontend
 
-On the frontend I use [Tanstack Query](https://tanstack.com/query/latest) for fetching data and as a state management library. I find it a great tool because it allows to fetch data wherever it is needed combining all the queries and executing only once, thus reducing the need of prop drilling, just calling the data we need wherever we need it and simplifying the code.
+On the frontend I use [Tanstack Query](https://tanstack.com/query/latest) for fetching data and as a state management library. I find it a great tool because it allows to fetch data wherever it is needed combining all the queries and executing only once, thus reducing the need of prop drilling and simplifying the code.
 
 For the sockets connection I still needed to use ApolloClient since Tanstack Query does not support connecting to subscriptions yet. The way updates are managed is that when we receive an message from the socket we update the react-query cache with the new data for fast updates. Then react-query will refetch the data from the server to make sure the data is up to date.
 
@@ -115,13 +115,13 @@ So I use [Tastack Form](https://tanstack.com/form/latest) to manage the forms. I
 
 For the routing I use [Tanstack Router](https://tanstack.com/router/latest). It is a fully typed router that allows to create nested routes and as in this case createsa App folder routing system similar to Next.js. I also manage autheticated routes through the router in a very simple way.
 
-Again with the same idea of exploring new tools very praised right now I tryed [shadcnui](https://ui.shadcn.com/docs) for the UI components in combination with tailwind css. It is not a component library so we own the code and have a great flexibility to customize the components. It is also very well documented and has a great community. adoption of this kind of tool is growing rapidly so here is a small showcase of what they can do
+Again with the same idea of exploring new tools very praised right now I tryed [shadcnui](https://ui.shadcn.com/docs) for the UI components in combination with tailwind css. It is not a component library so we own the code and have a great flexibility to customize the components. It is also very well documented and has a great community. Adoption of this kind of tool is growing rapidly so here is a small showcase of what they can do
 
 #### Backend
 
-On the backend I use an express server paired with [Apollo Server](https://www.apollographql.com/docs/apollo-server) and (Apollo Server Subscriptions)[https://www.apollographql.com/docs/apollo-server/data/subscriptions] since I know you use GraphQL in your projects and again for the love of exploring new ways of doing things.
+On the backend I use an express server paired with [Apollo Server](https://www.apollographql.com/docs/apollo-server) and (Apollo Server Subscriptions)[https://www.apollographql.com/docs/apollo-server/data/subscriptions] since I know you use GraphQL in your projects.
 
-I installed [Graphql-codegen](https://the-guild.dev/graphql/codegen/docs/getting-started) so that all the queries can be typed both on the Bcakend and the frontend.
+I installed [Graphql-codegen](https://the-guild.dev/graphql/codegen/docs/getting-started) so that all the queries can be typed both on the backend and the frontend.
 
 The database is a PostgresQl DB and the ORM in use is the classic [Sequelize](https://sequelize.org/master/).
 Migration files have been created to set it up and have a clean database structure.
